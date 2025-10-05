@@ -660,17 +660,118 @@
                 </div>
             </div>
             
-            <h4>🔍 Common Wireshark Filters for Physical Layer Analysis</h4>
-            <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 12px; margin: 12px 0; font-family: 'Courier New', monospace; color: #00ff00; font-size: 0.9em;">
-eth                                  # All Ethernet frames
-eth.type == 0x0800                   # IPv4 Ethernet frames
-eth.type == 0x0806                   # ARP Ethernet frames  
-eth.type == 0x86dd                   # IPv6 Ethernet frames
-wlan                                 # All WiFi/wireless frames
-wlan.fc.type_subtype == 0x08         # WiFi beacon frames
-frame.len > 1500                     # Oversized frames (jumbo frames)
-frame.len < 64                       # Undersized frames (runts)
-eth.fcs.status == "Bad"              # Frames with physical errors
+            <h4>🔍 Wireshark Filters for Physical Layer Analysis</h4>
+            <div style="background: rgba(0, 0, 0, 0.4); padding: 20px; border-radius: 10px; border: 1px solid rgba(0, 255, 0, 0.3);">
+                <div style="margin-bottom: 15px;">
+                    <h5 style="color: #00ff00; margin-bottom: 10px;">📊 Essential Physical Layer Filters</h5>
+                    <p style="font-size: 0.9em; color: #bdc3c7; margin: 0;">Copy these filters directly into Wireshark to analyse physical layer traffic</p>
+                </div>
+                
+                <div style="display: grid; gap: 12px;">
+                    <div style="background: rgba(52, 152, 219, 0.05); padding: 12px; border-radius: 6px; border-left: 3px solid #3498db;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <strong style="color: #3498db;">🌐 All Ethernet Traffic</strong>
+                            <small style="color: #95a5a6;">Most comprehensive</small>
+                        </div>
+                        <div style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; font-size: 0.9em;">
+                            <span style="color: #00ff00;">eth</span>
+                            <span style="color: #95a5a6; margin-left: 30px;"># Shows all Ethernet frames</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(46, 204, 113, 0.05); padding: 12px; border-radius: 6px; border-left: 3px solid #2ecc71;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <strong style="color: #2ecc71;">📦 IPv4 Ethernet Frames</strong>
+                            <small style="color: #95a5a6;">Internet traffic</small>
+                        </div>
+                        <div style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; font-size: 0.9em;">
+                            <span style="color: #2ecc71;">eth.type == 0x0800</span>
+                            <span style="color: #95a5a6; margin-left: 10px;"># IPv4 over Ethernet</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(155, 89, 182, 0.05); padding: 12px; border-radius: 6px; border-left: 3px solid #9b59b6;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <strong style="color: #9b59b6;">🔍 ARP Resolution</strong>
+                            <small style="color: #95a5a6;">Address mapping</small>
+                        </div>
+                        <div style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; font-size: 0.9em;">
+                            <span style="color: #9b59b6;">eth.type == 0x0806</span>
+                            <span style="color: #95a5a6; margin-left: 10px;"># ARP requests/replies</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(230, 126, 34, 0.05); padding: 12px; border-radius: 6px; border-left: 3px solid #e67e22;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <strong style="color: #e67e22;">📡 IPv6 Ethernet Frames</strong>
+                            <small style="color: #95a5a6;">Next-gen internet</small>
+                        </div>
+                        <div style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; font-size: 0.9em;">
+                            <span style="color: #e67e22;">eth.type == 0x86dd</span>
+                            <span style="color: #95a5a6; margin-left: 10px;"># IPv6 over Ethernet</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(241, 196, 15, 0.05); padding: 12px; border-radius: 6px; border-left: 3px solid #f1c40f;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <strong style="color: #f1c40f;">📶 All WiFi Traffic</strong>
+                            <small style="color: #95a5a6;">Wireless frames</small>
+                        </div>
+                        <div style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; font-size: 0.9em;">
+                            <span style="color: #f1c40f;">wlan</span>
+                            <span style="color: #95a5a6; margin-left: 28px;"># Shows all WiFi/wireless frames</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(52, 152, 219, 0.05); padding: 12px; border-radius: 6px; border-left: 3px solid #3498db;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <strong style="color: #3498db;">📡 WiFi Beacon Frames</strong>
+                            <small style="color: #95a5a6;">Network announcements</small>
+                        </div>
+                        <div style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; font-size: 0.9em;">
+                            <span style="color: #3498db;">wlan.fc.type_subtype == 0x08</span>
+                            <span style="color: #95a5a6; margin-left: 5px;"># Access point beacons</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <h6 style="color: #e74c3c; margin-bottom: 12px;">🚨 Physical Layer Problem Detection</h6>
+                    <div style="display: grid; gap: 10px;">
+                        <div style="background: rgba(231, 76, 60, 0.1); padding: 10px; border-radius: 6px; border-left: 3px solid #e74c3c;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                                <strong style="color: #e74c3c;">📏 Oversized Frames (Jumbo)</strong>
+                                <small style="color: #95a5a6;">MTU issues</small>
+                            </div>
+                            <div style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; font-size: 0.9em;">
+                                <span style="color: #e74c3c;">frame.len > 1500</span>
+                                <span style="color: #95a5a6; margin-left: 15px;"># Frames exceeding standard MTU</span>
+                            </div>
+                        </div>
+                        
+                        <div style="background: rgba(231, 76, 60, 0.1); padding: 10px; border-radius: 6px; border-left: 3px solid #e74c3c;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                                <strong style="color: #e74c3c;">📉 Undersized Frames (Runts)</strong>
+                                <small style="color: #95a5a6;">Collision damage</small>
+                            </div>
+                            <div style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; font-size: 0.9em;">
+                                <span style="color: #e74c3c;">frame.len < 64</span>
+                                <span style="color: #95a5a6; margin-left: 20px;"># Damaged/incomplete frames</span>
+                            </div>
+                        </div>
+                        
+                        <div style="background: rgba(231, 76, 60, 0.1); padding: 10px; border-radius: 6px; border-left: 3px solid #e74c3c;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                                <strong style="color: #e74c3c;">❌ Physical Layer Errors</strong>
+                                <small style="color: #95a5a6;">Cable/hardware issues</small>
+                            </div>
+                            <div style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; font-size: 0.9em;">
+                                <span style="color: #e74c3c;">eth.fcs.status == "Bad"</span>
+                                <span style="color: #95a5a6; margin-left: 5px;"># Corrupted frame check sequence</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
