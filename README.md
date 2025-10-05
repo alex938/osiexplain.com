@@ -1,2 +1,3 @@
 # osiexplain.com
-Website used to explain the OSI 7 Layer model
+
+A website I created to assist me in teaching the OSI 7 Layer model to my students.
