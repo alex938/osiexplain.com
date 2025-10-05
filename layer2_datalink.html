@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSI Layer 2: Data Link Layer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .back-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        h2 {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            color: #f0f0f0;
+        }
+        
+        .layer2-explanation {
+            background: rgba(142, 68, 173, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .demo-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            min-height: 400px;
+        }
+        
+        .node-a, .node-b {
+            width: 200px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .node-a {
+            background: rgba(52, 152, 219, 0.3);
+        }
+        
+        .node-b {
+            background: rgba(46, 204, 113, 0.3);
+        }
+        
+        .device-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+        
+        .link-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .data-link {
+            width: 300px;
+            height: 4px;
+            background: #ecf0f1;
+            border-radius: 2px;
+            position: relative;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .frame-packet {
+            width: 50px;
+            height: 25px;
+            background: #9b59b6;
+            border-radius: 3px;
+            position: absolute;
+            top: -10px;
+            left: -50px;
+            transition: all 2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            color: white;
+        }
+        
+        .frame-packet.moving {
+            left: 300px;
+        }
+        
+        .link-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            min-height: 140px;
+            width: 300px;
+            text-align: center;
+        }
+        
+        .phase-indicator {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .phase {
+            width: 120px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 0 5px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .phase.active {
+            background: rgba(46, 204, 113, 0.5);
+            transform: scale(1.1);
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .step-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .protocol-selector {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        select {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            backdrop-filter: blur(5px);
+        }
+        
+        select option {
+            background: #8e44ad;
+            color: white;
+        }
+        
+        .status {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .status.encapsulating {
+            background: rgba(241, 196, 15, 0.3);
+        }
+        
+        .status.transmitting {
+            background: rgba(46, 204, 113, 0.3);
+        }
+        
+        .status.idle {
+            background: rgba(149, 165, 166, 0.3);
+        }
+        
+        .wireshark-packet {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.15em;
+            color: #00ff00;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.6;
+            min-height: 120px;
+            max-height: 400px;
+            overflow-x: auto;
+            overflow-y: auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .packet-explanation {
+            background: rgba(41, 128, 185, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            font-size: 0.9em;
+            border-left: 4px solid #3498db;
+        }
+        
+        .step-counter {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px 15px;
+            border-radius: 15px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .highlight {
+            color: #f1c40f;
+            font-weight: bold;
+        }
+        
+        .datalink-characteristics {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        
+        .characteristic {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            margin: 5px;
+            border-radius: 10px;
+            width: calc(50% - 30px);
+            box-sizing: border-box;
+        }
+        
+        .protocol-info {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .mac-address {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3px 6px;
+            border-radius: 3px;
+            color: #f1c40f;
+        }
+        
+        /* Dark Mode Toggle */
+        .dark-mode-toggle{position:fixed;top:20px;right:20px;z-index:1000;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.3);border-radius:25px;padding:10px 20px;cursor:pointer;backdrop-filter:blur(10px);transition:all 0.3s ease;display:flex;align-items:center;gap:8px;font-size:16px;color:white;}
+        .dark-mode-toggle:hover{background:rgba(255,255,255,0.3);transform:translateY(-2px);}
+        body.dark-mode{background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);}
+        body.dark-mode .container{background:rgba(0,0,0,0.4);}
+        body.dark-mode .layer2-explanation,body.dark-mode .content-box,body.dark-mode .protocol-info,body.dark-mode .example-box,body.dark-mode .demo-section{background:rgba(0,0,0,0.5);}
+    </style>
+</head>
+<body>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode"><span id="darkModeIcon">🌙</span><span id="darkModeText">Dark Mode</span></button>
+    <div class="container">
+        <a href="index.html" class="back-button">← Back to OSI Overview</a>
+        
+        <h1>🔗 OSI Layer 2: Data Link Layer</h1>
+        
+        <div class="layer2-explanation">
+            <h2>Layer 2 (Data Link) Technologies</h2>
+            <p>
+                The <span class="highlight">Data Link Layer</span> is responsible for reliable node-to-node delivery 
+                of frames over a physical link. It provides <span class="highlight">MAC addressing, frame formatting, 
+                error detection, and media access control</span> for direct neighbors.
+            </p>
+            
+            <div class="datalink-characteristics">
+                <div class="characteristic">
+                    <strong>Frame Encapsulation</strong> - Wrapping network packets in data link frames with headers and trailers
+                </div>
+                <div class="characteristic">
+                    <strong>MAC Addressing</strong> - Using hardware addresses (like 00:11:22:33:44:55) for local delivery
+                </div>
+                <div class="characteristic">
+                    <strong>Error Detection</strong> - Adding Frame Check Sequence (FCS) to detect transmission errors
+                </div>
+                <div class="characteristic">
+                    <strong>Media Access Control</strong> - Managing how devices share the physical medium (CSMA/CD, switching)
+                </div>
+            </div>
+            
+            <p>
+                <strong>The Critical Role:</strong> While the Physical Layer (1) moves raw bits, Layer 2 creates 
+                <span class="highlight">reliable frames between directly connected devices</span> using MAC addresses 
+                and error checking.
+            </p>
+        </div>
+        
+        <div class="protocol-selector">
+            <label for="protocolSelect">Choose Data Link Protocol: </label>
+            <select id="protocolSelect">
+                <option value="ethernet">Ethernet (IEEE 802.3)</option>
+                <option value="wifi">Wi-Fi (IEEE 802.11)</option>
+                <option value="arp">ARP (Address Resolution)</option>
+                <option value="ppp">PPP (Point-to-Point)</option>
+                <option value="switch">Ethernet Switching</option>
+            </select>
+        </div>
+        
+        <div class="demo-area">
+            <div class="node-a">
+                <div class="device-icon">💻</div>
+                <h3>Node A</h3>
+                <div class="mac-address" id="nodeAMac">AA:BB:CC:DD:EE:01</div>
+                <div id="nodeAStatus">Ready</div>
+            </div>
+            
+            <div class="link-area">
+                <div class="phase-indicator">
+                    <div class="phase" id="phase1">Encapsulate</div>
+                    <div class="phase" id="phase2">Transmit</div>
+                    <div class="phase" id="phase3">Process</div>
+                </div>
+                
+                <div class="data-link">
+                    <div class="frame-packet" id="frame1">Frame</div>
+                    <div class="frame-packet" id="frame2">Frame</div>
+                </div>
+                
+                <div class="link-info" id="linkInfo">
+                    <strong>Frame Status:</strong>
+                    <div id="statusText">Select a protocol and mode to begin</div>
+                    <div id="stepCounter" class="step-counter">Step 0 of 0</div>
+                    <div id="wiresharkExample" class="wireshark-packet" style="display:none;"></div>
+                    <div id="packetExplanation" class="packet-explanation" style="display:none;"></div>
+                </div>
+                
+                <div class="status idle" id="overallStatus">Link Idle</div>
+            </div>
+            
+            <div class="node-b">
+                <div class="device-icon">🖥️</div>
+                <h3>Node B</h3>
+                <div class="mac-address" id="nodeBMac">FF:EE:DD:CC:BB:02</div>
+                <div id="nodeBStatus">Listening</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="startDemo" onclick="startDemo()">🚀 Auto Demo</button>
+            <button class="btn" id="manualDemo" onclick="startManualDemo()">👋 Manual Demo</button>
+            <button class="btn" onclick="resetDemo()">🔄 Reset</button>
+            
+            <div class="step-controls">
+                <button class="btn" id="prevStepBtn" onclick="prevStep()" disabled>← Previous Step</button>
+                <button class="btn" id="nextStepBtn" onclick="nextStep()" disabled>Next Step →</button>
+            </div>
+        </div>
+        
+        <div class="protocol-info" id="protocolDetails">
+            <h3>Data Link Protocol Information</h3>
+            <div id="protocolDescription">Select a protocol and click "Protocol Details" to learn more.</div>
+            <div id="layer2Evidence" style="margin-top: 15px;"></div>
+        </div>
+        
+        <!-- Comprehensive Educational Content -->
+        <div class="content-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin: 30px 0;">
+            <div class="content-box" style="background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 15px; border-left: 4px solid #9b59b6;">
+                <h3>🎯 Primary Functions</h3>
+                <ul>
+                    <li><strong>Framing:</strong> Encapsulating network data into frames</li>
+                    <li><strong>Physical Addressing:</strong> MAC addresses for local delivery</li>
+                    <li><strong>Error Detection:</strong> Detecting transmission errors</li>
+                    <li><strong>Flow Control:</strong> Managing data flow between nodes</li>
+                    <li><strong>Access Control:</strong> Coordinating access to shared media</li>
+                </ul>
+            </div>
+            
+            <div class="content-box" style="background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 15px; border-left: 4px solid #9b59b6;">
+                <h3>🔧 Key Characteristics</h3>
+                <ul>
+                    <li><span class="highlight">MAC Addresses:</span> 48-bit hardware addresses (AA:BB:CC:DD:EE:FF)</li>
+                    <li><span class="highlight">Frame Check Sequence:</span> Error detection using CRC</li>
+                    <li><span class="highlight">CSMA/CD:</span> Collision detection in Ethernet</li>
+                    <li><span class="highlight">Switching:</span> Learning MAC addresses for forwarding</li>
+                    <li><span class="highlight">VLANs:</span> Virtual separation of network segments</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="content-box" style="background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 15px; border-left: 4px solid #9b59b6;">
+            <h3>🌐 Data Link Layer Protocols & Technologies</h3>
+            <div class="protocols-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div class="protocol-card" style="background: rgba(155, 89, 182, 0.3); padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+                    <strong>Ethernet (IEEE 802.3)</strong>
+                    <p>Wired LAN standard using CSMA/CD for media access control</p>
+                    <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 12px; margin: 12px 0; font-family: 'Courier New', monospace; color: #00ff00; font-size: 0.9em;">Ethernet II: Dst: ff:ff:ff:ff:ff:ff Src: aa:bb:cc:dd:ee:01</div>
+                    <small>Most common LAN technology - frames with MAC addresses</small>
+                </div>
+                
+                <div class="protocol-card" style="background: rgba(155, 89, 182, 0.3); padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+                    <strong>Wi-Fi (IEEE 802.11)</strong>
+                    <p>Wireless LAN using CSMA/CA for collision avoidance</p>
+                    <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 12px; margin: 12px 0; font-family: 'Courier New', monospace; color: #00ff00; font-size: 0.9em;">802.11 Data: STA → AP → Router (3 address fields)</div>
+                    <small>Wireless networking with association and authentication</small>
+                </div>
+                
+                <div class="protocol-card" style="background: rgba(155, 89, 182, 0.3); padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+                    <strong>PPP (Point-to-Point)</strong>
+                    <p>Serial link protocol for dial-up, DSL, and WAN connections</p>
+                    <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 12px; margin: 12px 0; font-family: 'Courier New', monospace; color: #00ff00; font-size: 0.9em;">PPP: [Flag] [Address] [Control] [Protocol] [Data] [FCS]</div>
+                    <small>Encapsulation with authentication and multi-protocol support</small>
+                </div>
+                
+                <div class="protocol-card" style="background: rgba(155, 89, 182, 0.3); padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+                    <strong>ARP (Address Resolution)</strong>
+                    <p>Maps IP addresses to MAC addresses for local delivery</p>
+                    <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 12px; margin: 12px 0; font-family: 'Courier New', monospace; color: #00ff00; font-size: 0.9em;">ARP Request: Who has 192.168.1.1? Tell 192.168.1.100</div>
+                    <small>Layer 2/3 bridge - essential for Ethernet/IP communication</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section" style="background: rgba(142, 68, 173, 0.3); padding: 25px; border-radius: 15px; margin: 30px 0;">
+            <h3>🖼️ Ethernet Frame Structure</h3>
+            <p>Understanding how data is encapsulated at Layer 2:</p>
+            
+            <div class="frame-structure" style="background: rgba(0, 0, 0, 0.4); padding: 20px; border-radius: 10px; margin: 15px 0; font-family: monospace;">
+                <div style="text-align: center; margin-bottom: 15px; color: #f1c40f;"><strong>Ethernet II Frame Format</strong></div>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 5px;">
+                    <span class="frame-field" style="display: inline-block; padding: 8px 12px; margin: 2px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 4px; background: rgba(155, 89, 182, 0.4); font-size: 0.9em;">Preamble<br><small>7 bytes</small></span>
+                    <span class="frame-field" style="display: inline-block; padding: 8px 12px; margin: 2px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 4px; background: rgba(155, 89, 182, 0.4); font-size: 0.9em;">SFD<br><small>1 byte</small></span>
+                    <span class="frame-field" style="display: inline-block; padding: 8px 12px; margin: 2px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 4px; background: rgba(155, 89, 182, 0.4); font-size: 0.9em;">Dest MAC<br><small>6 bytes</small></span>
+                    <span class="frame-field" style="display: inline-block; padding: 8px 12px; margin: 2px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 4px; background: rgba(155, 89, 182, 0.4); font-size: 0.9em;">Src MAC<br><small>6 bytes</small></span>
+                    <span class="frame-field" style="display: inline-block; padding: 8px 12px; margin: 2px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 4px; background: rgba(155, 89, 182, 0.4); font-size: 0.9em;">Type/Length<br><small>2 bytes</small></span>
+                    <span class="frame-field" style="display: inline-block; padding: 8px 12px; margin: 2px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 4px; background: rgba(155, 89, 182, 0.4); font-size: 0.9em;">Payload<br><small>46-1500 bytes</small></span>
+                    <span class="frame-field" style="display: inline-block; padding: 8px 12px; margin: 2px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 4px; background: rgba(155, 89, 182, 0.4); font-size: 0.9em;">FCS<br><small>4 bytes</small></span>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <h4>Field Descriptions:</h4>
+                <ul>
+                    <li><strong>Preamble & SFD:</strong> Synchronization pattern (10101010...10101011)</li>
+                    <li><strong>Destination MAC:</strong> Hardware address of receiving device</li>
+                    <li><strong>Source MAC:</strong> Hardware address of sending device</li>
+                    <li><strong>Type/Length:</strong> Protocol type (0x0800 = IPv4) or frame length</li>
+                    <li><strong>Payload:</strong> Actual data from upper layer (minimum 46 bytes)</li>
+                    <li><strong>FCS:</strong> Frame Check Sequence for error detection (CRC-32)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="mac-demo" style="background: rgba(46, 204, 113, 0.3); padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #2ecc71;">
+            <h3>🏷️ MAC Address Deep Dive</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div>
+                    <h4>MAC Address Format</h4>
+                    <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 12px; margin: 12px 0; font-family: 'Courier New', monospace; color: #00ff00; font-size: 0.9em;">
+                    AA:BB:CC:DD:EE:FF<br>
+                    │└─ Device Specific (24 bits)<br>
+                    └── Vendor OUI (24 bits)
+                    </div>
+                    <p>48-bit address: 24-bit Organizationally Unique Identifier + 24-bit device identifier</p>
+                </div>
+                
+                <div>
+                    <h4>Special MAC Addresses</h4>
+                    <ul>
+                        <li><strong>Broadcast:</strong> FF:FF:FF:FF:FF:FF</li>
+                        <li><strong>Multicast:</strong> 01:xx:xx:xx:xx:xx</li>
+                        <li><strong>Unicast:</strong> 00:xx:xx:xx:xx:xx</li>
+                        <li><strong>Local Admin:</strong> x2:xx:xx:xx:xx:xx</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h4>Common Vendor OUIs:</h4>
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(0, 0, 0, 0.2);">
+                <thead>
+                    <tr>
+                        <th style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left; background: rgba(155, 89, 182, 0.6); font-weight: bold;">OUI</th>
+                        <th style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left; background: rgba(155, 89, 182, 0.6); font-weight: bold;">Vendor</th>
+                        <th style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left; background: rgba(155, 89, 182, 0.6); font-weight: bold;">Example MAC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">00:1B:44</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Cisco Systems</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">00:1B:44:AA:BB:CC</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">00:50:56</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">VMware</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">00:50:56:11:22:33</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">AC:BC:32</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Apple</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">AC:BC:32:44:55:66</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="example-box" style="background: rgba(41, 128, 185, 0.3); padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #3498db;">
+            <h3>🔍 Real-World Example: Ethernet Switching</h3>
+            <p><strong>Scenario:</strong> Three computers connected to an Ethernet switch</p>
+            
+            <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <h4>Step 1: MAC Learning</h4>
+                <p>When PC-A (00:11:22:33:44:AA) sends a frame:</p>
+                <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 10px; margin: 10px 0; font-family: 'Courier New', monospace; color: #00ff00;">
+                Switch learns: MAC 00:11:22:33:44:AA is on Port 1<br>
+                MAC Table: 00:11:22:33:44:AA → Port 1
+                </div>
+            </div>
+            
+            <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <h4>Step 2: Frame Forwarding</h4>
+                <p>PC-A sends frame to PC-B (00:11:22:33:44:BB):</p>
+                <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 10px; margin: 10px 0; font-family: 'Courier New', monospace; color: #00ff00;">
+                Ethernet: Dst=00:11:22:33:44:BB Src=00:11:22:33:44:AA<br>
+                Switch: MAC 00:11:22:33:44:BB not in table → FLOOD to all ports
+                </div>
+            </div>
+            
+            <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <h4>Step 3: Return Path Learning</h4>
+                <p>PC-B responds, switch learns its location:</p>
+                <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 10px; margin: 10px 0; font-family: 'Courier New', monospace; color: #00ff00;">
+                Switch learns: MAC 00:11:22:33:44:BB is on Port 2<br>
+                MAC Table: 00:11:22:33:44:AA → Port 1, 00:11:22:33:44:BB → Port 2<br>
+                Future frames between A↔B: direct port forwarding (no flooding)
+                </div>
+            </div>
+        </div>
+        
+        <div class="example-box" style="background: rgba(41, 128, 185, 0.3); padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #3498db;">
+            <h3>🛠️ Troubleshooting Data Link Issues</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="background: rgba(231, 76, 60, 0.2); padding: 15px; border-radius: 8px;">
+                    <h4>🚨 Common Layer 2 Problems</h4>
+                    <ul>
+                        <li>Frame errors (CRC/FCS failures)</li>
+                        <li>MAC address table overflow</li>
+                        <li>Broadcast storms</li>
+                        <li>VLAN misconfigurations</li>
+                        <li>Spanning Tree Protocol loops</li>
+                        <li>Duplex mismatches</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(46, 204, 113, 0.2); padding: 15px; border-radius: 8px;">
+                    <h4>🔧 Layer 2 Diagnostic Tools</h4>
+                    <ul>
+                        <li>Switch MAC address tables</li>
+                        <li>Port statistics (errors, collisions)</li>
+                        <li>Spanning Tree Protocol status</li>
+                        <li>VLAN configuration verification</li>
+                        <li>Protocol analyzers (Wireshark)</li>
+                        <li>Network topology discovery</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h4>Common Wireshark Filters for Layer 2 Analysis:</h4>
+            <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 12px; margin: 12px 0; font-family: 'Courier New', monospace; color: #00ff00; font-size: 0.9em;">
+            eth.addr == aa:bb:cc:dd:ee:ff    # Filter by MAC address<br>
+            eth.dst == ff:ff:ff:ff:ff:ff     # Show broadcast frames<br>
+            arp                               # Show ARP traffic<br>
+            eth.type == 0x8100               # Show VLAN tagged frames<br>
+            eth.fcs_bad == 1                 # Show frames with bad FCS
+            </div>
+        </div>
+        
+        <div class="example-box" style="background: rgba(41, 128, 185, 0.3); padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #3498db;">
+            <h3>🎓 Teaching Analogy: Hotel Mail System</h3>
+            <p><strong>Think of the Data Link Layer like a hotel's internal mail system:</strong></p>
+            <ul>
+                <li><strong>Room Numbers (MAC Addresses):</strong> Each room has a unique number for local delivery</li>
+                <li><strong>Hotel Envelopes (Frames):</strong> All mail goes in hotel envelopes with room numbers</li>
+                <li><strong>Mail Clerk (Switch):</strong> Learns which rooms are on which floors and delivers accordingly</li>
+                <li><strong>Floor Directory (MAC Table):</strong> Keeps track of room locations for efficient delivery</li>
+                <li><strong>Delivery Receipt (Frame Check Sequence):</strong> Confirms mail arrived without damage</li>
+                <li><strong>Hotel Broadcast (FF:FF:FF:FF:FF:FF):</strong> Announcements delivered to every room</li>
+            </ul>
+            <p><em>Just like hotel mail only works within the building, Layer 2 only works within the local network segment!</em></p>
+        </div>
+        
+        <div class="content-box" style="background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 15px; border-left: 4px solid #9b59b6;">
+            <h3>📚 Key Learning Points</h3>
+            <ul>
+                <li>Data Link Layer provides <span class="highlight">reliable local delivery</span> using MAC addresses</li>
+                <li><span class="highlight">Frames</span> encapsulate Layer 3 packets with headers and error detection</li>
+                <li><span class="highlight">Switches</span> operate at Layer 2, learning MAC addresses and forwarding frames</li>
+                <li><span class="highlight">Error detection</span> (FCS/CRC) catches transmission errors but doesn't correct them</li>
+                <li>Layer 2 creates <span class="highlight">broadcast domains</span> - all devices that can hear each other</li>
+                <li><span class="highlight">MAC addresses</span> are hardware addresses that work only within local network segments</li>
+                <li>Data Link Layer makes the <span class="highlight">physical layer reliable</span> for upper layers</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="index.html" class="back-button">← Return to OSI Overview</a>
+        </div>
+    </div>
+
+    <script>
+        let demoRunning = false;
+        let currentPhase = 0;
+        let currentStepIndex = 0;
+        let currentProtocolSteps = [];
+        let manualMode = false;
+        
+        const protocols = {
+            ethernet: {
+                name: "Ethernet (IEEE 802.3) - Frame-based Communication",
+                description: "Ethernet provides frame-based communication over wired networks using MAC addresses and CSMA/CD collision detection.",
+                phases: [
+                    {
+                        text: "Network packet encapsulated in Ethernet frame with MAC addresses",
+                        wireshark: "Ethernet II: Dst: ff:ee:dd:cc:bb:02 Src: aa:bb:cc:dd:ee:01 Type: IPv4",
+                        explanation: "Data gets destination MAC, source MAC, and frame type (like putting letter in addressed envelope)"
+                    },
+                    {
+                        text: "Frame transmitted over physical medium with preamble",
+                        wireshark: "Frame: [Preamble] [SFD] [Dest MAC] [Src MAC] [Type] [Data] [FCS]",
+                        explanation: "Complete frame sent with synchronization pattern and error detection code"
+                    },
+                    {
+                        text: "Receiving node checks destination MAC and Frame Check Sequence",
+                        wireshark: "Frame Check Sequence: 0x12345678 [correct]",
+                        explanation: "Receiver verifies it's the intended recipient and frame isn't corrupted"
+                    },
+                    {
+                        text: "Valid frame accepted, FCS verified, payload passed to Layer 3",
+                        wireshark: "Ethernet II → IPv4 packet extraction successful",
+                        explanation: "Frame stripped away, original IP packet delivered to network layer"
+                    }
+                ],
+                layer2_evidence: [
+                    "Uses MAC addresses for physical device identification (Layer 2 addressing)",
+                    "Adds frame headers and trailers around Layer 3 data",
+                    "Implements error detection with Frame Check Sequence (FCS/CRC)",
+                    "Handles media access control (CSMA/CD for collision detection)",
+                    "Operates on frame boundaries, not individual bits or packets"
+                ]
+            },
+            wifi: {
+                name: "Wi-Fi (IEEE 802.11) - Wireless Frame Communication", 
+                description: "Wi-Fi provides wireless frame communication using MAC addresses, association, and CSMA/CA collision avoidance.",
+                phases: [
+                    {
+                        text: "Client associates with Access Point using MAC addresses",
+                        wireshark: "802.11 Association Request: STA aa:bb:cc:dd:ee:01 → AP ff:ee:dd:cc:bb:02",
+                        explanation: "Device requests to join wireless network by exchanging MAC addresses"
+                    },
+                    {
+                        text: "Data frame created with 802.11 wireless header structure",
+                        wireshark: "802.11 Data: To DS=1 From DS=0 Addr1=AP Addr2=STA Addr3=Router",
+                        explanation: "Wireless frames have up to 4 MAC addresses for complex routing scenarios"
+                    },
+                    {
+                        text: "CSMA/CA checks medium before transmission to avoid collisions",
+                        wireshark: "802.11 RTS/CTS: Request to Send → Clear to Send handshake",
+                        explanation: "Wireless devices listen before talking and use handshakes to prevent interference"
+                    },
+                    {
+                        text: "Frame acknowledged by receiver to confirm successful delivery",
+                        wireshark: "802.11 ACK: Acknowledgment frame for sequence number 1234",
+                        explanation: "Receiver sends ACK frame back to confirm frame was received correctly"
+                    }
+                ],
+                layer2_evidence: [
+                    "Uses MAC addresses for wireless device identification and association",
+                    "Implements wireless-specific frame formats with multiple address fields",
+                    "Provides error detection and automatic retransmission (ARQ)",
+                    "Manages wireless medium access with CSMA/CA and acknowledgments",
+                    "Handles association state between stations and access points"
+                ]
+            },
+            arp: {
+                name: "ARP (Address Resolution Protocol)",
+                description: "ARP resolves IP addresses to MAC addresses, enabling Layer 3 to Layer 2 address mapping for local delivery.",
+                phases: [
+                    {
+                        text: "Host needs MAC address for IP address 192.168.1.1",
+                        wireshark: "ARP Request: Who has 192.168.1.1? Tell 192.168.1.100",
+                        explanation: "Computer asks 'What MAC address goes with IP 192.168.1.1?'"
+                    },
+                    {
+                        text: "ARP request broadcast to all nodes on local network segment",
+                        wireshark: "Ethernet: Dst: ff:ff:ff:ff:ff:ff (broadcast) Src: aa:bb:cc:dd:ee:01",
+                        explanation: "Request sent to broadcast MAC address so all devices on network see it"
+                    },
+                    {
+                        text: "Target host responds with its MAC address",
+                        wireshark: "ARP Reply: 192.168.1.1 is at ff:ee:dd:cc:bb:02",
+                        explanation: "Device with that IP address responds 'That's me, my MAC is ff:ee:dd:cc:bb:02'"
+                    },
+                    {
+                        text: "Sender caches MAC address mapping for future use",
+                        wireshark: "ARP Table: 192.168.1.1 → ff:ee:dd:cc:bb:02 [dynamic]",
+                        explanation: "Computer remembers the IP-to-MAC mapping to avoid asking again soon"
+                    }
+                ],
+                layer2_evidence: [
+                    "Maps Layer 3 IP addresses to Layer 2 MAC addresses",
+                    "Uses Ethernet frame structure for request/reply communication",
+                    "Operates within a single broadcast domain (Layer 2 segment)",
+                    "Manages MAC address tables for local delivery decisions",
+                    "Essential for Ethernet delivery of IP packets to correct physical devices"
+                ]
+            },
+            ppp: {
+                name: "PPP (Point-to-Point Protocol)",
+                description: "PPP provides framing, authentication, and multiple protocol support over point-to-point links like dial-up or DSL.",
+                phases: [
+                    {
+                        text: "PPP link establishment and parameter negotiation",
+                        wireshark: "PPP LCP: Configure-Request [MRU=1500] [Auth-Protocol=PAP]",
+                        explanation: "Both ends negotiate link parameters like maximum frame size and authentication"
+                    },
+                    {
+                        text: "Authentication phase (if required) using PAP/CHAP",
+                        wireshark: "PPP PAP: Authenticate-Request User='john' Password='****'",
+                        explanation: "User credentials verified before allowing data transmission"
+                    },
+                    {
+                        text: "Network Control Protocol negotiates IP parameters",
+                        wireshark: "PPP IPCP: Configure-Request [IP=0.0.0.0] [DNS=8.8.8.8]",
+                        explanation: "Negotiate IP address, DNS servers, and other network settings"
+                    },
+                    {
+                        text: "Data frames transmitted with PPP encapsulation",
+                        wireshark: "PPP: Protocol=IP [Flag=0x7E] [Address=0xFF] [Control=0x03]",
+                        explanation: "IP packets wrapped in PPP frames with proper flags and addressing"
+                    }
+                ],
+                layer2_evidence: [
+                    "Provides frame delimiting and encapsulation over point-to-point links",
+                    "Implements multiple protocol support (IP, IPX, AppleTalk)",
+                    "Handles link establishment, authentication, and termination",
+                    "Adds frame headers/trailers around Layer 3 protocols",
+                    "Manages point-to-point connection state and error recovery"
+                ]
+            },
+            switch: {
+                name: "Ethernet Switching - MAC Learning & Forwarding",
+                description: "Ethernet switches learn MAC addresses and forward frames intelligently, creating collision domains per port.",
+                phases: [
+                    {
+                        text: "Frame arrives on switch port, source MAC learned",
+                        wireshark: "Ethernet: Port 1 Src: aa:bb:cc:dd:ee:01 → MAC table updated",
+                        explanation: "Switch records 'MAC aa:bb:cc:dd:ee:01 is connected to port 1'"
+                    },
+                    {
+                        text: "Switch checks MAC table for destination address",
+                        wireshark: "MAC Table lookup: ff:ee:dd:cc:bb:02 → Port 3",
+                        explanation: "Switch looks up where destination MAC address is connected"
+                    },
+                    {
+                        text: "Frame forwarded only to destination port (unicast)",
+                        wireshark: "Frame forwarded: Port 1 → Port 3 (unicast)",
+                        explanation: "Frame sent only to port where destination is connected, not all ports"
+                    },
+                    {
+                        text: "Unknown destinations flooded to all ports except source",
+                        wireshark: "Frame flooded: Port 1 → Ports 2,3,4 (unknown unicast)",
+                        explanation: "If destination MAC unknown, send to all ports to find the device"
+                    }
+                ],
+                layer2_evidence: [
+                    "Maintains MAC address tables mapping addresses to physical ports",
+                    "Makes forwarding decisions based on destination MAC addresses",
+                    "Creates separate collision domains for each switch port",
+                    "Implements MAC address learning from source addresses",
+                    "Operates transparently to higher layers using only Layer 2 information"
+                ]
+            }
+        };
+        
+        function startDemo() {
+            if (demoRunning) return;
+            
+            const selectedProtocol = document.getElementById('protocolSelect').value;
+            currentProtocolSteps = protocols[selectedProtocol].phases;
+            currentStepIndex = 0;
+            currentPhase = 0;
+            demoRunning = true;
+            manualMode = false;
+            
+            document.getElementById('startDemo').disabled = true;
+            document.getElementById('manualDemo').disabled = true;
+            
+            runAutomaticDemo();
+        }
+        
+        function startManualDemo() {
+            if (demoRunning) return;
+            
+            const selectedProtocol = document.getElementById('protocolSelect').value;
+            currentProtocolSteps = protocols[selectedProtocol].phases;
+            currentStepIndex = 0;
+            currentPhase = 0;
+            demoRunning = true;
+            manualMode = true;
+            
+            document.getElementById('startDemo').disabled = true;
+            document.getElementById('manualDemo').disabled = true;
+            document.getElementById('nextStepBtn').disabled = false;
+            document.getElementById('prevStepBtn').disabled = true;
+            
+            updateDisplay();
+        }
+        
+        function runAutomaticDemo() {
+            if (currentStepIndex >= currentProtocolSteps.length) {
+                resetDemo();
+                return;
+            }
+            
+            updateDisplay();
+            animateFrame();
+            
+            setTimeout(() => {
+                currentStepIndex++;
+                currentPhase = (currentPhase + 1) % 3;
+                if (demoRunning) {
+                    runAutomaticDemo();
+                }
+            }, 3000);
+        }
+        
+        function nextStep() {
+            if (currentStepIndex >= currentProtocolSteps.length - 1) return;
+            
+            currentStepIndex++;
+            currentPhase = (currentPhase + 1) % 3;
+            updateDisplay();
+            animateFrame();
+            
+            document.getElementById('prevStepBtn').disabled = false;
+            if (currentStepIndex >= currentProtocolSteps.length - 1) {
+                document.getElementById('nextStepBtn').disabled = true;
+            }
+        }
+        
+        function prevStep() {
+            if (currentStepIndex <= 0) return;
+            
+            currentStepIndex--;
+            currentPhase = (currentPhase - 1 + 3) % 3;
+            updateDisplay();
+            
+            document.getElementById('nextStepBtn').disabled = false;
+            if (currentStepIndex <= 0) {
+                document.getElementById('prevStepBtn').disabled = true;
+            }
+        }
+        
+        function updateDisplay() {
+            if (currentStepIndex >= currentProtocolSteps.length) {
+                resetDemo();
+                return;
+            }
+            
+            const currentStep = currentProtocolSteps[currentStepIndex];
+            
+            // Update phase indicator
+            document.querySelectorAll('.phase').forEach((phase, index) => {
+                phase.classList.toggle('active', index === currentPhase);
+            });
+            
+            // Update status text
+            document.getElementById('statusText').textContent = currentStep.text;
+            document.getElementById('stepCounter').textContent = `Step ${currentStepIndex + 1} of ${currentProtocolSteps.length}`;
+            
+            // Update Wireshark example
+            const wiresharkDiv = document.getElementById('wiresharkExample');
+            const explanationDiv = document.getElementById('packetExplanation');
+            
+            wiresharkDiv.textContent = currentStep.wireshark;
+            wiresharkDiv.style.display = 'block';
+            
+            explanationDiv.textContent = currentStep.explanation;
+            explanationDiv.style.display = 'block';
+            
+            // Update overall status
+            const statusClass = ['encapsulating', 'transmitting', 'transmitting'][currentPhase];
+            const statusText = ['Frame Encapsulation', 'Frame Transmission', 'Frame Processing'][currentPhase];
+            
+            document.getElementById('overallStatus').className = `status ${statusClass}`;
+            document.getElementById('overallStatus').textContent = statusText;
+            
+            // Update device status
+            document.getElementById('nodeAStatus').textContent = 
+                currentPhase === 0 ? 'Encapsulating...' : currentPhase === 1 ? 'Transmitting...' : 'Complete';
+            document.getElementById('nodeBStatus').textContent = 
+                currentPhase >= 2 ? 'Processing...' : 'Waiting';
+        }
+        
+        function animateFrame() {
+            const frame1 = document.getElementById('frame1');
+            const frame2 = document.getElementById('frame2');
+            
+            // Reset positions
+            frame1.classList.remove('moving');
+            frame2.classList.remove('moving');
+            
+            // Trigger animation
+            setTimeout(() => {
+                frame1.classList.add('moving');
+            }, 100);
+            
+            setTimeout(() => {
+                frame2.classList.add('moving');
+            }, 500);
+        }
+        
+        function resetDemo() {
+            demoRunning = false;
+            currentStepIndex = 0;
+            currentPhase = 0;
+            manualMode = false;
+            
+            document.getElementById('startDemo').disabled = false;
+            document.getElementById('manualDemo').disabled = false;
+            document.getElementById('nextStepBtn').disabled = true;
+            document.getElementById('prevStepBtn').disabled = true;
+            
+            // Reset display
+            document.querySelectorAll('.phase').forEach(phase => {
+                phase.classList.remove('active');
+            });
+            
+            document.getElementById('statusText').textContent = 'Select a protocol and mode to begin';
+            document.getElementById('stepCounter').textContent = 'Step 0 of 0';
+            document.getElementById('wiresharkExample').style.display = 'none';
+            document.getElementById('packetExplanation').style.display = 'none';
+            
+            document.getElementById('overallStatus').className = 'status idle';
+            document.getElementById('overallStatus').textContent = 'Link Idle';
+            
+            document.getElementById('nodeAStatus').textContent = 'Ready';
+            document.getElementById('nodeBStatus').textContent = 'Listening';
+            
+            // Reset frame animations
+            const frame1 = document.getElementById('frame1');
+            const frame2 = document.getElementById('frame2');
+            frame1.classList.remove('moving');
+            frame2.classList.remove('moving');
+        }
+        
+        function showDetails() {
+            const selectedProtocol = document.getElementById('protocolSelect').value;
+            const protocol = protocols[selectedProtocol];
+            
+            document.getElementById('protocolDescription').innerHTML = `
+                <h4>${protocol.name}</h4>
+                <p>${protocol.description}</p>
+            `;
+            
+            const evidenceHtml = protocol.layer2_evidence
+                .map(evidence => `<li>${evidence}</li>`)
+                .join('');
+            
+            document.getElementById('layer2Evidence').innerHTML = `
+                <h4>Why This is Layer 2 (Data Link Layer):</h4>
+                <ul>${evidenceHtml}</ul>
+            `;
+        }
+        
+        // Initialize
+        showDetails();
+        
+        // Dark Mode Functions
+        function toggleDarkMode(){document.body.classList.toggle('dark-mode');const isDark=document.body.classList.contains('dark-mode');localStorage.setItem('darkMode',isDark);updateDarkModeButton(isDark);}
+        function updateDarkModeButton(isDark){const icon=document.getElementById('darkModeIcon');const text=document.getElementById('darkModeText');if(isDark){icon.textContent='☀️';text.textContent='Light Mode';}else{icon.textContent='🌙';text.textContent='Dark Mode';}}
+        window.addEventListener('DOMContentLoaded',function(){const savedDarkMode=localStorage.getItem('darkMode')==='true';if(savedDarkMode){document.body.classList.add('dark-mode');updateDarkModeButton(true);}});
+    </script>
+    
+    <footer style="background: rgba(0, 0, 0, 0.3); padding: 20px; margin-top: 40px; border-top: 2px solid rgba(255, 255, 255, 0.1); text-align: center; border-radius: 10px;">
+        <p style="margin: 0; font-size: 0.9em; line-height: 1.6;">
+            Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com" style="color: #3498db; text-decoration: none;">alex@slash-root.com</a> should you spot any errors or wish to query anything.
+        </p>
+    </footer>
+</body>
+</html>

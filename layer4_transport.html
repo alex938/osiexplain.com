@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSI Layer 4: Transport Layer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .layer-header {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .content-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .protocols-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .protocol-card {
+            background: rgba(39, 174, 96, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .wireshark-example {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            font-size: 0.9em;
+        }
+        
+        .example-box {
+            background: rgba(41, 128, 185, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        .back-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .highlight {
+            color: #f1c40f;
+            font-weight: bold;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+        
+        .comparison-table th {
+            background: rgba(39, 174, 96, 0.6);
+            font-weight: bold;
+        }
+        
+        .tcp-column {
+            background: rgba(52, 152, 219, 0.2);
+        }
+        
+        .udp-column {
+            background: rgba(231, 76, 60, 0.2);
+        }
+        
+        .interactive-demo {
+            background: rgba(142, 68, 173, 0.3);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .port-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .port-example {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        /* Interactive Demo Styles */
+        .layer4-explanation {
+            background: rgba(39, 174, 96, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .demo-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            min-height: 400px;
+        }
+        
+        .client-app, .server-app {
+            width: 200px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .client-app {
+            background: rgba(52, 152, 219, 0.3);
+        }
+        
+        .server-app {
+            background: rgba(46, 204, 113, 0.3);
+        }
+        
+        .device-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+        
+        .transport-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .connection-line {
+            width: 300px;
+            height: 4px;
+            background: #ecf0f1;
+            border-radius: 2px;
+            position: relative;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .transport-segment {
+            width: 70px;
+            height: 35px;
+            background: #27ae60;
+            border-radius: 3px;
+            position: absolute;
+            top: -15px;
+            left: -70px;
+            transition: all 2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6em;
+            color: white;
+        }
+        
+        .transport-segment.moving {
+            left: 300px;
+        }
+        
+        .transport-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            min-height: 140px;
+            width: 300px;
+            text-align: center;
+        }
+        
+        .phase-indicator {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .phase {
+            width: 120px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 0 5px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .phase.active {
+            background: rgba(46, 204, 113, 0.5);
+            transform: scale(1.1);
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .step-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .protocol-selector {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        select {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            backdrop-filter: blur(5px);
+        }
+        
+        select option {
+            background: #229954;
+            color: white;
+        }
+        
+        .status {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .status.connecting {
+            background: rgba(241, 196, 15, 0.3);
+        }
+        
+        .status.transmitting {
+            background: rgba(46, 204, 113, 0.3);
+        }
+        
+        .status.idle {
+            background: rgba(149, 165, 166, 0.3);
+        }
+        
+        .wireshark-packet {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.15em;
+            color: #00ff00;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.6;
+            min-height: 120px;
+            max-height: 400px;
+            overflow-x: auto;
+            overflow-y: auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .packet-explanation {
+            background: rgba(41, 128, 185, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            font-size: 0.9em;
+            border-left: 4px solid #3498db;
+        }
+        
+        .step-counter {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px 15px;
+            border-radius: 15px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .transport-characteristics {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        
+        .characteristic {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            margin: 5px;
+            border-radius: 10px;
+            width: calc(50% - 30px);
+            box-sizing: border-box;
+        }
+        
+        .protocol-info {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .port-number {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3px 6px;
+            border-radius: 3px;
+            color: #f1c40f;
+        }
+        
+        /* Dark Mode Toggle */
+        .dark-mode-toggle{position:fixed;top:20px;right:20px;z-index:1000;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.3);border-radius:25px;padding:10px 20px;cursor:pointer;backdrop-filter:blur(10px);transition:all 0.3s ease;display:flex;align-items:center;gap:8px;font-size:16px;color:white;}
+        .dark-mode-toggle:hover{background:rgba(255,255,255,0.3);transform:translateY(-2px);}
+        body.dark-mode{background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);}
+        body.dark-mode .container{background:rgba(0,0,0,0.4);}
+        body.dark-mode .layer4-explanation,body.dark-mode .content-box,body.dark-mode .protocol-info,body.dark-mode .example-box,body.dark-mode .interactive-demo{background:rgba(0,0,0,0.5);}
+    </style>
+</head>
+<body>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode"><span id="darkModeIcon">🌙</span><span id="darkModeText">Dark Mode</span></button>
+    <div class="container">
+        <a href="index.html" class="back-button">← Back to OSI Overview</a>
+        
+        <h1>🚛 Layer 4: Transport Layer</h1>
+        
+        <div class="layer-header">
+            <h2>Reliable End-to-End Communication</h2>
+            <p>The Transport Layer provides reliable data transfer services to the upper layers. It handles error detection, error recovery, flow control, and ensures complete data transfer between host systems.</p>
+        </div>
+        
+        <!-- Interactive Demo Section -->
+        <div class="layer4-explanation">
+            <h2>Layer 4 (Transport) Technologies</h2>
+            <p>
+                The <span class="highlight">Transport Layer</span> is responsible for reliable end-to-end data delivery between applications. 
+                It provides <span class="highlight">connection management, error recovery, flow control, and data segmentation</span> 
+                between processes running on different hosts.
+            </p>
+            
+            <div class="transport-characteristics">
+                <div class="characteristic">
+                    <strong>Connection Management</strong> - Establishing, maintaining, and terminating connections between applications
+                </div>
+                <div class="characteristic">
+                    <strong>Reliable Delivery</strong> - Ensuring all data arrives correctly and in order (TCP) or fast delivery (UDP)
+                </div>
+                <div class="characteristic">
+                    <strong>Flow Control</strong> - Managing data transmission rate to prevent buffer overflow
+                </div>
+                <div class="characteristic">
+                    <strong>Port-based Multiplexing</strong> - Multiple applications sharing the same network connection
+                </div>
+            </div>
+            
+            <p>
+                <strong>The Critical Role:</strong> While Layer 3 routes packets between networks, Layer 4 ensures 
+                <span class="highlight">reliable communication between specific applications</span> using port numbers 
+                and connection state management.
+            </p>
+        </div>
+        
+        <div class="protocol-selector">
+            <label for="protocolSelect">Choose Transport Protocol: </label>
+            <select id="protocolSelect">
+                <option value="tcp">TCP Connection & Data Transfer</option>
+                <option value="udp">UDP Datagram Communication</option>
+                <option value="tcp3way">TCP 3-Way Handshake</option>
+                <option value="tcpclose">TCP Connection Termination</option>
+                <option value="tcpflow">TCP Flow Control</option>
+            </select>
+        </div>
+        
+        <div class="demo-area">
+            <div class="client-app">
+                <div class="device-icon">📱</div>
+                <h3>Client App</h3>
+                <div class="port-number" id="clientPort">Port 12345</div>
+                <div id="clientStatus">Ready</div>
+            </div>
+            
+            <div class="transport-area">
+                <div class="phase-indicator">
+                    <div class="phase" id="phase1">Connect</div>
+                    <div class="phase" id="phase2">Transfer</div>
+                    <div class="phase" id="phase3">Acknowledge</div>
+                </div>
+                
+                <div class="connection-line">
+                    <div class="transport-segment" id="segment1">TCP</div>
+                    <div class="transport-segment" id="segment2">TCP</div>
+                </div>
+                
+                <div class="transport-info" id="transportInfo">
+                    <strong>Transport Status:</strong>
+                    <div id="statusText">Select a protocol and mode to begin</div>
+                    <div id="stepCounter" class="step-counter">Step 0 of 0</div>
+                    <div id="wiresharkExample" class="wireshark-packet" style="display:none;"></div>
+                    <div id="packetExplanation" class="packet-explanation" style="display:none;"></div>
+                </div>
+                
+                <div class="status idle" id="overallStatus">Connection Idle</div>
+            </div>
+            
+            <div class="server-app">
+                <div class="device-icon">📡</div>
+                <h3>Server App</h3>
+                <div class="port-number" id="serverPort">Port 80</div>
+                <div id="serverStatus">Listening</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="startDemo" onclick="startDemo()">🚀 Auto Demo</button>
+            <button class="btn" id="manualDemo" onclick="startManualDemo()">👋 Manual Demo</button>
+            <button class="btn" onclick="resetDemo()">🔄 Reset</button>
+            
+            <div class="step-controls">
+                <button class="btn" id="prevStepBtn" onclick="prevStep()" disabled>← Previous Step</button>
+                <button class="btn" id="nextStepBtn" onclick="nextStep()" disabled>Next Step →</button>
+            </div>
+        </div>
+        
+        <div class="protocol-info" id="protocolDetails">
+            <h3>Transport Protocol Information</h3>
+            <div id="protocolDescription">Select a protocol and click "Protocol Details" to learn more.</div>
+            <div id="layer4Evidence" style="margin-top: 15px;"></div>
+        </div>
+        
+        <!-- End Interactive Demo Section -->
+        
+        <div class="content-grid">
+            <div class="content-box">
+                <h3>🎯 Primary Functions</h3>
+                <ul>
+                    <li><strong>Segmentation:</strong> Breaking data into smaller, manageable segments</li>
+                    <li><strong>Error Detection & Recovery:</strong> Ensuring data integrity</li>
+                    <li><strong>Flow Control:</strong> Managing data transmission rates</li>
+                    <li><strong>Connection Management:</strong> Establishing and terminating connections</li>
+                    <li><strong>Multiplexing:</strong> Multiple applications using the network simultaneously</li>
+                </ul>
+            </div>
+            
+            <div class="content-box">
+                <h3>🔧 Key Characteristics</h3>
+                <ul>
+                    <li><span class="highlight">Port Numbers:</span> Identify specific applications (0-65535)</li>
+                    <li><span class="highlight">Sequence Numbers:</span> Track data order and completeness</li>
+                    <li><span class="highlight">Acknowledgments:</span> Confirm successful data receipt</li>
+                    <li><span class="highlight">Window Size:</span> Control flow and prevent buffer overflow</li>
+                    <li><span class="highlight">Checksums:</span> Detect transmission errors</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="content-box">
+            <h3>🌐 Major Transport Layer Protocols</h3>
+            <div class="protocols-list">
+                <div class="protocol-card tcp-column">
+                    <h4>🔒 TCP (Transmission Control Protocol)</h4>
+                    <p><strong>Connection-oriented, Reliable</strong></p>
+                    <div class="wireshark-example">TCP [SYN] Seq=0 Win=65535 Len=0
+TCP [SYN, ACK] Seq=0 Ack=1 Win=65535
+TCP [ACK] Seq=1 Ack=1 Win=65535</div>
+                    <p><strong>What you see in Wireshark:</strong> Three-way handshake with SYN, SYN-ACK, ACK flags</p>
+                    <small><em>Like a phone call - establish connection, talk, hang up properly</em></small>
+                </div>
+                
+                <div class="protocol-card udp-column">
+                    <h4>📡 UDP (User Datagram Protocol)</h4>
+                    <p><strong>Connectionless, Fast</strong></p>
+                    <div class="wireshark-example">UDP Src Port: 53 (dns)
+UDP Dst Port: 54321
+Length: 45 bytes
+Checksum: 0x1a2b [correct]</div>
+                    <p><strong>What you see in Wireshark:</strong> Simple header with source/dest ports, length, and checksum</p>
+                    <small><em>Like sending a postcard - quick, simple, no delivery guarantee</em></small>
+                </div>
+                
+                <div class="protocol-card">
+                    <h4>🔄 SCTP (Stream Control Transmission)</h4>
+                    <p><strong>Multi-streaming, Reliable</strong></p>
+                    <div class="wireshark-example">SCTP INIT Chunk
+Verification Tag: 0x00000000
+Multiple streams supported</div>
+                    <p><strong>What you see in Wireshark:</strong> Chunk-based protocol with multi-homing support</p>
+                    <small><em>Like TCP but with multiple lanes on the highway</em></small>
+                </div>
+                
+                <div class="protocol-card">
+                    <h4>🏢 SPX (Sequenced Packet Exchange)</h4>
+                    <p><strong>NetWare's reliable protocol</strong></p>
+                    <div class="wireshark-example">SPX: Connection Control: 0x40
+SPX: Sequence Number: 1234
+SPX: Acknowledge Number: 5678</div>
+                    <p><strong>What you see in Wireshark:</strong> Similar to TCP but for Novell networks</p>
+                    <small><em>Legacy protocol mostly replaced by TCP</em></small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-box">
+            <h3>⚖️ TCP vs UDP Comparison</h3>
+            <table class="comparison-table">
+                <tr>
+                    <th>Feature</th>
+                    <th class="tcp-column">TCP</th>
+                    <th class="udp-column">UDP</th>
+                </tr>
+                <tr>
+                    <td><strong>Connection</strong></td>
+                    <td class="tcp-column">Connection-oriented<br>(3-way handshake)</td>
+                    <td class="udp-column">Connectionless<br>(fire and forget)</td>
+                </tr>
+                <tr>
+                    <td><strong>Reliability</strong></td>
+                    <td class="tcp-column">Guaranteed delivery<br>Error recovery</td>
+                    <td class="udp-column">Best effort<br>No error recovery</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td class="tcp-column">Slower<br>(overhead for reliability)</td>
+                    <td class="udp-column">Faster<br>(minimal overhead)</td>
+                </tr>
+                <tr>
+                    <td><strong>Header Size</strong></td>
+                    <td class="tcp-column">20 bytes minimum</td>
+                    <td class="udp-column">8 bytes fixed</td>
+                </tr>
+                <tr>
+                    <td><strong>Flow Control</strong></td>
+                    <td class="tcp-column">Yes (sliding window)</td>
+                    <td class="udp-column">No</td>
+                </tr>
+                <tr>
+                    <td><strong>Use Cases</strong></td>
+                    <td class="tcp-column">Web browsing, Email<br>File transfer, Databases</td>
+                    <td class="udp-column">DNS queries, Video streaming<br>Online gaming, DHCP</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="example-box">
+            <h3>🔍 Real-World Example: Web Page Download (TCP)</h3>
+            <p><strong>Scenario:</strong> Your browser downloads a webpage from a server</p>
+            
+            <h4>What happens at the Transport Layer:</h4>
+            <ol>
+                <li><strong>Connection Establishment:</strong> Browser initiates TCP 3-way handshake with server</li>
+                <li><strong>Data Segmentation:</strong> Large webpage is broken into TCP segments</li>
+                <li><strong>Reliable Delivery:</strong> Each segment is numbered and acknowledged</li>
+                <li><strong>Error Handling:</strong> Missing segments are automatically retransmitted</li>
+                <li><strong>Flow Control:</strong> Prevents server from overwhelming browser</li>
+                <li><strong>Connection Termination:</strong> 4-way handshake to close connection</li>
+            </ol>
+            
+            <div class="wireshark-example">
+Wireshark Transport Layer Analysis:
+TCP: [SYN] Seq=0 Win=65535 Len=0 MSS=1460
+TCP: [SYN,ACK] Seq=0 Ack=1 Win=65535 Len=0
+TCP: [ACK] Seq=1 Ack=1 Win=65535 Len=0
+TCP: HTTP request data [PSH,ACK] Seq=1 Len=500
+TCP: HTTP response data [PSH,ACK] Seq=1 Len=1460
+TCP: [ACK] Seq=501 Ack=1461 (acknowledging data)
+</div>
+            <p><em>In Wireshark, you can see the complete TCP conversation with all control flags and sequence numbers.</em></p>
+        </div>
+        
+        <div class="interactive-demo">
+            <h3>🎮 Understanding Port Numbers</h3>
+            <p>Port numbers allow multiple applications to use the network simultaneously. Think of them as apartment numbers in a building (IP address).</p>
+            
+            <div class="content-grid">
+                <div>
+                    <h4>Well-Known Ports (0-1023)</h4>
+                    <div class="port-examples">
+                        <div class="port-example">Port 80<br><strong>HTTP</strong></div>
+                        <div class="port-example">Port 443<br><strong>HTTPS</strong></div>
+                        <div class="port-example">Port 25<br><strong>SMTP</strong></div>
+                        <div class="port-example">Port 53<br><strong>DNS</strong></div>
+                        <div class="port-example">Port 21<br><strong>FTP</strong></div>
+                        <div class="port-example">Port 22<br><strong>SSH</strong></div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4>Ephemeral Ports (32768-65535)</h4>
+                    <div class="port-examples">
+                        <div class="port-example">Port 54321<br><strong>Browser</strong></div>
+                        <div class="port-example">Port 49152<br><strong>Email Client</strong></div>
+                        <div class="port-example">Port 60000<br><strong>Game Client</strong></div>
+                        <div class="port-example">Port 55555<br><strong>Chat App</strong></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wireshark-example">
+Example Connection:
+Client 192.168.1.100:54321 → Server 192.168.1.50:80
+(Your computer's random port → Web server's HTTP port)
+</div>
+        </div>
+        
+        <div class="content-grid">
+            <div class="content-box">
+                <h3>🐛 Common Transport Layer Issues</h3>
+                <ul>
+                    <li><strong>Port Conflicts:</strong> Multiple applications trying to use same port</li>
+                    <li><strong>Firewall Blocking:</strong> Ports blocked by security policies</li>
+                    <li><strong>Connection Timeouts:</strong> Network congestion or server overload</li>
+                    <li><strong>Packet Loss:</strong> Network issues causing retransmissions</li>
+                    <li><strong>Buffer Overflow:</strong> Receiving data faster than processing</li>
+                </ul>
+            </div>
+            
+            <div class="content-box">
+                <h3>🔧 Troubleshooting Tools</h3>
+                <ul>
+                    <li><strong>Netstat:</strong> Show active connections and listening ports</li>
+                    <li><strong>Wireshark:</strong> analyse packet flow and connection states</li>
+                    <li><strong>Telnet:</strong> Test if specific ports are accessible</li>
+                    <li><strong>TCPView:</strong> Real-time view of TCP and UDP activity</li>
+                    <li><strong>SS/Netstat:</strong> Socket statistics and connection info</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="example-box">
+            <h3>🎓 Teaching Analogy: Shipping and Postal Services</h3>
+            <p><strong>Think of the Transport Layer like different shipping services:</strong></p>
+            
+            <h4>🔒 TCP = Certified Mail with Tracking</h4>
+            <ul>
+                <li><strong>Reliable:</strong> Sender gets confirmation of delivery</li>
+                <li><strong>Ordered:</strong> Packages arrive in correct sequence</li>
+                <li><strong>Error Recovery:</strong> Lost packages are automatically resent</li>
+                <li><strong>Slower:</strong> Extra processing for reliability guarantees</li>
+            </ul>
+            
+            <h4>📡 UDP = Regular Mail</h4>
+            <ul>
+                <li><strong>Fast:</strong> Just drop it in the mailbox and go</li>
+                <li><strong>Best Effort:</strong> Usually gets there, but no guarantees</li>
+                <li><strong>No Tracking:</strong> You don't know if it arrived</li>
+                <li><strong>Efficient:</strong> Minimal overhead and processing</li>
+            </ul>
+            
+            <p><em>The Transport Layer chooses the right "shipping method" based on what the application needs!</em></p>
+        </div>
+        
+        <div class="content-box">
+            <h3>📚 Key Learning Points</h3>
+            <ul>
+                <li>Transport Layer provides <span class="highlight">end-to-end communication</span> between applications</li>
+                <li><span class="highlight">Port numbers</span> enable multiple applications to share the network</li>
+                <li><span class="highlight">TCP is reliable but slower</span> - use for important data</li>
+                <li><span class="highlight">UDP is fast but unreliable</span> - use for real-time applications</li>
+                <li>Transport Layer handles <span class="highlight">error recovery, flow control, and connection management</span></li>
+                <li>Understanding TCP's 3-way handshake is crucial for network troubleshooting</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="index.html" class="back-button">← Return to OSI Overview</a>
+        </div>
+    </div>
+
+    <script>
+        let demoRunning = false;
+        let currentPhase = 0;
+        let currentStepIndex = 0;
+        let currentProtocolSteps = [];
+        let manualMode = false;
+        
+        const protocols = {
+            tcp: {
+                name: "TCP (Transmission Control Protocol) - Reliable Connection",
+                description: "TCP provides reliable, connection-oriented communication with error recovery, flow control, and ordered delivery.",
+                phases: [
+                    {
+                        text: "Client application creates TCP connection to server port 80",
+                        wireshark: "TCP: Src Port: 12345 Dst Port: 80 [SYN] Seq=0 Len=0",
+                        explanation: "Application requests connection using SYN flag (like knocking on server's door)"
+                    },
+                    {
+                        text: "Server acknowledges and sends its own SYN",
+                        wireshark: "TCP: Src Port: 80 Dst Port: 12345 [SYN,ACK] Seq=0 Ack=1 Len=0",
+                        explanation: "Server responds 'I heard you, and I want to talk too' (SYN+ACK)"
+                    },
+                    {
+                        text: "Client sends ACK to complete 3-way handshake",
+                        wireshark: "TCP: Src Port: 12345 Dst Port: 80 [ACK] Seq=1 Ack=1 Len=0",
+                        explanation: "Client confirms 'Connection established!' - now data can flow"
+                    },
+                    {
+                        text: "Application data transmitted with sequence numbers",
+                        wireshark: "TCP: Src Port: 12345 Dst Port: 80 [PSH,ACK] Seq=1 Ack=1 Len=1460",
+                        explanation: "Data sent with sequence numbers for ordering and acknowledgment"
+                    }
+                ],
+                layer4_evidence: [
+                    "Uses port numbers to identify specific applications",
+                    "Maintains connection state and sequence numbers",
+                    "Provides reliable delivery with acknowledgments",
+                    "Implements flow control with window size",
+                    "Handles error recovery with retransmissions"
+                ]
+            },
+            udp: {
+                name: "UDP (User Datagram Protocol) - Fast Connectionless",
+                description: "UDP provides fast, connectionless communication with minimal overhead but no reliability guarantees.",
+                phases: [
+                    {
+                        text: "Application creates UDP datagram with destination port",
+                        wireshark: "UDP: Src Port: 12345 Dst Port: 53 Length: 32",
+                        explanation: "Application creates simple datagram - no connection setup needed"
+                    },
+                    {
+                        text: "UDP header added with port numbers and checksum",
+                        wireshark: "UDP Header: [Src Port: 12345] [Dst Port: 53] [Length: 32] [Checksum: 0x1234]",
+                        explanation: "Minimal 8-byte header with just ports, length, and optional checksum"
+                    },
+                    {
+                        text: "Datagram sent immediately without connection state",
+                        wireshark: "IP: 192.168.1.100 → 8.8.8.8 UDP Length=32",
+                        explanation: "Fire and forget - datagram sent with no acknowledgment expected"
+                    },
+                    {
+                        text: "Application may or may not receive response",
+                        wireshark: "UDP: Src Port: 53 Dst Port: 12345 Length: 48 (DNS Response)",
+                        explanation: "If server responds, client gets data, but UDP doesn't guarantee it"
+                    }
+                ],
+                layer4_evidence: [
+                    "Uses port numbers for application identification",
+                    "Connectionless - no state maintained between datagrams",
+                    "Minimal overhead with simple 8-byte header",
+                    "No reliability, ordering, or flow control mechanisms",
+                    "Best effort delivery - fast but not guaranteed"
+                ]
+            },
+            tcp3way: {
+                name: "TCP 3-Way Handshake - Connection Establishment",
+                description: "The TCP 3-way handshake establishes a reliable connection between client and server applications.",
+                phases: [
+                    {
+                        text: "Client sends SYN with initial sequence number",
+                        wireshark: "TCP: [SYN] Seq=1000 Win=64240 MSS=1460",
+                        explanation: "Client: 'I want to connect. My starting sequence number is 1000.'"
+                    },
+                    {
+                        text: "Server responds with SYN-ACK",
+                        wireshark: "TCP: [SYN,ACK] Seq=2000 Ack=1001 Win=65535 MSS=1460",
+                        explanation: "Server: 'I accept! My sequence is 2000, I got your 1000, expecting 1001 next.'"
+                    },
+                    {
+                        text: "Client sends final ACK to complete handshake",
+                        wireshark: "TCP: [ACK] Seq=1001 Ack=2001 Win=64240",
+                        explanation: "Client: 'Confirmed! I got your 2000, expecting 2001 next. Connection ready!'"
+                    },
+                    {
+                        text: "Connection established - applications can exchange data",
+                        wireshark: "TCP Connection State: ESTABLISHED (Both directions)",
+                        explanation: "Both client and server now have synchronized sequence numbers and can send data"
+                    }
+                ],
+                layer4_evidence: [
+                    "Establishes connection state before data transfer",
+                    "Synchronizes sequence numbers for data ordering",
+                    "Negotiates connection parameters (MSS, window size)",
+                    "Ensures both endpoints are ready for communication",
+                    "Required before any TCP data transfer can occur"
+                ]
+            },
+            tcpclose: {
+                name: "TCP Connection Termination - Graceful Shutdown",
+                description: "TCP uses a 4-way handshake to gracefully terminate connections and ensure all data is received.",
+                phases: [
+                    {
+                        text: "Client sends FIN to close its side of connection",
+                        wireshark: "TCP: [FIN,ACK] Seq=1500 Ack=2500",
+                        explanation: "Client: 'I'm done sending data' (half-close)"
+                    },
+                    {
+                        text: "Server acknowledges the FIN",
+                        wireshark: "TCP: [ACK] Seq=2500 Ack=1501",
+                        explanation: "Server: 'I got your close request' (can still send data to client)"
+                    },
+                    {
+                        text: "Server sends its own FIN when ready to close",
+                        wireshark: "TCP: [FIN,ACK] Seq=2500 Ack=1501",
+                        explanation: "Server: 'I'm also done sending data' (full close initiated)"
+                    },
+                    {
+                        text: "Client sends final ACK to complete termination",
+                        wireshark: "TCP: [ACK] Seq=1501 Ack=2501 (Connection closed)",
+                        explanation: "Client: 'Confirmed closure' - connection fully terminated"
+                    }
+                ],
+                layer4_evidence: [
+                    "Graceful connection termination with proper cleanup",
+                    "Ensures all data is delivered before closing",
+                    "Both endpoints confirm closure",
+                    "Prevents data loss during connection shutdown",
+                    "Maintains connection integrity until the end"
+                ]
+            },
+            tcpflow: {
+                name: "TCP Flow Control - Window Management",
+                description: "TCP uses sliding window flow control to prevent overwhelming the receiver and manage data transmission rate.",
+                phases: [
+                    {
+                        text: "Receiver advertises available buffer space (window size)",
+                        wireshark: "TCP: [ACK] Seq=2000 Ack=1000 Win=32768",
+                        explanation: "Receiver: 'I can accept 32KB more data' (window advertisement)"
+                    },
+                    {
+                        text: "Sender transmits data within the advertised window",
+                        wireshark: "TCP: [PSH,ACK] Seq=1000 Ack=2000 Len=1460 Win=64240",
+                        explanation: "Sender sends 1460 bytes, staying within the 32KB window limit"
+                    },
+                    {
+                        text: "Receiver processes data and updates window size",
+                        wireshark: "TCP: [ACK] Seq=2000 Ack=2460 Win=31308",
+                        explanation: "Receiver: 'Got 1460 bytes, now I can accept 31KB more' (window slides)"
+                    },
+                    {
+                        text: "Window shrinks to zero when receiver buffer is full",
+                        wireshark: "TCP: [ACK] Seq=2000 Ack=5000 Win=0",
+                        explanation: "Receiver: 'Buffer full! Stop sending until I process more data' (flow control)"
+                    }
+                ],
+                layer4_evidence: [
+                    "Prevents sender from overwhelming receiver's buffer",
+                    "Dynamically adjusts transmission rate based on receiver capacity",
+                    "Uses sliding window protocol for efficient data transfer",
+                    "Maintains reliable delivery even under congestion",
+                    "Essential for preventing packet loss due to buffer overflow"
+                ]
+            }
+        };
+        
+        function startDemo() {
+            if (demoRunning) return;
+            
+            const selectedProtocol = document.getElementById('protocolSelect').value;
+            currentProtocolSteps = protocols[selectedProtocol].phases;
+            currentStepIndex = 0;
+            currentPhase = 0;
+            demoRunning = true;
+            manualMode = false;
+            
+            document.getElementById('startDemo').disabled = true;
+            document.getElementById('manualDemo').disabled = true;
+            
+            runAutomaticDemo();
+        }
+        
+        function startManualDemo() {
+            if (demoRunning) return;
+            
+            const selectedProtocol = document.getElementById('protocolSelect').value;
+            currentProtocolSteps = protocols[selectedProtocol].phases;
+            currentStepIndex = 0;
+            currentPhase = 0;
+            demoRunning = true;
+            manualMode = true;
+            
+            document.getElementById('startDemo').disabled = true;
+            document.getElementById('manualDemo').disabled = true;
+            document.getElementById('nextStepBtn').disabled = false;
+            document.getElementById('prevStepBtn').disabled = true;
+            
+            updateDisplay();
+        }
+        
+        function runAutomaticDemo() {
+            if (currentStepIndex >= currentProtocolSteps.length) {
+                resetDemo();
+                return;
+            }
+            
+            updateDisplay();
+            animateSegment();
+            
+            setTimeout(() => {
+                currentStepIndex++;
+                currentPhase = (currentPhase + 1) % 3;
+                if (demoRunning) {
+                    runAutomaticDemo();
+                }
+            }, 3000);
+        }
+        
+        function nextStep() {
+            if (currentStepIndex >= currentProtocolSteps.length - 1) return;
+            
+            currentStepIndex++;
+            currentPhase = (currentPhase + 1) % 3;
+            updateDisplay();
+            animateSegment();
+            
+            document.getElementById('prevStepBtn').disabled = false;
+            if (currentStepIndex >= currentProtocolSteps.length - 1) {
+                document.getElementById('nextStepBtn').disabled = true;
+            }
+        }
+        
+        function prevStep() {
+            if (currentStepIndex <= 0) return;
+            
+            currentStepIndex--;
+            currentPhase = (currentPhase - 1 + 3) % 3;
+            updateDisplay();
+            
+            document.getElementById('nextStepBtn').disabled = false;
+            if (currentStepIndex <= 0) {
+                document.getElementById('prevStepBtn').disabled = true;
+            }
+        }
+        
+        function updateDisplay() {
+            if (currentStepIndex >= currentProtocolSteps.length) {
+                resetDemo();
+                return;
+            }
+            
+            const currentStep = currentProtocolSteps[currentStepIndex];
+            
+            // Update phase indicator
+            document.querySelectorAll('.phase').forEach((phase, index) => {
+                phase.classList.toggle('active', index === currentPhase);
+            });
+            
+            // Update status text
+            document.getElementById('statusText').textContent = currentStep.text;
+            document.getElementById('stepCounter').textContent = `Step ${currentStepIndex + 1} of ${currentProtocolSteps.length}`;
+            
+            // Update Wireshark example
+            const wiresharkDiv = document.getElementById('wiresharkExample');
+            const explanationDiv = document.getElementById('packetExplanation');
+            
+            wiresharkDiv.textContent = currentStep.wireshark;
+            wiresharkDiv.style.display = 'block';
+            
+            explanationDiv.textContent = currentStep.explanation;
+            explanationDiv.style.display = 'block';
+            
+            // Update overall status
+            const statusClass = ['connecting', 'transmitting', 'transmitting'][currentPhase];
+            const statusText = ['Connection Setup', 'Data Transfer', 'Acknowledgment'][currentPhase];
+            
+            document.getElementById('overallStatus').className = `status ${statusClass}`;
+            document.getElementById('overallStatus').textContent = statusText;
+            
+            // Update device status
+            document.getElementById('clientStatus').textContent = 
+                currentPhase === 0 ? 'Connecting...' : currentPhase === 1 ? 'Sending...' : 'Complete';
+            document.getElementById('serverStatus').textContent = 
+                currentPhase >= 2 ? 'Processing...' : 'Waiting';
+        }
+        
+        function animateSegment() {
+            const segment1 = document.getElementById('segment1');
+            const segment2 = document.getElementById('segment2');
+            
+            // Reset positions
+            segment1.classList.remove('moving');
+            segment2.classList.remove('moving');
+            
+            // Trigger animation
+            setTimeout(() => {
+                segment1.classList.add('moving');
+            }, 100);
+            
+            setTimeout(() => {
+                segment2.classList.add('moving');
+            }, 700);
+        }
+        
+        function resetDemo() {
+            demoRunning = false;
+            currentStepIndex = 0;
+            currentPhase = 0;
+            manualMode = false;
+            
+            document.getElementById('startDemo').disabled = false;
+            document.getElementById('manualDemo').disabled = false;
+            document.getElementById('nextStepBtn').disabled = true;
+            document.getElementById('prevStepBtn').disabled = true;
+            
+            // Reset display
+            document.querySelectorAll('.phase').forEach(phase => {
+                phase.classList.remove('active');
+            });
+            
+            document.getElementById('statusText').textContent = 'Select a protocol and mode to begin';
+            document.getElementById('stepCounter').textContent = 'Step 0 of 0';
+            document.getElementById('wiresharkExample').style.display = 'none';
+            document.getElementById('packetExplanation').style.display = 'none';
+            
+            document.getElementById('overallStatus').className = 'status idle';
+            document.getElementById('overallStatus').textContent = 'Connection Idle';
+            
+            document.getElementById('clientStatus').textContent = 'Ready';
+            document.getElementById('serverStatus').textContent = 'Listening';
+            
+            // Reset segment animations
+            const segment1 = document.getElementById('segment1');
+            const segment2 = document.getElementById('segment2');
+            segment1.classList.remove('moving');
+            segment2.classList.remove('moving');
+        }
+        
+        function showDetails() {
+            const selectedProtocol = document.getElementById('protocolSelect').value;
+            const protocol = protocols[selectedProtocol];
+            
+            document.getElementById('protocolDescription').innerHTML = `
+                <h4>${protocol.name}</h4>
+                <p>${protocol.description}</p>
+            `;
+            
+            const evidenceHtml = protocol.layer4_evidence
+                .map(evidence => `<li>${evidence}</li>`)
+                .join('');
+            
+            document.getElementById('layer4Evidence').innerHTML = `
+                <h4>Why This is Layer 4 (Transport Layer):</h4>
+                <ul>${evidenceHtml}</ul>
+            `;
+        }
+        
+        // Initialize
+        showDetails();
+        
+        // Dark Mode Functions
+        function toggleDarkMode(){document.body.classList.toggle('dark-mode');const isDark=document.body.classList.contains('dark-mode');localStorage.setItem('darkMode',isDark);updateDarkModeButton(isDark);}
+        function updateDarkModeButton(isDark){const icon=document.getElementById('darkModeIcon');const text=document.getElementById('darkModeText');if(isDark){icon.textContent='☀️';text.textContent='Light Mode';}else{icon.textContent='🌙';text.textContent='Dark Mode';}}
+        window.addEventListener('DOMContentLoaded',function(){const savedDarkMode=localStorage.getItem('darkMode')==='true';if(savedDarkMode){document.body.classList.add('dark-mode');updateDarkModeButton(true);}});
+    </script>
+    
+    <footer style="background: rgba(0, 0, 0, 0.3); padding: 20px; margin-top: 40px; border-top: 2px solid rgba(255, 255, 255, 0.1); text-align: center; border-radius: 10px;">
+        <p style="margin: 0; font-size: 0.9em; line-height: 1.6;">
+            Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com" style="color: #3498db; text-decoration: none;">alex@slash-root.com</a> should you spot any errors or wish to query anything.
+        </p>
+    </footer>
+</body>
+</html>

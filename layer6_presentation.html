@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSI Layer 6: Presentation Layer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .layer-header {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .content-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #e67e22;
+        }
+        
+        .protocols-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .protocol-card {
+            background: rgba(230, 126, 34, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .wireshark-example {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            font-size: 0.9em;
+        }
+        
+        /* Analysis cards for cleaner, scannable layout */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin: 14px 0 6px;
+        }
+        .analysis-card {
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 10px;
+            padding: 14px 16px;
+        }
+        .analysis-card h5 {
+            margin: 0 0 8px 0;
+            font-size: 1.05em;
+            color: #f1c40f;
+        }
+        .analysis-list {
+            margin: 0;
+            padding-left: 18px;
+            line-height: 1.5;
+        }
+        .analysis-list li { margin: 4px 0; }
+        .key-insight {
+            background: rgba(46, 204, 113, 0.25);
+            border-left: 4px solid #2ecc71;
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .example-box {
+            background: rgba(41, 128, 185, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        .back-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .highlight {
+            color: #f1c40f;
+            font-weight: bold;
+        }
+        
+        .demo-section {
+            background: rgba(142, 68, 173, 0.3);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .encoding-demo {
+            background: rgba(46, 204, 113, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .transformation-example {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        
+        .format-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .format-example {
+            background: rgba(230, 126, 34, 0.4);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .encryption-demo {
+            background: rgba(231, 76, 60, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .compression-demo {
+            background: rgba(155, 89, 182, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #9b59b6;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        th, td {
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: left;
+        }
+        
+        th {
+            background: rgba(230, 126, 34, 0.6);
+            font-weight: bold;
+        }
+        
+        /* Interactive Demo Styles */
+        .layer6-explanation {
+            background: rgba(230, 126, 34, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .demo-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+            min-height: 500px;
+        }
+        
+        .sender-app, .receiver-app {
+            width: 200px;
+            min-height: 150px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            text-align: center;
+        }
+        
+        .sender-app {
+            background: rgba(52, 152, 219, 0.3);
+        }
+        
+        .receiver-app {
+            background: rgba(46, 204, 113, 0.3);
+        }
+        
+        .device-icon {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        
+        .sender-app h3, .receiver-app h3 {
+            font-size: 0.95em;
+            margin: 5px 0;
+            font-weight: 600;
+        }
+        
+        #senderFormat, #receiverFormat, #senderStatus, #receiverStatus {
+            font-size: 0.85em;
+            line-height: 1.4;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+        
+        .presentation-area {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .data-flow {
+            width: 300px;
+            height: 4px;
+            background: #ecf0f1;
+            border-radius: 2px;
+            position: relative;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .data-transformation {
+            width: 80px;
+            height: 40px;
+            background: #e67e22;
+            border-radius: 3px;
+            position: absolute;
+            top: -18px;
+            left: -80px;
+            transition: all 2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6em;
+            color: white;
+        }
+        
+        .data-transformation.moving {
+            left: 300px;
+        }
+        
+        .presentation-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            min-height: 200px;
+            width: 100%;
+            max-width: 700px;
+            text-align: left;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .phase-indicator {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .phase {
+            width: 120px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 0 5px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .phase.active {
+            background: rgba(46, 204, 113, 0.5);
+            transform: scale(1.1);
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .step-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .protocol-selector {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        select {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            backdrop-filter: blur(5px);
+        }
+        
+        select option {
+            background: #d35400;
+            color: white;
+        }
+        
+        .status {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .status.encoding {
+            background: rgba(241, 196, 15, 0.3);
+        }
+        
+        .status.processing {
+            background: rgba(46, 204, 113, 0.3);
+        }
+        
+        .status.idle {
+            background: rgba(149, 165, 166, 0.3);
+        }
+        
+        .wireshark-packet {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.15em;
+            color: #00ff00;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.6;
+            min-height: 120px;
+            max-height: 400px;
+            overflow-x: auto;
+            overflow-y: auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+            overflow-y: auto;
+        }
+        
+        .packet-explanation {
+            background: rgba(41, 128, 185, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            font-size: 0.9em;
+            border-left: 4px solid #3498db;
+        }
+        
+        .step-counter {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 15px;
+            border-radius: 15px;
+            margin: 10px 0;
+            font-weight: bold;
+            font-size: 0.95em;
+            display: inline-block;
+        }
+        
+        .presentation-characteristics {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        
+        .characteristic {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            margin: 5px;
+            border-radius: 10px;
+            width: calc(50% - 30px);
+            box-sizing: border-box;
+        }
+        
+        .protocol-info {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 10px 20px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            color: white;
+        }
+        
+        .dark-mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+        
+        body.dark-mode .container {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        
+        body.dark-mode .layer6-explanation,
+        body.dark-mode .content-box,
+        body.dark-mode .protocol-info {
+            background: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+        <span id="darkModeIcon">🌙</span>
+        <span id="darkModeText">Dark Mode</span>
+    </button>
+    
+    <div class="container">
+        <a href="index.html" class="back-button">← Back to OSI Overview</a>
+        
+        <h1>🎭 Layer 6: Presentation Layer</h1>
+        
+        <div class="layer-header">
+            <h2>Data Translation, Encryption & Compression</h2>
+            <p>The Presentation Layer handles data format translation, encryption/decryption, and compression/decompression. It ensures that data from the application layer is properly formatted for transmission and reception across different systems.</p>
+        </div>
+        
+        <!-- Interactive Demo Section -->
+        <div class="layer6-explanation">
+            <h2>Layer 6 (Presentation) Technologies</h2>
+            <p>
+                The <span class="highlight">Presentation Layer</span> is responsible for data format translation, encryption/decryption, 
+                and compression/decompression. It ensures data is in the correct format for the receiving application and 
+                provides <span class="highlight">syntax and semantics transformation, data security, and bandwidth optimization</span>.
+            </p>
+            
+            <div class="presentation-characteristics">
+                <div class="characteristic">
+                    <strong>Data Translation</strong> - Converting between different character encodings, data formats, and representations
+                </div>
+                <div class="characteristic">
+                    <strong>Encryption/Decryption</strong> - Protecting data confidentiality during transmission with cryptographic algorithms
+                </div>
+                <div class="characteristic">
+                    <strong>Compression/Decompression</strong> - Reducing data size for efficient transmission and storage
+                </div>
+                <div class="characteristic">
+                    <strong>Syntax Transformation</strong> - Converting data structures and formats between applications
+                </div>
+            </div>
+            
+            <p>
+                <strong>The Critical Role:</strong> While lower layers handle reliable delivery, Layer 6 ensures 
+                <span class="highlight">data format compatibility and security</span> between different applications and systems.
+            </p>
+        </div>
+        
+        <div class="protocol-selector">
+            <label for="protocolSelect">Choose Presentation Technology: </label>
+            <select id="protocolSelect">
+                <option value="tls">TLS Encryption Handshake</option>
+                <option value="compression">Data Compression (GZIP)</option>
+                <option value="encoding">Character Encoding (UTF-8)</option>
+                <option value="jpeg">JPEG Image Compression</option>
+                <option value="ssl">SSL Certificate Validation</option>
+            </select>
+        </div>
+        
+        <div class="demo-area">
+            <div class="sender-app">
+                <div class="device-icon">🖥️</div>
+                <h3>Sender</h3>
+                <div id="senderFormat">Plain Data</div>
+                <div id="senderStatus">Ready</div>
+            </div>
+            
+            <div class="presentation-area">
+                <div class="phase-indicator">
+                    <div class="phase" id="phase1">Transform</div>
+                    <div class="phase" id="phase2">Process</div>
+                    <div class="phase" id="phase3">Deliver</div>
+                </div>
+                
+                <div class="data-flow">
+                    <div class="data-transformation" id="transform1">DATA</div>
+                    <div class="data-transformation" id="transform2">DATA</div>
+                </div>
+                
+                <div class="presentation-info" id="presentationInfo">
+                    <strong>Presentation Status:</strong>
+                    <div id="statusText">Select a technology and mode to begin</div>
+                    <div id="stepCounter" class="step-counter">Step 0 of 0</div>
+                    <div id="wiresharkExample" class="wireshark-packet" style="display:none;"></div>
+                    <div id="packetExplanation" class="packet-explanation" style="display:none;"></div>
+                </div>
+                
+                <div class="status idle" id="overallStatus">Processing Idle</div>
+            </div>
+            
+            <div class="receiver-app">
+                <div class="device-icon">📺</div>
+                <h3>Receiver</h3>
+                <div id="receiverFormat">Expected Format</div>
+                <div id="receiverStatus">Waiting</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="startDemo" onclick="startDemo()">🚀 Auto Demo</button>
+            <button class="btn" id="manualDemo" onclick="startManualDemo()">👋 Manual Demo</button>
+            <button class="btn" onclick="resetDemo()">🔄 Reset</button>
+            
+            <div class="step-controls">
+                <button class="btn" id="prevStepBtn" onclick="prevStep()" disabled>← Previous Step</button>
+                <button class="btn" id="nextStepBtn" onclick="nextStep()" disabled>Next Step →</button>
+            </div>
+        </div>
+        
+        <!-- End Interactive Demo Section -->
+        
+        <div class="content-grid">
+            <div class="content-box">
+                <h3>🎯 Primary Functions</h3>
+                <ul>
+                    <li><strong>Data Translation:</strong> Converting between different data formats</li>
+                    <li><strong>Encryption/Decryption:</strong> Securing data for transmission</li>
+                    <li><strong>Compression:</strong> Reducing data size for efficient transmission</li>
+                    <li><strong>Character Encoding:</strong> Converting text between character sets</li>
+                    <li><strong>Format Conversion:</strong> Translating between different file formats</li>
+                </ul>
+            </div>
+            
+            <div class="content-box">
+                <h3>🔧 Key Characteristics</h3>
+                <ul>
+                    <li><span class="highlight">Syntax Translation:</span> Converting data structures and formats</li>
+                    <li><span class="highlight">Cryptography:</span> Encryption algorithms and key management</li>
+                    <li><span class="highlight">Data Compression:</span> Algorithms to reduce data size</li>
+                    <li><span class="highlight">Character Sets:</span> ASCII, Unicode, EBCDIC conversion</li>
+                    <li><span class="highlight">Media Formats:</span> Image, audio, video encoding/decoding</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="content-box">
+            <h3>🌐 Presentation Layer Technologies</h3>
+            <div class="protocols-list">
+                <div class="protocol-card">
+                    <h4>🔒 TLS/SSL (Transport Layer Security)</h4>
+                    <p><strong>Encryption & Authentication</strong></p>
+                    <div class="wireshark-example">Transport Layer Security
+    TLS Record Layer: Handshake Protocol
+    Content Type: Handshake (22)
+    Version: TLS 1.3 (0x0304)
+    Cipher Suite: TLS_AES_256_GCM_SHA384</div>
+                    <p><strong>What you see in Wireshark:</strong> TLS handshake, certificate exchange, encrypted application data</p>
+                    <small><em>Secures HTTPS, email, and many other protocols</em></small>
+                </div>
+                
+                <div class="protocol-card">
+                    <h4>📸 JPEG (Image Compression)</h4>
+                    <p><strong>Lossy Image Compression</strong></p>
+                    <div class="wireshark-example">JPEG File Interchange Format
+    SOI Marker: 0xFFD8
+    APP0 Segment: JFIF identifier
+    Quantization Tables: Quality factor 85%
+    Huffman Tables: Compression data</div>
+                    <p><strong>What you see in Wireshark:</strong> JPEG headers when images are transferred over HTTP</p>
+                    <small><em>Compresses images for web and email transmission</em></small>
+                </div>
+                
+                <div class="protocol-card">
+                    <h4>🎵 MP3 (Audio Compression)</h4>
+                    <p><strong>Lossy Audio Compression</strong></p>
+                    <div class="wireshark-example">MPEG Audio Layer 3
+    Sync Word: 0xFFF
+    Version: MPEG-1, Layer III
+    Bitrate: 128 kbps, Sample Rate: 44.1 kHz
+    Channel Mode: Stereo</div>
+                    <p><strong>What you see in Wireshark:</strong> MP3 headers in streaming audio protocols</p>
+                    <small><em>Reduces audio file sizes for streaming and storage</em></small>
+                </div>
+                
+                <div class="protocol-card">
+                    <h4>🗜️ GZIP Compression</h4>
+                    <p><strong>Lossless Data Compression</strong></p>
+                    <div class="wireshark-example">HTTP Content-Encoding: gzip
+    GZIP Header: Magic Number 0x1F8B
+    Compression Method: DEFLATE
+    Original Size: 15,420 bytes
+    Compressed Size: 3,847 bytes</div>
+                    <p><strong>What you see in Wireshark:</strong> Compressed HTTP responses, reduced bandwidth usage</p>
+                    <small><em>Compresses web content for faster loading</em></small>
+                </div>
+                
+                <div class="protocol-card">
+                    <h4>🔤 UTF-8 Encoding</h4>
+                    <p><strong>Unicode Character Encoding</strong></p>
+                    <div class="wireshark-example">HTTP Content-Type: text/html; charset=UTF-8
+    Character: "Hello 世界" (Hello World in Chinese)
+    UTF-8 Bytes: 48 65 6C 6C 6F 20 E4 B8 96 E7 95 8C
+    ASCII: H e l l o [space] [Chinese characters]</div>
+                    <p><strong>What you see in Wireshark:</strong> Text data in various languages encoded as UTF-8</p>
+                    <small><em>Enables global communication with multiple languages</em></small>
+                </div>
+                
+                <div class="protocol-card">
+                    <h4>📄 ASN.1 (Abstract Syntax Notation)</h4>
+                    <p><strong>Data Structure Definition</strong></p>
+                    <div class="wireshark-example">Abstract Syntax Notation One
+    Certificate (SEQUENCE)
+        Version: v3 (INTEGER: 2)
+        Serial Number: 0x1234567890ABCDEF
+        Signature Algorithm: sha256WithRSAEncryption</div>
+                    <p><strong>What you see in Wireshark:</strong> ASN.1 structures in SSL certificates, SNMP, LDAP</p>
+                    <small><em>Defines data structures independent of machine representation</em></small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>🔄 Data Format Transformation Demo</h3>
+            <p>See how the Presentation Layer transforms data between different formats:</p>
+            
+            <div class="format-comparison">
+                <div class="format-example">
+                    <h4>Original Text</h4>
+                    <div class="transformation-example">"Hello World!"</div>
+                </div>
+                
+                <div class="format-example">
+                    <h4>ASCII Encoding</h4>
+                    <div class="transformation-example">72 101 108 108 111 32 87 111 114 108 100 33</div>
+                </div>
+                
+                <div class="format-example">
+                    <h4>Base64 Encoding</h4>
+                    <div class="transformation-example">SGVsbG8gV29ybGQh</div>
+                </div>
+                
+                <div class="format-example">
+                    <h4>URL Encoding</h4>
+                    <div class="transformation-example">Hello%20World%21</div>
+                </div>
+            </div>
+            
+            <div class="wireshark-example">
+Wireshark showing format transformations:
+HTTP: Content-Type: text/plain; charset=UTF-8
+HTTP: Content-Encoding: gzip
+HTTP: Transfer-Encoding: base64
+
+The same "Hello World!" appears as different byte sequences
+depending on the encoding used at the Presentation Layer!
+</div>
+        </div>
+        
+        <div class="encryption-demo">
+            <h3>🔐 Encryption in Action</h3>
+            <p><strong>How TLS/SSL encrypts your data:</strong></p>
+            
+            <h4>Before Encryption (Plaintext):</h4>
+            <div class="transformation-example">
+GET /login HTTP/1.1
+Host: banking.com
+Username: john_doe
+Password: secret123
+            </div>
+            
+            <h4>After TLS Encryption (Ciphertext):</h4>
+            <div class="transformation-example">
+16 03 03 00 4A B2 C7 E3 F1 9A 4D 8E 2B 55 C9 1F
+7E A3 B8 4C D2 6F 91 3A E7 5C 28 B9 F0 45 62 D1
+3F 8A C4 E6 71 2E B3 58 97 1D 6B A2 CF 84 39 E5
+            </div>
+            
+            <div class="wireshark-example">
+Wireshark TLS Analysis:
+Transport Layer Security
+    TLS Record Layer: Application Data
+    Content Type: Application Data (23)
+    Version: TLS 1.2 (0x0303)
+    Length: 74
+    Encrypted Application Data: [encrypted login credentials]
+    
+Note: The actual login data is completely hidden from network sniffers!
+</div>
+        </div>
+        
+        <div class="compression-demo">
+            <h3>🗜️ Compression Efficiency</h3>
+            <p><strong>How compression reduces data size:</strong></p>
+            
+            <table>
+                <tr>
+                    <th>Content Type</th>
+                    <th>Original Size</th>
+                    <th>Compressed Size</th>
+                    <th>Compression Ratio</th>
+                    <th>Algorithm</th>
+                </tr>
+                <tr>
+                    <td>HTML Page</td>
+                    <td>45 KB</td>
+                    <td>12 KB</td>
+                    <td>73% reduction</td>
+                    <td>GZIP</td>
+                </tr>
+                <tr>
+                    <td>High-res Photo</td>
+                    <td>15 MB</td>
+                    <td>2.1 MB</td>
+                    <td>86% reduction</td>
+                    <td>JPEG</td>
+                </tr>
+                <tr>
+                    <td>Audio File</td>
+                    <td>50 MB</td>
+                    <td>4.5 MB</td>
+                    <td>91% reduction</td>
+                    <td>MP3</td>
+                </tr>
+                <tr>
+                    <td>Video Clip</td>
+                    <td>1 GB</td>
+                    <td>85 MB</td>
+                    <td>92% reduction</td>
+                    <td>H.264</td>
+                </tr>
+            </table>
+            
+            <div class="wireshark-example">
+Wireshark HTTP Compression Example:
+HTTP Response:
+    Content-Type: text/html
+    Content-Encoding: gzip
+    Content-Length: 12,450 (compressed)
+    X-Original-Size: 45,230 (original)
+    Compression-Ratio: 72.5%
+
+Without compression: 45,230 bytes transferred
+With compression: 12,450 bytes transferred
+Bandwidth saved: 32,780 bytes (72.5%)
+</div>
+        </div>
+        
+        <div class="encoding-demo">
+            <h3>🌍 Character Encoding Examples</h3>
+            <p><strong>How different character sets represent the same text:</strong></p>
+            
+            <table>
+                <tr>
+                    <th>Text</th>
+                    <th>Language</th>
+                    <th>UTF-8 Bytes</th>
+                    <th>Character Count</th>
+                </tr>
+                <tr>
+                    <td>Hello</td>
+                    <td>English</td>
+                    <td>48 65 6C 6C 6F</td>
+                    <td>5 bytes</td>
+                </tr>
+                <tr>
+                    <td>こんにちは</td>
+                    <td>Japanese</td>
+                    <td>E3 81 93 E3 82 93 E3 81 AB E3 81 A1 E3 81 AF</td>
+                    <td>15 bytes</td>
+                </tr>
+                <tr>
+                    <td>مرحبا</td>
+                    <td>Arabic</td>
+                    <td>D9 85 D8 B1 D8 AD D8 A8 D8 A7</td>
+                    <td>10 bytes</td>
+                </tr>
+                <tr>
+                    <td>Привет</td>
+                    <td>Russian</td>
+                    <td>D0 9F D1 80 D0 B8 D0 B2 D0 B5 D1 82</td>
+                    <td>12 bytes</td>
+                </tr>
+            </table>
+            
+            <div class="wireshark-example">
+Wireshark Character Encoding Analysis:
+HTTP: Content-Type: text/html; charset=UTF-8
+Data shows mixed languages in single webpage:
+    English: "Welcome" (7 bytes)
+    Chinese: "欢迎" (6 bytes for 2 characters)
+    Russian: "Добро пожаловать" (32 bytes for 16 characters)
+
+All properly decoded by browser's Presentation Layer!
+</div>
+        </div>
+        
+        <div class="example-box">
+            <h3>🔍 Real-World Example: Secure Online Banking</h3>
+            <p><strong>Scenario:</strong> You log into your online banking account</p>
+            
+            <h4>What happens at the Presentation Layer:</h4>
+            <ol>
+                <li><strong>TLS Handshake:</strong> Browser and bank negotiate encryption algorithms</li>
+                <li><strong>Certificate Verification:</strong> Bank's identity verified using ASN.1 certificates</li>
+                <li><strong>Data Encryption:</strong> Login credentials encrypted with AES-256</li>
+                <li><strong>Character Encoding:</strong> Form data encoded as UTF-8</li>
+                <li><strong>Compression:</strong> Web page content compressed with GZIP</li>
+                <li><strong>Format Translation:</strong> JSON data converted to HTML display</li>
+                <li><strong>Media Processing:</strong> Bank logo JPEG decompressed for display</li>
+            </ol>
+            
+            <div class="analysis-grid">
+                <div class="analysis-card">
+                    <h5>🔒 1) TLS handshake</h5>
+                    <ul class="analysis-list">
+                        <li><strong>Client Hello:</strong> TLS 1.3; cipher suites: TLS_AES_256_GCM_SHA384; random [32B]</li>
+                        <li><strong>Server Hello:</strong> selected TLS_AES_256_GCM_SHA384; cert chain RSA 2048‑bit; random [32B]</li>
+                        <li><strong>Key exchange:</strong> session keys generated; secure channel established ✓</li>
+                    </ul>
+                </div>
+                <div class="analysis-card">
+                    <h5>📜 2) Application data</h5>
+                    <ul class="analysis-list">
+                        <li><strong>Content type:</strong> Application Data (23)</li>
+                        <li><strong>Encryption:</strong> AES‑256‑GCM (symmetric)</li>
+                        <li><strong>Form data:</strong> [ENCRYPTED] — username/password hidden</li>
+                        <li><strong>Result:</strong> no plaintext credentials in capture</li>
+                    </ul>
+                </div>
+                <div class="analysis-card">
+                    <h5>🗜️ 3) HTTP content‑encoding</h5>
+                    <ul class="analysis-list">
+                        <li><strong>Header:</strong> Content‑Encoding: gzip</li>
+                        <li><strong>Original:</strong> 45,230 bytes → <strong>Compressed:</strong> 12,450 bytes</li>
+                        <li><strong>Saving:</strong> 72.5% (−32,780 bytes) 🚀</li>
+                    </ul>
+                </div>
+                <div class="analysis-card">
+                    <h5>🌍 4) Character encoding</h5>
+                    <ul class="analysis-list">
+                        <li><strong>Content‑Type:</strong> application/json; charset=UTF‑8</li>
+                        <li>English: “Hello” (5B); Chinese: “你好” (6B/2 chars); Arabic: “مرحبا” (10B/5 chars)</li>
+                        <li>All languages correctly decoded ✓</li>
+                    </ul>
+                </div>
+                <div class="analysis-card">
+                    <h5>🖼️ 5) Image data (JPEG)</h5>
+                    <ul class="analysis-list">
+                        <li><strong>Format:</strong> image/jpeg; quality ~85%</li>
+                        <li><strong>RAW:</strong> 24.0 MB → <strong>JPEG:</strong> 2.1 MB</li>
+                        <li><strong>Reduction:</strong> ≈91.25% smaller 📊</li>
+                    </ul>
+                </div>
+                <div class="analysis-card">
+                    <h5>🔐 6) Security analysis</h5>
+                    <ul class="analysis-list">
+                        <li>TLS application data: [ENCRYPTED BLOB]</li>
+                        <li>Credentials: [NOT VISIBLE]; cookies: [PROTECTED]; personal data: [SECURED]</li>
+                        <li><strong>Verdict:</strong> all sensitive data protected 🛑</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="key-insight">
+                <strong>Key insight:</strong> The Presentation Layer transforms how data appears on the wire — encrypting, compressing and encoding it for secure, efficient transfer.
+            </div>
+            <p><em>The Presentation Layer ensures your sensitive data is encrypted, compressed efficiently, and displayed correctly.</em></p>
+        </div>
+        
+        <div class="content-grid">
+            <div class="content-box">
+                <h3>🐛 Common Presentation Layer Problems</h3>
+                <ul>
+                    <li><strong>Character Encoding Issues:</strong> Text appearing as garbage due to wrong encoding</li>
+                    <li><strong>Certificate Problems:</strong> SSL/TLS errors due to invalid certificates</li>
+                    <li><strong>Compression Errors:</strong> Corrupted data from failed compression/decompression</li>
+                    <li><strong>Format Incompatibility:</strong> Applications unable to read certain file formats</li>
+                    <li><strong>Encryption Failures:</strong> Weak ciphers or key exchange problems</li>
+                    <li><strong>Media Codec Issues:</strong> Unable to play audio/video due to missing codecs</li>
+                </ul>
+            </div>
+            
+            <div class="content-box">
+                <h3>🔧 Troubleshooting Tools</h3>
+                <ul>
+                    <li><strong>OpenSSL:</strong> Test and analyse SSL/TLS connections</li>
+                    <li><strong>Character Encoding Detectors:</strong> Identify text encoding issues</li>
+                    <li><strong>Compression Tools:</strong> Test compression/decompression manually</li>
+                    <li><strong>Certificate Analyzers:</strong> Validate SSL certificate chains</li>
+                    <li><strong>Format Converters:</strong> Transform between different data formats</li>
+                    <li><strong>Wireshark:</strong> analyse encrypted vs plaintext data flows</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="example-box">
+            <h3>🎓 Teaching Analogy: Translation and Packaging Service</h3>
+            <p><strong>Think of the Presentation Layer like a professional translation and packaging service:</strong></p>
+            <ul>
+                <li><strong>Translator (Character Encoding):</strong> Converts documents between languages and writing systems</li>
+                <li><strong>Encryption Service (TLS/SSL):</strong> Puts sensitive documents in locked, tamper-proof containers</li>
+                <li><strong>Compression Service (GZIP/JPEG):</strong> Packages items efficiently to save shipping space</li>
+                <li><strong>Format Converter (Media Codecs):</strong> Converts documents between different formats (Word to PDF)</li>
+                <li><strong>Quality Control (ASN.1/Standards):</strong> Ensures everything follows proper formatting rules</li>
+                <li><strong>Package Labeling (Content-Type headers):</strong> Labels what's inside each container</li>
+            </ul>
+            <p><em>Just like a translation service makes information accessible across different languages and formats, the Presentation Layer makes data understandable across different systems!</em></p>
+        </div>
+        
+        <div class="content-box">
+            <h3>📚 Key Learning Points</h3>
+            <ul>
+                <li>Presentation Layer acts as <span class="highlight">data translator</span> between application and network formats</li>
+                <li><span class="highlight">Encryption/Decryption</span> protects sensitive data during transmission</li>
+                <li><span class="highlight">Compression</span> reduces bandwidth usage and improves performance</li>
+                <li><span class="highlight">Character encoding</span> enables global communication across different languages</li>
+                <li><span class="highlight">Format conversion</span> ensures compatibility between different systems</li>
+                <li>Layer 6 is often <span class="highlight">invisible to users</span> but critical for proper data handling</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="index.html" class="back-button">← Return to OSI Overview</a>
+        </div>
+    </div>
+    
+    <script>
+        // Presentation Layer Interactive Demo
+        let demoRunning = false;
+        let manualMode = false;
+        let currentStepIndex = 0;
+        let currentProtocolSteps = [];
+        
+        const demo = {
+            currentStep: 0,
+            currentDemo: 'tls',
+            isPlaying: false,
+            playInterval: null,
+            
+            demos: {
+                tls: {
+                    name: 'TLS Handshake & Encryption',
+                    steps: [
+                        {
+                            title: 'Client Hello',
+                            senderData: 'HTTPS Request + Supported Ciphers + Client Random',
+                            receiverData: 'Processing... Analyzing capabilities',
+                            phase: 'TLS Handshake Initiation',
+                            explanation: 'Client initiates secure connection by sending supported encryption methods and random number.',
+                            wireshark: `Client Hello Message:
+  Version: TLS 1.2 (0x0303)
+  Random: a1b2c3d4e5f6... (32 bytes)
+  Cipher Suites:
+    - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+    - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+  Extensions:
+    - server_name: banking.example.com
+    - supported_groups: secp256r1, secp384r1`,
+                            protocol: 'TLS 1.2 - Handshake Phase'
+                        },
+                        {
+                            title: 'Server Hello + Certificate',
+                            senderData: 'Validating server certificate',
+                            receiverData: 'Server Hello + Certificate Chain + Server Random',
+                            phase: 'Certificate Verification',
+                            explanation: 'Server responds with chosen cipher suite, certificate chain, and server random number.',
+                            wireshark: `Server Hello:
+  Version: TLS 1.2
+  Random: f6e5d4c3b2a1... (32 bytes)
+  Cipher Suite: TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+
+Server Certificate:
+  Subject: CN=banking.example.com, O=Bank Corp
+  Issuer: CN=Trusted CA
+  Validity: 2023-01-01 to 2025-01-01
+  Public Key: RSA 2048 bits`,
+                            protocol: 'X.509 Certificate + TLS'
+                        },
+                        {
+                            title: 'Key Exchange',
+                            senderData: 'Client Key Exchange (RSA Encrypted)',
+                            receiverData: 'Master Secret Generated, Session Keys Derived',
+                            phase: 'Cryptographic Key Establishment',
+                            explanation: 'Client and server establish shared encryption keys using key exchange algorithm.',
+                            wireshark: `Client Key Exchange:
+  ECDH Public Key Length: 65 bytes
+  Public Key: 04a1b2c3d4e5...
+
+Change Cipher Spec: Enabled
+
+Both sides derive:
+  Master Secret: 48 bytes
+  Client Write Key: 32 bytes (AES-256)
+  Server Write Key: 32 bytes (AES-256)`,
+                            protocol: 'ECDHE Key Exchange'
+                        },
+                        {
+                            title: 'Application Data (Encrypted)',
+                            senderData: 'GET /account HTTP/1.1 [ENCRYPTED]',
+                            receiverData: 'HTTP/1.1 200 OK - Account Balance [ENCRYPTED]',
+                            phase: 'Secure Data Transmission',
+                            explanation: 'All application data is now encrypted with established session keys. Banking data is secure!',
+                            wireshark: `Encrypted Request:
+  Content Type: Application Data (23)
+  Length: 512 bytes
+  Data: a7f3e9d2c8b4... [ENCRYPTED]
+
+Encrypted Response:
+  Length: 2048 bytes
+  Data: 9c6f2e8a1d5b... [ENCRYPTED]
+
+Decrypted Content:
+  GET /account/balance HTTP/1.1
+  Authorization: Bearer eyJhbGc...
+  
+  HTTP/1.1 200 OK
+  {"balance": 1234.56, "currency": "USD"}`,
+                            protocol: 'HTTPS - Encrypted Application Data'
+                        }
+                    ]
+                },
+                compression: {
+                    name: 'Data Compression (GZIP)',
+                    steps: [
+                        {
+                            title: 'Original Data',
+                            senderData: 'HTML Document - Size: 50KB',
+                            receiverData: 'Waiting for data...',
+                            phase: 'Uncompressed Content Ready',
+                            explanation: 'Web server prepares to send large HTML document with repetitive content.',
+                            wireshark: `HTTP Request:
+  GET /homepage.html HTTP/1.1
+  Host: example.com
+  Accept-Encoding: gzip, deflate, br
+  User-Agent: Mozilla/5.0...
+
+Client supports compression formats`,
+                            protocol: 'HTTP Request with Compression Support'
+                        },
+                        {
+                            title: 'GZIP Compression',
+                            senderData: 'Compressing with GZIP - Finding repeated patterns',
+                            receiverData: 'Prepared to decompress',
+                            phase: 'GZIP Compression Processing',
+                            explanation: 'Server compresses HTML using GZIP algorithm, finding repeated strings and replacing with references.',
+                            wireshark: `HTTP Response Headers:
+  HTTP/1.1 200 OK
+  Content-Type: text/html; charset=UTF-8
+  Content-Encoding: gzip
+  Content-Length: 12,847 (compressed)
+  Original-Size: 51,234 (74% reduction)
+
+Repeated patterns replaced with references`,
+                            protocol: 'GZIP Compression (RFC 1952)'
+                        },
+                        {
+                            title: 'Compressed Transmission',
+                            senderData: 'GZIP Data Stream - 12.8KB (74% smaller!)',
+                            receiverData: 'Receiving compressed data',
+                            phase: 'Efficient Network Transmission',
+                            explanation: 'Compressed data transmitted over network, using 74% less bandwidth!',
+                            wireshark: `HTTP Response:
+  Content-Encoding: gzip
+  Content-Length: 12,847 bytes
+
+GZIP payload:
+  1f 8b 08 00 00 00 00 00...
+  (compressed HTML content)
+
+51KB original → 13KB transmitted`,
+                            protocol: 'GZIP over HTTP'
+                        },
+                        {
+                            title: 'Decompression & Display',
+                            senderData: 'Compressed data sent (74% bandwidth saved)',
+                            receiverData: 'Decompressed to 50KB - Rendering webpage',
+                            phase: 'Client-Side Decompression',
+                            explanation: 'Client browser automatically decompresses GZIP data and renders the full webpage.',
+                            wireshark: `Client Processing:
+  1. Receives GZIP HTTP response
+  2. Detects Content-Encoding: gzip
+  3. Decompresses automatically
+  4. Restores 51KB HTML
+  5. Renders page normally
+
+Bandwidth Savings:
+  Original: 51,234 bytes
+  Compressed: 12,847 bytes
+  Saved: 38,387 bytes (74%)
+  Time saved: ~3.2 seconds`,
+                            protocol: 'HTTP Content Decompression'
+                        }
+                    ]
+                },
+                encoding: {
+                    name: 'Character Encoding (UTF-8)',
+                    steps: [
+                        {
+                            title: 'Multilingual Text Input',
+                            senderData: 'User Form Input:\nName: José García\nCity: 北京 (Beijing)\nMessage: Здравствуйте!',
+                            receiverData: 'Form processing...\nDetecting character sets',
+                            phase: 'Multi-language Data Entry',
+                            explanation: 'User enters text containing Latin, Chinese, and Cyrillic characters in web form.',
+                            wireshark: `HTTP POST Request:
+POST /contact HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Content-Length: 156
+
+Form Data (before encoding):
+name=José García
+city=北京
+message=Здравствуйте!
+
+[Browser must encode these varied characters for transmission]`,
+                            protocol: 'HTML Form with Unicode Text'
+                        },
+                        {
+                            title: 'UTF-8 Encoding Process',
+                            senderData: 'Encoding to UTF-8...\nJosé → 4a 6f 73 c3 a9\n北京 → e5 8c 97 e4 ba ac\nЗдрав... → d0 97 d0 b4...',
+                            receiverData: 'Receiving UTF-8 stream\nDecoding byte sequences',
+                            phase: 'Character-to-Byte Conversion',
+                            explanation: 'Each character converted to UTF-8 byte sequences. ASCII chars = 1 byte, accents = 2 bytes, Chinese/Cyrillic = 3 bytes.',
+                            wireshark: `UTF-8 Encoding Details:
+
+Character Analysis:
+- 'J' (ASCII): 0x4A (1 byte)
+- 'o' (ASCII): 0x6F (1 byte) 
+- 's' (ASCII): 0x73 (1 byte)
+- 'é' (Latin): 0xC3 0xA9 (2 bytes)
+- '北' (Chinese): 0xE5 0x8C 0x97 (3 bytes)
+- '京' (Chinese): 0xE4 0xBA 0xAC (3 bytes)
+- 'З' (Cyrillic): 0xD0 0x97 (2 bytes)
+- 'д' (Cyrillic): 0xD0 0xB4 (2 bytes)
+
+Total: 156 bytes for multilingual text`,
+                            protocol: 'UTF-8 Character Encoding'
+                        },
+                        {
+                            title: 'Network Transmission',
+                            senderData: 'UTF-8 Byte Stream\n4a 6f 73 c3 a9 20 47 61 72 63 c3 ad 61\ne5 8c 97 e4 ba ac\nd0 97 d0 b4 d1 80 d0 b0 d0 b2...',
+                            receiverData: 'Receiving byte stream\nUTF-8 header detected\nContent-Type: charset=UTF-8',
+                            phase: 'Encoded Data Transmission',
+                            explanation: 'UTF-8 encoded bytes transmitted over network. Server recognizes UTF-8 encoding from Content-Type header.',
+                            wireshark: `HTTP POST Data:
+POST /contact HTTP/1.1
+Host: example.com
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Content-Length: 156
+
+POST Data (hex):
+6e 61 6d 65 3d 4a 6f 73  c3 a9 25 32 30 47 61 72  |name=Jos..%20Gar|
+c3 ad 61 26 63 69 74 79  3d e5 8c 97 e4 ba ac 26  |..a&city=......&|
+6d 65 73 73 61 67 65 3d  d0 97 d0 b4 d1 80 d0 b0  |message=........|
+d0 b2 d1 81 d1 82 d0 b2  d1 83 d0 b9 d1 82 d0 b5  |................|
+
+[URL-encoded UTF-8 bytes successfully transmitted]`,
+                            protocol: 'HTTP POST with UTF-8 Data'
+                        },
+                        {
+                            title: 'UTF-8 Decoding & Display',
+                            senderData: 'Data processed\nMultilingual text saved to database',
+                            receiverData: 'UTF-8 Decoded Successfully!\nName: José García\nCity: 北京 (Beijing)\nMessage: Здравствуйте!',
+                            phase: 'Character Decoding Complete',
+                            explanation: 'Server decodes UTF-8 bytes back to original characters. All languages display correctly!',
+                            wireshark: `Server Processing Log:
+[2024-01-15 10:30:15] UTF-8 decoding successful
+[2024-01-15 10:30:15] Parsed form data:
+  - name: José García (Latin characters with accent)
+  - city: 北京 (Chinese simplified characters)
+  - message: Здравствуйте! (Cyrillic characters)
+[2024-01-15 10:30:15] All characters decoded correctly
+[2024-01-15 10:30:15] Data stored in UTF-8 database table
+
+Database Storage:
+- Character Set: utf8mb4
+- Collation: utf8mb4_unicode_ci
+- All languages preserved perfectly`,
+                            protocol: 'UTF-8 Database Storage'
+                        }
+                    ]
+                },
+                jpeg: {
+                    name: 'Image Compression (JPEG)',
+                    steps: [
+                        {
+                            title: 'Original RAW Image',
+                            senderData: 'Digital Camera RAW\nSize: 24 MB\nResolution: 4000x3000\nRGB values per pixel',
+                            receiverData: 'Image editor loading...\nPreparing compression',
+                            phase: 'Uncompressed Image Data',
+                            explanation: 'High-quality digital photo contains millions of pixels, each with full RGB color information.',
+                            wireshark: `Image File Analysis:
+Original RAW Image:
+- Resolution: 4000 × 3000 pixels = 12,000,000 pixels
+- Color depth: 24 bits per pixel (8 bits each R,G,B)
+- Total size: 12,000,000 × 3 bytes = 36,000,000 bytes (~34.3 MB)
+- Format: Uncompressed bitmap data
+
+File header would show:
+Bitmap File Header:
+  File Size: 36,000,054 bytes
+  Image Width: 4000 pixels
+  Image Height: 3000 pixels
+  Bits per pixel: 24`,
+                            protocol: 'RAW Image Data'
+                        },
+                        {
+                            title: 'JPEG Compression Process',
+                            senderData: 'Applying JPEG compression...\n1. Color space conversion (RGB→YCbCr)\n2. DCT transformation\n3. Quantization\n4. Huffman encoding',
+                            receiverData: 'Compression in progress...\nAnalyzing image complexity',
+                            phase: 'Lossy Compression Algorithm',
+                            explanation: 'JPEG algorithm transforms image data through multiple steps, removing information human eyes rarely notice.',
+                            wireshark: `JPEG Compression Steps:
+
+1. Color Space Conversion:
+   RGB → YCbCr (separates brightness from color)
+   - Y (Luma): brightness information
+   - Cb, Cr (Chroma): color information
+   
+2. Discrete Cosine Transform (DCT):
+   - Image divided into 8×8 blocks
+   - Each block converted to frequency components
+   
+3. Quantization:
+   - High-frequency details reduced/removed
+   - Quality setting determines amount of data discarded
+   
+4. Entropy Encoding:
+   - Huffman coding compresses remaining data
+   - Common patterns use fewer bits`,
+                            protocol: 'JPEG Compression (ISO/IEC 10918)'
+                        },
+                        {
+                            title: 'Compressed JPEG File',
+                            senderData: 'JPEG Image\nSize: 2.1 MB (91% smaller!)\nQuality: 85%\nFFD8FFE0... (JPEG header)',
+                            receiverData: 'Receiving JPEG file\nAnalyzing compression ratio',
+                            phase: 'Efficient Image Storage',
+                            explanation: 'Original 24MB image compressed to 2.1MB with minimal visible quality loss. 91% size reduction!',
+                            wireshark: `JPEG File Structure:
+File Header:
+  SOI (Start of Image): FF D8
+  APP0 Segment: FF E0 00 10 4A 46 49 46... (JFIF)
+  
+Image Data:
+  DQT (Quantization Tables): FF DB...
+  SOF (Start of Frame): FF C0...
+    - Image Width: 4000
+    - Image Height: 3000
+    - Components: 3 (Y, Cb, Cr)
+  DHT (Huffman Tables): FF C4...
+  SOS (Start of Scan): FF DA...
+  [Compressed image data...]
+  EOI (End of Image): FF D9
+  
+Compression Results:
+- Original: 36 MB → Compressed: 2.1 MB
+- Compression ratio: 17:1 (94.2% reduction)
+- File size suitable for web delivery`,
+                            protocol: 'JPEG File Format'
+                        },
+                        {
+                            title: 'Image Decompression & Display',
+                            senderData: 'JPEG transmitted efficiently\n(91% bandwidth saved)',
+                            receiverData: 'Image Decompressed\nResolution: 4000x3000\nDisplaying to user\nQuality: Excellent!',
+                            phase: 'Client-Side Image Rendering',
+                            explanation: 'Browser decompresses JPEG and displays high-quality image. User sees virtually no quality loss despite 91% size reduction.',
+                            wireshark: `HTTP Image Delivery:
+GET /photos/vacation.jpg HTTP/1.1
+Host: photos.example.com
+
+HTTP/1.1 200 OK
+Content-Type: image/jpeg
+Content-Length: 2,097,152  (2.1 MB)
+Last-Modified: Mon, 15 Jan 2024 14:30:00 GMT
+
+Browser Processing:
+1. Receives 2.1 MB JPEG file (vs 36 MB original)
+2. JPEG decoder reverses compression steps:
+   - Huffman decoding
+   - Inverse quantization  
+   - Inverse DCT transform
+   - YCbCr → RGB conversion
+3. Image rendered at full 4000×3000 resolution
+4. Loading time: 0.5 seconds vs 8.7 seconds for uncompressed
+
+User Experience:
+- Image appears instantaneously
+- Quality indistinguishable from original
+- 91% less bandwidth usage
+- Perfect for web/mobile viewing`,
+                            protocol: 'HTTP Image Delivery'
+                        }
+                    ]
+                },
+                ssl: {
+                    name: 'SSL Certificate Validation',
+                    steps: [
+                        {
+                            title: 'Certificate Request',
+                            senderData: 'Connecting to:\nhttps://secure-bank.com\nRequesting SSL certificate',
+                            receiverData: 'Preparing certificate chain\nRoot CA → Intermediate CA → Server',
+                            phase: 'SSL Certificate Chain Request',
+                            explanation: 'Browser requests server certificate to verify the website\'s identity and establish trust.',
+                            wireshark: `TLS Handshake - Certificate Request:
+Client Hello:
+  TLS Version: 1.3
+  SNI Extension: secure-bank.com
+  Signature Algorithms: RSA-PSS, ECDSA
+  
+Server Certificate Request Processing:
+- Server prepares complete certificate chain
+- Root CA: "GlobalTrust Root CA"
+- Intermediate CA: "GlobalTrust Intermediate"
+- Server Certificate: "secure-bank.com"
+- Each certificate contains public key and digital signature`,
+                            protocol: 'TLS 1.3 Certificate Exchange'
+                        },
+                        {
+                            title: 'Certificate Chain Delivery',
+                            senderData: 'Certificate validation...\nChecking signature chain',
+                            receiverData: 'SSL Certificate Chain:\n1. Root CA (Self-signed)\n2. Intermediate CA\n3. Server: secure-bank.com\nValid: 2023-2025',
+                            phase: 'X.509 Certificate Chain',
+                            explanation: 'Server sends complete certificate chain. Each certificate is digitally signed by the level above it.',
+                            wireshark: `Certificate Chain Details:
+
+1. Root CA Certificate:
+   Subject: CN=GlobalTrust Root CA
+   Issuer: CN=GlobalTrust Root CA (self-signed)
+   Valid: 2010-01-01 to 2030-01-01
+   Public Key: RSA 4096 bits
+   Signature Algorithm: SHA256withRSA
+   
+2. Intermediate CA Certificate:
+   Subject: CN=GlobalTrust Intermediate
+   Issuer: CN=GlobalTrust Root CA
+   Valid: 2020-01-01 to 2025-01-01
+   Public Key: RSA 2048 bits
+   Key Usage: Certificate Signing
+   
+3. Server Certificate:
+   Subject: CN=secure-bank.com
+   Issuer: CN=GlobalTrust Intermediate
+   Valid: 2023-06-01 to 2024-06-01
+   Public Key: ECDSA P-256
+   SAN: secure-bank.com, www.secure-bank.com
+   Extended Key Usage: Server Authentication`,
+                            protocol: 'X.509 Certificate Format'
+                        },
+                        {
+                            title: 'Certificate Validation',
+                            senderData: 'Validating certificate chain:\n✓ Signature verification\n✓ Date validity\n✓ Domain matching\n✓ Revocation check',
+                            receiverData: 'Certificate Status:\n✓ Valid signatures\n✓ Not expired\n✓ Domain matches\n✓ Not revoked',
+                            phase: 'Certificate Trust Verification',
+                            explanation: 'Browser validates each certificate in chain, checking signatures, dates, domain names, and revocation status.',
+                            wireshark: `Certificate Validation Process:
+
+1. Signature Verification:
+   - Root CA signature: ✓ VALID (in browser trust store)
+   - Intermediate signature: ✓ VALID (signed by root CA)
+   - Server signature: ✓ VALID (signed by intermediate)
+   
+2. Validity Period Check:
+   - Current date: 2024-01-15 10:30:00 UTC
+   - Root CA: Valid until 2030-01-01 ✓
+   - Intermediate: Valid until 2025-01-01 ✓  
+   - Server: Valid until 2024-06-01 ✓
+   
+3. Hostname Verification:
+   - Requested: secure-bank.com
+   - Certificate CN: secure-bank.com ✓
+   - SAN entries: secure-bank.com, www.secure-bank.com ✓
+   
+4. Revocation Check (OCSP):
+   - OCSP Response: Good
+   - Certificate not revoked ✓
+   
+5. Trust Store Verification:
+   - Root CA found in browser trust store ✓`,
+                            protocol: 'PKI Trust Validation'
+                        },
+                        {
+                            title: 'Secure Connection Established',
+                            senderData: '🔒 SECURE CONNECTION\nSSL Certificate Valid\nTrust established',
+                            receiverData: '🔒 HTTPS Active\nEnd-to-end encryption\nIdentity verified',
+                            phase: 'Authenticated Secure Channel',
+                            explanation: 'Certificate validation successful! Browser shows padlock icon. All data now encrypted and server identity confirmed.',
+                            wireshark: `Secure Connection Established:
+
+TLS Session Information:
+- Protocol: TLS 1.3
+- Cipher Suite: TLS_AES_256_GCM_SHA384
+- Key Exchange: ECDHE (Perfect Forward Secrecy)
+- Server Authentication: ✓ VERIFIED
+- Certificate Chain: ✓ VALID
+
+Browser Security Indicators:
+- URL bar shows "https://" with padlock icon
+- Certificate details available via padlock click
+- Extended Validation (EV) indicators if applicable
+- Security warnings: None
+
+Connection Security Properties:
+- All data encrypted with AES-256-GCM
+- Server identity cryptographically verified
+- Man-in-the-middle attacks prevented
+- Certificate transparency logs verified
+- HSTS header ensures future secure connections
+
+User can now safely enter sensitive information like:
+- Login credentials
+- Credit card numbers  
+- Personal information
+- Banking details`,
+                            protocol: 'HTTPS Secure Session'
+                        }
+                    ]
+                }
+            }
+        };
+
+        // Functions to make the interactive demo work with the UI
+        function startDemo() {
+            if (demoRunning) return;
+            
+            const selectedProtocol = document.getElementById('protocolSelect').value;
+            if (!demo.demos[selectedProtocol]) return;
+            
+            demo.currentDemo = selectedProtocol;
+            currentProtocolSteps = demo.demos[selectedProtocol].steps;
+            currentStepIndex = 0;
+            demoRunning = true;
+            manualMode = false;
+            
+            document.getElementById('startDemo').disabled = true;
+            document.getElementById('manualDemo').disabled = true;
+            
+            runAutomaticDemo();
+        }
+        
+        function startManualDemo() {
+            if (demoRunning) return;
+            
+            const selectedProtocol = document.getElementById('protocolSelect').value;
+            if (!demo.demos[selectedProtocol]) return;
+            
+            demo.currentDemo = selectedProtocol;
+            currentProtocolSteps = demo.demos[selectedProtocol].steps;
+            currentStepIndex = 0;
+            demoRunning = true;
+            manualMode = true;
+            
+            document.getElementById('startDemo').disabled = true;
+            document.getElementById('manualDemo').disabled = true;
+            document.getElementById('nextStepBtn').disabled = false;
+            document.getElementById('prevStepBtn').disabled = true;
+            
+            updateDemoDisplay();
+        }
+        
+        function runAutomaticDemo() {
+            if (currentStepIndex >= currentProtocolSteps.length) {
+                resetDemo();
+                return;
+            }
+            
+            updateDemoDisplay();
+            
+            setTimeout(() => {
+                currentStepIndex++;
+                if (demoRunning && !manualMode) {
+                    runAutomaticDemo();
+                }
+            }, 3000);
+        }
+        
+        function updateDemoDisplay() {
+            if (currentStepIndex >= currentProtocolSteps.length) {
+                resetDemo();
+                return;
+            }
+            
+            const currentStep = currentProtocolSteps[currentStepIndex];
+            
+            // Update phase indicators - determine which phase based on step
+            const totalSteps = currentProtocolSteps.length;
+            const currentPhase = Math.floor((currentStepIndex / totalSteps) * 3);
+            
+            document.querySelectorAll('.phase').forEach((phase, index) => {
+                phase.classList.remove('active');
+                if (index === currentPhase) {
+                    phase.classList.add('active');
+                }
+            });
+            
+            // Update status text
+            document.getElementById('statusText').textContent = currentStep.title + ': ' + currentStep.explanation;
+            document.getElementById('stepCounter').textContent = `Step ${currentStepIndex + 1} of ${currentProtocolSteps.length}`;
+            
+            // Update Wireshark example
+            const wiresharkDiv = document.getElementById('wiresharkExample');
+            const explanationDiv = document.getElementById('packetExplanation');
+            
+            wiresharkDiv.textContent = currentStep.wireshark;
+            wiresharkDiv.style.display = 'block';
+            
+            explanationDiv.textContent = currentStep.explanation;
+            explanationDiv.style.display = 'block';
+            
+            // Update overall status
+            const statusDiv = document.getElementById('overallStatus');
+            statusDiv.className = 'status processing';
+            statusDiv.textContent = currentStep.phase;
+            
+            // Update sender and receiver
+            document.getElementById('senderFormat').textContent = currentStep.senderData.split('\n')[0];
+            document.getElementById('receiverFormat').textContent = currentStep.receiverData.split('\n')[0];
+        }
+
+        function switchDemo(demoType) {
+            demo.currentDemo = demoType;
+            demo.currentStep = 0;
+            stopDemo();
+            updateUI();
+            updateStepList();
+        }
+
+        function nextStep() {
+            if (currentStepIndex >= currentProtocolSteps.length - 1) return;
+            
+            currentStepIndex++;
+            updateDemoDisplay();
+            
+            document.getElementById('prevStepBtn').disabled = false;
+            if (currentStepIndex >= currentProtocolSteps.length - 1) {
+                document.getElementById('nextStepBtn').disabled = true;
+            }
+        }
+
+        function prevStep() {
+            if (currentStepIndex <= 0) return;
+            
+            currentStepIndex--;
+            updateDemoDisplay();
+            
+            document.getElementById('nextStepBtn').disabled = false;
+            if (currentStepIndex <= 0) {
+                document.getElementById('prevStepBtn').disabled = true;
+            }
+        }
+
+        function playDemo() {
+            if (demo.isPlaying) {
+                stopDemo();
+            } else {
+                demo.isPlaying = true;
+                document.getElementById('play-btn').textContent = '⏸️ Pause';
+                
+                demo.playInterval = setInterval(() => {
+                    const currentDemoData = demo.demos[demo.currentDemo];
+                    if (demo.currentStep < currentDemoData.steps.length - 1) {
+                        nextStep();
+                    } else {
+                        stopDemo();
+                    }
+                }, 3000);
+            }
+        }
+
+        function stopDemo() {
+            demo.isPlaying = false;
+            document.getElementById('play-btn').textContent = '▶️ Auto Play';
+            if (demo.playInterval) {
+                clearInterval(demo.playInterval);
+                demo.playInterval = null;
+            }
+        }
+
+        function resetDemo() {
+            demoRunning = false;
+            manualMode = false;
+            currentStepIndex = 0;
+            
+            document.getElementById('startDemo').disabled = false;
+            document.getElementById('manualDemo').disabled = false;
+            document.getElementById('nextStepBtn').disabled = true;
+            document.getElementById('prevStepBtn').disabled = true;
+            
+            // Reset phase indicators
+            document.querySelectorAll('.phase').forEach(phase => {
+                phase.classList.remove('active');
+            });
+            
+            document.getElementById('statusText').textContent = 'Select a technology and mode to begin';
+            document.getElementById('stepCounter').textContent = 'Step 0 of 0';
+            document.getElementById('wiresharkExample').style.display = 'none';
+            document.getElementById('packetExplanation').style.display = 'none';
+            
+            document.getElementById('overallStatus').className = 'status idle';
+            document.getElementById('overallStatus').textContent = 'Processing Idle';
+            
+            document.getElementById('senderFormat').textContent = 'Plain Data';
+            document.getElementById('receiverFormat').textContent = 'Expected Format';
+        }
+
+        function updateUI() {
+            const currentDemoData = demo.demos[demo.currentDemo];
+            const currentStepData = currentDemoData.steps[demo.currentStep];
+            
+            // Update demo info
+            document.getElementById('demo-title').textContent = currentDemoData.name;
+            document.getElementById('step-title').textContent = `${demo.currentStep + 1}. ${currentStepData.title}`;
+            document.getElementById('step-counter').textContent = `Step ${demo.currentStep + 1} of ${currentDemoData.steps.length}`;
+            
+            // Update data displays
+            document.getElementById('sender-data').textContent = currentStepData.senderData;
+            document.getElementById('receiver-data').textContent = currentStepData.receiverData;
+            
+            // Update phase and explanation
+            document.getElementById('current-phase').textContent = currentStepData.phase;
+            document.getElementById('step-explanation').textContent = currentStepData.explanation;
+            
+            // Update Wireshark display
+            document.getElementById('wireshark-content').textContent = currentStepData.wireshark;
+            
+            // Update protocol info
+            document.getElementById('protocol-info').textContent = currentStepData.protocol;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').disabled = demo.currentStep === 0;
+            document.getElementById('next-btn').disabled = demo.currentStep === currentDemoData.steps.length - 1;
+            
+            // Update demo selector buttons
+            document.querySelectorAll('.demo-selector button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`button[onclick="switchDemo('${demo.currentDemo}')"]`).classList.add('active');
+        }
+
+        function updateStepList() {
+            const currentDemoData = demo.demos[demo.currentDemo];
+            const stepList = document.getElementById('step-list');
+            
+            if (!stepList) return; // Element doesn't exist on this page
+            
+            stepList.innerHTML = '';
+            currentDemoData.steps.forEach((step, index) => {
+                const stepItem = document.createElement('div');
+                stepItem.className = `step-item ${index === demo.currentStep ? 'active' : ''} ${index < demo.currentStep ? 'completed' : ''}`;
+                stepItem.innerHTML = `
+                    <span class="step-number">${index + 1}</span>
+                    <span class="step-title">${step.title}</span>
+                `;
+                stepItem.onclick = () => {
+                    demo.currentStep = index;
+                    updateUI();
+                    updateStepList();
+                };
+                stepList.appendChild(stepItem);
+            });
+        }
+        
+        // Dark Mode Functions
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            updateDarkModeButton(isDark);
+        }
+        
+        function updateDarkModeButton(isDark) {
+            const icon = document.getElementById('darkModeIcon');
+            const text = document.getElementById('darkModeText');
+            if (isDark) {
+                icon.textContent = '☀️';
+                text.textContent = 'Light Mode';
+            } else {
+                icon.textContent = '🌙';
+                text.textContent = 'Dark Mode';
+            }
+        }
+        
+        // Load dark mode preference on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (savedDarkMode) {
+                document.body.classList.add('dark-mode');
+                updateDarkModeButton(true);
+            }
+        });
+    </script>
+    
+    <footer style="background: rgba(0, 0, 0, 0.3); padding: 20px; margin-top: 40px; border-top: 2px solid rgba(255, 255, 255, 0.1); text-align: center; border-radius: 10px;">
+        <p style="margin: 0; font-size: 0.9em; line-height: 1.6;">
+            Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com" style="color: #3498db; text-decoration: none;">alex@slash-root.com</a> should you spot any errors or wish to query anything.
+        </p>
+    </footer>
+</body>
+</html>

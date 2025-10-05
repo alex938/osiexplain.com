@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSI Layer 1: Physical Layer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .back-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        h2 {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            color: #f0f0f0;
+        }
+        
+        .layer1-explanation {
+            background: rgba(52, 73, 94, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .demo-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            min-height: 400px;
+        }
+        
+        .transmitter, .receiver {
+            width: 200px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .transmitter {
+            background: rgba(52, 152, 219, 0.3);
+        }
+        
+        .receiver {
+            background: rgba(46, 204, 113, 0.3);
+        }
+        
+        .device-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+        
+        .signal-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .signal-line {
+            width: 300px;
+            height: 4px;
+            background: #ecf0f1;
+            border-radius: 2px;
+            position: relative;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .signal-pulse {
+            width: 30px;
+            height: 20px;
+            background: #e74c3c;
+            border-radius: 3px;
+            position: absolute;
+            top: -8px;
+            left: -30px;
+            transition: all 2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .signal-pulse.moving {
+            left: 300px;
+        }
+        
+        .signal-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            min-height: 140px;
+            width: 300px;
+            text-align: center;
+        }
+        
+        .phase-indicator {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .phase {
+            width: 120px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 0 5px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .phase.active {
+            background: rgba(46, 204, 113, 0.5);
+            transform: scale(1.1);
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .step-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .medium-selector {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        select {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            backdrop-filter: blur(5px);
+        }
+        
+        select option {
+            background: #2c3e50;
+            color: white;
+        }
+        
+        .status {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .status.transmitting {
+            background: rgba(241, 196, 15, 0.3);
+        }
+        
+        .status.receiving {
+            background: rgba(46, 204, 113, 0.3);
+        }
+        
+        .status.idle {
+            background: rgba(149, 165, 166, 0.3);
+        }
+        
+        .wireshark-packet {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.15em;
+            color: #00ff00;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.6;
+            min-height: 120px;
+            max-height: 400px;
+            overflow-x: auto;
+            overflow-y: auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .packet-explanation {
+            background: rgba(41, 128, 185, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            font-size: 0.9em;
+            border-left: 4px solid #3498db;
+        }
+        
+        .step-counter {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px 15px;
+            border-radius: 15px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .highlight {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        
+        .physical-characteristics {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        
+        .characteristic {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            margin: 5px;
+            border-radius: 10px;
+            width: calc(50% - 30px);
+            box-sizing: border-box;
+        }
+        
+        .protocol-info {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 10px 20px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            color: white;
+        }
+        
+        .dark-mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+        
+        body.dark-mode .container {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        
+        body.dark-mode .layer1-explanation,
+        body.dark-mode .content-box,
+        body.dark-mode .protocol-info,
+        body.dark-mode .example-box {
+            background: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+        <span id="darkModeIcon">🌙</span>
+        <span id="darkModeText">Dark Mode</span>
+    </button>
+    
+    <div class="container">
+        <a href="index.html" class="back-button">← Back to OSI Overview</a>
+        
+        <h1>🔌 OSI Layer 1: Physical Layer</h1>
+        
+        <div class="layer1-explanation">
+            <h2>Layer 1 (Physical) Technologies</h2>
+            <p>
+                The <span class="highlight">Physical Layer</span> is responsible for the actual transmission of raw data bits 
+                over a physical medium. It defines the <span class="highlight">electrical, optical, or radio signal characteristics</span> 
+                needed to transmit data between devices.
+            </p>
+            
+            <div class="physical-characteristics">
+                <div class="characteristic">
+                    <strong>Signal Encoding</strong> - Converting digital bits (1s and 0s) into physical signals (voltage, light, radio waves)
+                </div>
+                <div class="characteristic">
+                    <strong>Physical Medium</strong> - The actual cable, fiber, or wireless medium that carries the signals
+                </div>
+                <div class="characteristic">
+                    <strong>Electrical Properties</strong> - Voltage levels, current, impedance, timing specifications
+                </div>
+                <div class="characteristic">
+                    <strong>Physical Connectors</strong> - RJ45, fiber SC/LC, antenna connections, USB ports
+                </div>
+            </div>
+            
+            <p>
+                <strong>The Critical Role:</strong> Layer 1 doesn't care about data meaning—it only moves raw bits from 
+                point A to point B using <span class="highlight">physical phenomena</span> like electricity, light, or radio waves.
+            </p>
+        </div>
+        
+        <div class="medium-selector">
+            <label for="mediumSelect">Choose Physical Medium: </label>
+            <select id="mediumSelect">
+                <option value="ethernet">Ethernet Cable (Copper)</option>
+                <option value="fiber">Fiber Optic Cable</option>
+                <option value="wifi">Wi-Fi (Radio Waves)</option>
+                <option value="serial">Serial Cable (RS-232)</option>
+                <option value="usb">USB Cable</option>
+            </select>
+        </div>
+        
+        <div class="demo-area">
+            <div class="transmitter">
+                <div class="device-icon">📡</div>
+                <h3>Transmitter</h3>
+                <div id="transmitterStatus">Ready</div>
+            </div>
+            
+            <div class="signal-area">
+                <div class="phase-indicator">
+                    <div class="phase" id="phase1">Encode</div>
+                    <div class="phase" id="phase2">Transmit</div>
+                    <div class="phase" id="phase3">Decode</div>
+                </div>
+                
+                <div class="signal-line">
+                    <div class="signal-pulse" id="signal1"></div>
+                    <div class="signal-pulse" id="signal2"></div>
+                </div>
+                
+                <div class="signal-info" id="signalInfo">
+                    <strong>Signal Status:</strong>
+                    <div id="statusText">Select a medium and mode to begin</div>
+                    <div id="stepCounter" class="step-counter">Step 0 of 0</div>
+                    <div id="wiresharkExample" class="wireshark-packet" style="display:none;"></div>
+                    <div id="packetExplanation" class="packet-explanation" style="display:none;"></div>
+                </div>
+                
+                <div class="status idle" id="overallStatus">Signal Idle</div>
+            </div>
+            
+            <div class="receiver">
+                <div class="device-icon">📻</div>
+                <h3>Receiver</h3>
+                <div id="receiverStatus">Listening</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="startDemo" onclick="startDemo()">🚀 Auto Demo</button>
+            <button class="btn" id="manualDemo" onclick="startManualDemo()">👋 Manual Demo</button>
+            <button class="btn" onclick="resetDemo()">🔄 Reset</button>
+            
+            <div class="step-controls">
+                <button class="btn" id="prevStepBtn" onclick="prevStep()" disabled>← Previous Step</button>
+                <button class="btn" id="nextStepBtn" onclick="nextStep()" disabled>Next Step →</button>
+            </div>
+        </div>
+        
+        <div class="protocol-info" id="mediumDetails">
+            <h3>Physical Medium Information</h3>
+            <div id="mediumDescription">Select a medium and click "Medium Details" to learn more.</div>
+            <div id="layer1Evidence" style="margin-top: 15px;"></div>
+        </div>
+        
+        <!-- Comprehensive Educational Content -->
+        <div class="content-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin: 30px 0;">
+            <div class="content-box" style="background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 15px; border-left: 4px solid #3498db;">
+                <h3>🎯 Primary Functions</h3>
+                <ul>
+                    <li><strong>Bit Transmission:</strong> Converting data bits into electrical, optical, or radio signals</li>
+                    <li><strong>Physical Topology:</strong> Defining how devices are physically connected</li>
+                    <li><strong>Signal Encoding:</strong> Converting digital data into analog signals</li>
+                    <li><strong>Media Access:</strong> Managing access to the transmission medium</li>
+                    <li><strong>Physical Addressing:</strong> Hardware-level device identification</li>
+                </ul>
+            </div>
+            
+            <div class="content-box" style="background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 15px; border-left: 4px solid #3498db;">
+                <h3>🔧 Key Characteristics</h3>
+                <ul>
+                    <li><span class="highlight">Voltage Levels:</span> Defines electrical signal characteristics</li>
+                    <li><span class="highlight">Cable Specifications:</span> Physical properties of transmission media</li>
+                    <li><span class="highlight">Connector Types:</span> Physical interfaces between devices</li>
+                    <li><span class="highlight">Transmission Modes:</span> Simplex, half-duplex, full-duplex</li>
+                    <li><span class="highlight">Data Rates:</span> Speed of data transmission (bps, Mbps, Gbps)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="content-box" style="background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 15px; border-left: 4px solid #3498db;">
+            <h3>🌐 Physical Layer Technologies & Media</h3>
+            <div class="protocols-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div class="protocol-card" style="background: rgba(52, 73, 94, 0.4); padding: 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <strong>Copper Cables</strong>
+                    <p>Twisted pair (Cat5e, Cat6, Cat6a), Coaxial cables</p>
+                    <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 15px; margin: 15px 0; font-family: 'Courier New', monospace; color: #00ff00;">Ethernet 1000BASE-T over Cat6</div>
+                    <small>Electrical signals over copper wires - most common in LANs</small>
+                </div>
+                
+                <div class="protocol-card" style="background: rgba(52, 73, 94, 0.4); padding: 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <strong>Fiber Optic</strong>
+                    <p>Single-mode, Multi-mode fiber</p>
+                    <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 15px; margin: 15px 0; font-family: 'Courier New', monospace; color: #00ff00;">1000BASE-SX, 1000BASE-LX</div>
+                    <small>Light pulses over glass fibers - high speed, long distance</small>
+                </div>
+                
+                <div class="protocol-card" style="background: rgba(52, 73, 94, 0.4); padding: 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <strong>Wireless Radio</strong>
+                    <p>Wi-Fi (802.11), Bluetooth, Cellular</p>
+                    <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 15px; margin: 15px 0; font-family: 'Courier New', monospace; color: #00ff00;">802.11ac 5GHz band</div>
+                    <small>Electromagnetic waves through air - mobility and convenience</small>
+                </div>
+                
+                <div class="protocol-card" style="background: rgba(52, 73, 94, 0.4); padding: 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <strong>Serial Connections</strong>
+                    <p>RS-232, USB, FireWire</p>
+                    <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 15px; margin: 15px 0; font-family: 'Courier New', monospace; color: #00ff00;">USB 3.0 SuperSpeed</div>
+                    <small>Point-to-point connections for specific devices</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="example-box" style="background: rgba(41, 128, 185, 0.3); padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #3498db;">
+            <h3>🔍 Real-World Example: Ethernet Cable Transmission</h3>
+            <p><strong>Scenario:</strong> Your computer sends data to a server over an Ethernet cable</p>
+            
+            <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <h4>Step 1: Signal Encoding</h4>
+                <p>Your network card converts digital data (1010110...) into electrical voltage levels:</p>
+                <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 10px; margin: 10px 0; font-family: 'Courier New', monospace; color: #00ff00;">
+                Data bit '1' = +2.5V on wire pair<br>
+                Data bit '0' = -2.5V on wire pair
+                </div>
+            </div>
+            
+            <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <h4>Step 2: Physical Transmission</h4>
+                <p>Electrical signals travel through 4 pairs of copper wires at ~200,000 km/s:</p>
+                <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 10px; margin: 10px 0; font-family: 'Courier New', monospace; color: #00ff00;">
+                Pair 1 (Orange): TX+ / TX-<br>
+                Pair 2 (Green):  RX+ / RX-<br>
+                Pair 3 (Blue):   Bidirectional<br>
+                Pair 4 (Brown):  Bidirectional
+                </div>
+            </div>
+            
+            <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <h4>Step 3: Signal Reception</h4>
+                <p>The server's network card detects voltage changes and reconstructs data:</p>
+                <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 10px; margin: 10px 0; font-family: 'Courier New', monospace; color: #00ff00;">
+                Voltage > +1.2V = Digital '1'<br>
+                Voltage < -1.2V = Digital '0'<br>
+                Original data reconstructed: 1010110...
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-box" style="background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 15px; border-left: 4px solid #3498db;">
+            <h3>📊 Physical Layer Specifications</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(0, 0, 0, 0.2);">
+                <thead>
+                    <tr>
+                        <th style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left; background: rgba(52, 73, 94, 0.6); font-weight: bold;">Medium Type</th>
+                        <th style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left; background: rgba(52, 73, 94, 0.6); font-weight: bold;">Max Speed</th>
+                        <th style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left; background: rgba(52, 73, 94, 0.6); font-weight: bold;">Max Distance</th>
+                        <th style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left; background: rgba(52, 73, 94, 0.6); font-weight: bold;">Connector</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Cat5e Copper</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">1 Gbps</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">100 meters</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">RJ45</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Cat6a Copper</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">10 Gbps</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">100 meters</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">RJ45</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Single-mode Fiber</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">100+ Gbps</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">40+ km</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">SC/LC</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Cat6 Copper</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">1 Gbps</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">100 meters</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">RJ45</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Cat7 Copper</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">10 Gbps</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">100 meters</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">GG45/TERA</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Cat8 Copper</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">25/40 Gbps</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">30 meters</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">RJ45</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Multi-mode Fiber</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">10 Gbps</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">550 meters</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">SC/LC/ST</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Coaxial (RG6)</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">1 Gbps</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">500 meters</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">F-Type</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">USB 3.2</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">20 Gbps</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">3 meters</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">USB-C</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Thunderbolt 4</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">40 Gbps</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">2 meters</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">USB-C</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Wi-Fi 6 (802.11ax)</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">9.6 Gbps</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">100 meters</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Antenna</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Wi-Fi 802.11ac</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">1.3 Gbps</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">70 meters</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left;">Antenna</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="example-box" style="background: rgba(41, 128, 185, 0.3); padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #3498db;">
+            <h3>🛠️ Troubleshooting Physical Layer Issues</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="background: rgba(231, 76, 60, 0.2); padding: 15px; border-radius: 8px;">
+                    <h4>🚨 Common Problems</h4>
+                    <ul>
+                        <li>Cable damage or poor connections</li>
+                        <li>Signal attenuation over distance</li>
+                        <li>Electromagnetic interference</li>
+                        <li>Wrong cable types for application</li>
+                        <li>Dirty or damaged connectors</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(46, 204, 113, 0.2); padding: 15px; border-radius: 8px;">
+                    <h4>🔧 Diagnostic Tools</h4>
+                    <ul>
+                        <li>Cable testers and certifiers</li>
+                        <li>Time Domain Reflectometer (TDR)</li>
+                        <li>Optical power meters</li>
+                        <li>Link light indicators</li>
+                        <li>Spectrum analyzers for wireless</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h4>🔍 Common Wireshark Filters for Physical Layer Analysis</h4>
+            <div class="wireshark-example" style="background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 12px; margin: 12px 0; font-family: 'Courier New', monospace; color: #00ff00; font-size: 0.9em;">
+eth                                  # All Ethernet frames
+eth.type == 0x0800                   # IPv4 Ethernet frames
+eth.type == 0x0806                   # ARP Ethernet frames  
+eth.type == 0x86dd                   # IPv6 Ethernet frames
+wlan                                 # All WiFi/wireless frames
+wlan.fc.type_subtype == 0x08         # WiFi beacon frames
+frame.len > 1500                     # Oversized frames (jumbo frames)
+frame.len < 64                       # Undersized frames (runts)
+eth.fcs.status == "Bad"              # Frames with physical errors
+            </div>
+        </div>
+        
+        <div class="example-box" style="background: rgba(41, 128, 185, 0.3); padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #3498db;">
+            <h3>🛠️ Troubleshooting Physical Layer Issues</h3>
+            <p><strong>Think of the Physical Layer like the road infrastructure:</strong></p>
+            <ul>
+                <li><strong>Roads (Cables):</strong> The physical pathways that vehicles travel on</li>
+                <li><strong>Road Surface (Signal Medium):</strong> Asphalt, concrete, or gravel - different materials for different needs</li>
+                <li><strong>Vehicles (Data Bits):</strong> Cars, trucks, motorcycles carrying cargo from place to place</li>
+                <li><strong>Traffic Rules (Electrical Standards):</strong> Speed limits, lane markings, voltage specifications</li>
+                <li><strong>Road Maintenance (Cable Testing):</strong> Fixing potholes, checking signal quality</li>
+                <li><strong>Bridges & Tunnels (Connectors):</strong> Special structures to connect different road segments</li>
+            </ul>
+            <p><em>Just like roads don't care what's inside the vehicles, Layer 1 doesn't care about data meaning—it just moves bits!</em></p>
+        </div>
+        
+        <div class="content-box" style="background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 15px; border-left: 4px solid #3498db;">
+            <h3>📚 Key Learning Points</h3>
+            <ul>
+                <li>Physical Layer deals with <span class="highlight">raw bit transmission</span> using physical phenomena</li>
+                <li><span class="highlight">Different media</span> (copper, fiber, wireless) use different physical properties to carry signals</li>
+                <li><span class="highlight">Electrical specifications</span> define voltage levels, timing, and connector requirements</li>
+                <li>Layer 1 is <span class="highlight">media-specific</span> but provides a common interface to Layer 2</li>
+                <li><span class="highlight">Signal quality</span> degrades over distance, requiring repeaters or amplifiers</li>
+                <li>Physical Layer <span class="highlight">enables all higher-layer communication</span> by providing the foundation</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="index.html" class="back-button">← Return to OSI Overview</a>
+        </div>
+    </div>
+
+    <script>
+        let demoRunning = false;
+        let currentPhase = 0;
+        let currentStepIndex = 0;
+        let currentMediumSteps = [];
+        let manualMode = false;
+        
+        const media = {
+            ethernet: {
+                name: "Ethernet Cable (Copper Wire - Cat6)",
+                description: "Ethernet uses copper wires to carry electrical signals representing data bits. Twisted pair cables reduce electromagnetic interference.",
+                phases: [
+                    {
+                        text: "Digital bits (1010) converted to electrical voltage levels",
+                        wireshark: "Ethernet II Frame: 1000 01011010 10101100 (electrical signals)",
+                        explanation: "Computer converts data to +2.5V/-2.5V electrical signals on copper wires"
+                    },
+                    {
+                        text: "Electrical signals transmitted over copper twisted pairs",
+                        wireshark: "Physical: 1000BASE-T 4-pair transmission at 125MHz",
+                        explanation: "Signal travels through 4 pairs of copper wires at the speed of electricity (~200,000 km/s)"
+                    },
+                    {
+                        text: "Receiver detects voltage changes and converts to digital bits",
+                        wireshark: "RX: Voltage threshold detection +1.2V=1, -1.2V=0",
+                        explanation: "Receiving network card measures voltage levels and reconstructs the original data bits"
+                    }
+                ],
+                layer1_evidence: [
+                    "Uses electrical voltage to represent data (physical phenomenon)",
+                    "Defines cable specifications: impedance, crosstalk, attenuation",
+                    "Specifies connector pinouts and wire color codes",
+                    "Sets electrical timing requirements (125MHz clock rate)",
+                    "Only handles raw bit transmission, no frame formatting at this layer"
+                ]
+            },
+            fiber: {
+                name: "Fiber Optic Cable (Glass/Plastic)",
+                description: "Fiber optic uses pulses of light through glass strands to transmit data at very high speeds over long distances.",
+                phases: [
+                    {
+                        text: "Digital bits converted to light pulses by laser/LED",
+                        wireshark: "Optical: 1310nm laser modulation ON/OFF encoding",
+                        explanation: "Transmitter creates light pulses: ON=1, OFF=0 using infrared laser light"
+                    },
+                    {
+                        text: "Light pulses travel through fiber optic core",
+                        wireshark: "Physical: Single-mode fiber 9/125μm at 1310nm wavelength",
+                        explanation: "Light bounces inside ultra-pure glass core at ~200,000 km/s (2/3 speed of light)"
+                    },
+                    {
+                        text: "Photodetector converts light back to electrical signals",
+                        wireshark: "RX: Photodiode current detection 0.1mA=1, 0mA=0",
+                        explanation: "Receiver uses photodiode to detect light and convert back to electrical voltage"
+                    }
+                ],
+                layer1_evidence: [
+                    "Uses light wavelengths as physical transmission medium",
+                    "Specifies fiber core diameter and numerical aperture",
+                    "Defines optical power levels and wavelength specifications", 
+                    "Sets connector types (SC, LC, ST) and polishing requirements",
+                    "Only transmits light patterns, no understanding of data content"
+                ]
+            },
+            wifi: {
+                name: "Wi-Fi (Radio Frequency Waves)",
+                description: "Wi-Fi uses radio frequency electromagnetic waves to transmit data wirelessly through the air.",
+                phases: [
+                    {
+                        text: "Digital bits modulated onto radio frequency carrier wave",
+                        wireshark: "RF: 2.4GHz OFDM modulation with QAM-64 encoding",
+                        explanation: "Data bits change the amplitude/phase of 2.4GHz radio waves (like AM/FM radio)"
+                    },
+                    {
+                        text: "Radio waves transmitted through antenna into air",
+                        wireshark: "Physical: 20dBm transmission power, MIMO 2x2 antenna",
+                        explanation: "Electromagnetic waves radiate from antenna at speed of light (300,000 km/s)"
+                    },
+                    {
+                        text: "Receiving antenna captures radio waves and demodulates data",
+                        wireshark: "RX: Signal strength -45dBm, SNR 35dB, demodulation success",
+                        explanation: "Receiver antenna converts radio waves back to electrical signals and extracts data bits"
+                    }
+                ],
+                layer1_evidence: [
+                    "Uses electromagnetic radio frequency spectrum (physical waves)",
+                    "Defines antenna characteristics and radiation patterns",
+                    "Specifies power levels, frequency bands, and channel spacing",
+                    "Sets modulation schemes (OFDM, QAM) for encoding bits onto radio waves",
+                    "Only handles radio wave transmission, not frame interpretation"
+                ]
+            },
+            serial: {
+                name: "Serial Cable (RS-232)",
+                description: "Serial communication sends data one bit at a time over a single wire using voltage level changes.",
+                phases: [
+                    {
+                        text: "Data bits converted to RS-232 voltage levels",
+                        wireshark: "Serial: Start bit -12V, Data bits +12V/-12V, Stop bit +12V",
+                        explanation: "Each bit sent as +12V (0) or -12V (1) voltage levels on single wire"
+                    },
+                    {
+                        text: "Serial bits transmitted one after another",
+                        wireshark: "Physical: 9600 baud rate, 8N1 format transmission",
+                        explanation: "Bits sent sequentially: start bit, 8 data bits, no parity, 1 stop bit"
+                    },
+                    {
+                        text: "Receiver samples voltage at precise timing intervals",
+                        wireshark: "RX: Bit sampling at 9600Hz clock, voltage threshold ±3V",
+                        explanation: "Receiver checks voltage 9600 times per second to read each bit"
+                    }
+                ],
+                layer1_evidence: [
+                    "Uses specific voltage levels (+12V/-12V) to represent bits",
+                    "Defines precise timing requirements (baud rate)",
+                    "Specifies connector pinouts (DB-9, DB-25)",
+                    "Sets electrical characteristics (current limits, impedance)",
+                    "Only handles bit-by-bit electrical transmission"
+                ]
+            },
+            usb: {
+                name: "USB Cable (Universal Serial Bus)",
+                description: "USB uses differential signaling over twisted pair wires to provide high-speed data transfer and device power.",
+                phases: [
+                    {
+                        text: "Digital data encoded using differential signaling",
+                        wireshark: "USB: D+ and D- differential pair, NRZI encoding",
+                        explanation: "Data bits represented by voltage difference between D+ and D- wires (+400mV/-400mV)"
+                    },
+                    {
+                        text: "Signals transmitted over shielded twisted pair",
+                        wireshark: "Physical: USB 3.0 SuperSpeed 5Gbps differential transmission",
+                        explanation: "High-speed electrical signals travel through precisely controlled twisted pair cables"
+                    },
+                    {
+                        text: "Receiver decodes differential signals back to data",
+                        wireshark: "RX: Differential receiver threshold ±200mV, clock recovery",
+                        explanation: "Receiving device measures voltage difference and reconstructs original data stream"
+                    }
+                ],
+                layer1_evidence: [
+                    "Uses differential electrical signaling over copper wires",
+                    "Defines cable impedance (90Ω) and signal timing",
+                    "Specifies connector types (Type-A, Type-C) and pinouts",
+                    "Sets power delivery specifications (5V, current limits)",
+                    "Only handles electrical bit transmission, no packet processing"
+                ]
+            }
+        };
+        
+        function startDemo() {
+            if (demoRunning) return;
+            
+            const selectedMedium = document.getElementById('mediumSelect').value;
+            currentMediumSteps = media[selectedMedium].phases;
+            currentStepIndex = 0;
+            currentPhase = 0;
+            demoRunning = true;
+            manualMode = false;
+            
+            document.getElementById('startDemo').disabled = true;
+            document.getElementById('manualDemo').disabled = true;
+            
+            runAutomaticDemo();
+        }
+        
+        function startManualDemo() {
+            if (demoRunning) return;
+            
+            const selectedMedium = document.getElementById('mediumSelect').value;
+            currentMediumSteps = media[selectedMedium].phases;
+            currentStepIndex = 0;
+            currentPhase = 0;
+            demoRunning = true;
+            manualMode = true;
+            
+            document.getElementById('startDemo').disabled = true;
+            document.getElementById('manualDemo').disabled = true;
+            document.getElementById('nextStepBtn').disabled = false;
+            document.getElementById('prevStepBtn').disabled = true;
+            
+            updateDisplay();
+        }
+        
+        function runAutomaticDemo() {
+            if (currentStepIndex >= currentMediumSteps.length) {
+                resetDemo();
+                return;
+            }
+            
+            updateDisplay();
+            animateSignal();
+            
+            setTimeout(() => {
+                currentStepIndex++;
+                currentPhase = (currentPhase + 1) % 3;
+                if (demoRunning) {
+                    runAutomaticDemo();
+                }
+            }, 3000);
+        }
+        
+        function nextStep() {
+            if (currentStepIndex >= currentMediumSteps.length - 1) return;
+            
+            currentStepIndex++;
+            currentPhase = (currentPhase + 1) % 3;
+            updateDisplay();
+            animateSignal();
+            
+            document.getElementById('prevStepBtn').disabled = false;
+            if (currentStepIndex >= currentMediumSteps.length - 1) {
+                document.getElementById('nextStepBtn').disabled = true;
+            }
+        }
+        
+        function prevStep() {
+            if (currentStepIndex <= 0) return;
+            
+            currentStepIndex--;
+            currentPhase = (currentPhase - 1 + 3) % 3;
+            updateDisplay();
+            
+            document.getElementById('nextStepBtn').disabled = false;
+            if (currentStepIndex <= 0) {
+                document.getElementById('prevStepBtn').disabled = true;
+            }
+        }
+        
+        function updateDisplay() {
+            if (currentStepIndex >= currentMediumSteps.length) {
+                resetDemo();
+                return;
+            }
+            
+            const currentStep = currentMediumSteps[currentStepIndex];
+            const selectedMedium = document.getElementById('mediumSelect').value;
+            
+            // Update phase indicator
+            document.querySelectorAll('.phase').forEach((phase, index) => {
+                phase.classList.toggle('active', index === currentPhase);
+            });
+            
+            // Update status text
+            document.getElementById('statusText').textContent = currentStep.text;
+            document.getElementById('stepCounter').textContent = `Step ${currentStepIndex + 1} of ${currentMediumSteps.length}`;
+            
+            // Update Wireshark example
+            const wiresharkDiv = document.getElementById('wiresharkExample');
+            const explanationDiv = document.getElementById('packetExplanation');
+            
+            wiresharkDiv.textContent = currentStep.wireshark;
+            wiresharkDiv.style.display = 'block';
+            
+            explanationDiv.textContent = currentStep.explanation;
+            explanationDiv.style.display = 'block';
+            
+            // Update overall status
+            const statusClass = ['transmitting', 'transmitting', 'receiving'][currentPhase];
+            const statusText = ['Encoding Signal', 'Transmitting Signal', 'Decoding Signal'][currentPhase];
+            
+            document.getElementById('overallStatus').className = `status ${statusClass}`;
+            document.getElementById('overallStatus').textContent = statusText;
+            
+            // Update device status
+            document.getElementById('transmitterStatus').textContent = 
+                currentPhase <= 1 ? 'Transmitting...' : 'Complete';
+            document.getElementById('receiverStatus').textContent = 
+                currentPhase >= 2 ? 'Receiving...' : 'Waiting';
+        }
+        
+        function animateSignal() {
+            const signal1 = document.getElementById('signal1');
+            const signal2 = document.getElementById('signal2');
+            
+            // Reset positions
+            signal1.classList.remove('moving');
+            signal2.classList.remove('moving');
+            
+            // Trigger animation
+            setTimeout(() => {
+                signal1.classList.add('moving');
+            }, 100);
+            
+            setTimeout(() => {
+                signal2.classList.add('moving');
+            }, 300);
+        }
+        
+        function resetDemo() {
+            demoRunning = false;
+            currentStepIndex = 0;
+            currentPhase = 0;
+            manualMode = false;
+            
+            document.getElementById('startDemo').disabled = false;
+            document.getElementById('manualDemo').disabled = false;
+            document.getElementById('nextStepBtn').disabled = true;
+            document.getElementById('prevStepBtn').disabled = true;
+            
+            // Reset display
+            document.querySelectorAll('.phase').forEach(phase => {
+                phase.classList.remove('active');
+            });
+            
+            document.getElementById('statusText').textContent = 'Select a medium and mode to begin';
+            document.getElementById('stepCounter').textContent = 'Step 0 of 0';
+            document.getElementById('wiresharkExample').style.display = 'none';
+            document.getElementById('packetExplanation').style.display = 'none';
+            
+            document.getElementById('overallStatus').className = 'status idle';
+            document.getElementById('overallStatus').textContent = 'Signal Idle';
+            
+            document.getElementById('transmitterStatus').textContent = 'Ready';
+            document.getElementById('receiverStatus').textContent = 'Listening';
+            
+            // Reset signal animations
+            const signal1 = document.getElementById('signal1');
+            const signal2 = document.getElementById('signal2');
+            signal1.classList.remove('moving');
+            signal2.classList.remove('moving');
+        }
+        
+        function showDetails() {
+            const selectedMedium = document.getElementById('mediumSelect').value;
+            const medium = media[selectedMedium];
+            
+            document.getElementById('mediumDescription').innerHTML = `
+                <h4>${medium.name}</h4>
+                <p>${medium.description}</p>
+            `;
+            
+            const evidenceHtml = medium.layer1_evidence
+                .map(evidence => `<li>${evidence}</li>`)
+                .join('');
+            
+            document.getElementById('layer1Evidence').innerHTML = `
+                <h4>Why This is Layer 1 (Physical Layer):</h4>
+                <ul>${evidenceHtml}</ul>
+            `;
+        }
+        
+        // Initialize
+        showDetails();
+        
+        // Dark Mode Functions
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            updateDarkModeButton(isDark);
+        }
+        
+        function updateDarkModeButton(isDark) {
+            const icon = document.getElementById('darkModeIcon');
+            const text = document.getElementById('darkModeText');
+            if (isDark) {
+                icon.textContent = '☀️';
+                text.textContent = 'Light Mode';
+            } else {
+                icon.textContent = '🌙';
+                text.textContent = 'Dark Mode';
+            }
+        }
+        
+        // Load dark mode preference on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (savedDarkMode) {
+                document.body.classList.add('dark-mode');
+                updateDarkModeButton(true);
+            }
+        });
+    </script>
+    
+    <footer style="background: rgba(0, 0, 0, 0.3); padding: 20px; margin-top: 40px; border-top: 2px solid rgba(255, 255, 255, 0.1); text-align: center; border-radius: 10px;">
+        <p style="margin: 0; font-size: 0.9em; line-height: 1.6;">
+            Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com" style="color: #3498db; text-decoration: none;">alex@slash-root.com</a> should you spot any errors or wish to query anything.
+        </p>
+    </footer>
+</body>
+</html>
