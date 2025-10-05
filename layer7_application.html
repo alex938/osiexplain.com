@@ -945,7 +945,7 @@ HTTP: Set-Cookie: session_id=abc123...
                             serverData: 'Streaming Server\nContent: video.mp4\nReady to stream\nListening for requests',
                             phase: 'Stream Request Initiation',
                             explanation: 'User clicks play on video. Video player application prepares to request streaming content from server.',
-                            wireshark: `Video Streaming Request:\n\n[Application Layer - Video Player]\nPlayer: VLC Media Player\nProtocol: HTTP Live Streaming (HLS)\nTarget URL: http://stream.example.com/video.mp4\nUser Action: Click Play\n\nPlayer Preparation:\n- Parse streaming URL\n- Determine streaming protocol\n- Initialize network buffers\n- Prepare for HTTP requests`,
+                            wireshark: `Video Streaming Request:\n\n[Application Layer - Video Player]\nPlayer: VLC Media Player\nProtocol: HTTP Live Streaming (HLS)\nTarget URL: http://stream.example.com/video.mp4\nUser Action: Click Play\n\nPlayer Preparation:\n- Parse streaming URL\n- Determine streaming protocol\n- Initialise network buffers\n- Prepare for HTTP requests`,
                             protocol: 'Video Player Application'
                         },
                         {
@@ -998,7 +998,7 @@ HTTP: Set-Cookie: session_id=abc123...
             }
         };
 
-        // Initialize demo when page loads
+        // Initialise demo when page loads
         document.addEventListener('DOMContentLoaded', function() {
             updateUI();
             updateStepList();
