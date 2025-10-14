@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://osiexplain.com/</loc>
+  <lastmod>2025-10-12T14:22:28+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://osiexplain.com/layer7_application.html</loc>
+  <lastmod>2025-10-12T14:22:28+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://osiexplain.com/layer6_presentation.html</loc>
+  <lastmod>2025-10-12T14:22:28+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://osiexplain.com/layer5_session_demo.html</loc>
+  <lastmod>2025-10-12T14:22:28+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://osiexplain.com/layer4_transport.html</loc>
+  <lastmod>2025-10-12T14:22:28+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://osiexplain.com/layer3_network.html</loc>
+  <lastmod>2025-10-12T14:22:28+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://osiexplain.com/layer2_datalink.html</loc>
+  <lastmod>2025-10-12T14:22:28+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://osiexplain.com/layer1_physical.html</loc>
+  <lastmod>2025-10-12T14:22:28+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://osiexplain.com/index.html</loc>
+  <lastmod>2025-10-12T14:22:28+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
+</urlset>
