@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OSI Layer 7: Application Layer</title>
+    <meta name="description" content="OSI Layer 7 (Application) explained with interactive demos for web browsing, DNS, email, and more.">
+    <link rel="canonical" href="https://osiexplain.com/layer7_application.html">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,6 +15,13 @@
             background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
             color: white;
             min-height: 100vh;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        select:focus-visible {
+            outline: 3px solid #f1c40f;
+            outline-offset: 3px;
         }
         
         .container {
@@ -402,7 +411,7 @@
     </style>
 </head>
 <body>
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode"><span id="darkModeIcon">🌙</span><span id="darkModeText">Dark Mode</span></button>
+    <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode" aria-label="Toggle dark mode" aria-pressed="false"><span id="darkModeIcon">🌙</span><span id="darkModeText">Dark Mode</span></button>
     <div class="container">
         <a href="index.html" class="back-button">← Back to OSI Overview</a>
         
@@ -1121,7 +1130,7 @@ HTTP: Set-Cookie: session_id=abc123...
         
         // Dark Mode Functions
         function toggleDarkMode(){document.body.classList.toggle('dark-mode');const isDark=document.body.classList.contains('dark-mode');localStorage.setItem('darkMode',isDark);updateDarkModeButton(isDark);}
-        function updateDarkModeButton(isDark){const icon=document.getElementById('darkModeIcon');const text=document.getElementById('darkModeText');if(isDark){icon.textContent='☀️';text.textContent='Light Mode';}else{icon.textContent='🌙';text.textContent='Dark Mode';}}
+        function updateDarkModeButton(isDark){const icon=document.getElementById('darkModeIcon');const text=document.getElementById('darkModeText');const btn=document.querySelector('.dark-mode-toggle');if(btn){btn.setAttribute('aria-pressed',isDark?'true':'false');}if(isDark){icon.textContent='☀️';text.textContent='Light Mode';}else{icon.textContent='🌙';text.textContent='Dark Mode';}}
         window.addEventListener('DOMContentLoaded',function(){const savedDarkMode=localStorage.getItem('darkMode')==='true';if(savedDarkMode){document.body.classList.add('dark-mode');updateDarkModeButton(true);}});
     </script>
     <footer style="background: rgba(0, 0, 0, 0.3); padding: 20px; margin-top: 40px; border-top: 2px solid rgba(255, 255, 255, 0.1); text-align: center; border-radius: 10px;">

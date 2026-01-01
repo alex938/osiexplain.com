@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OSI Layer 2: Data Link Layer</title>
+    <meta name="description" content="OSI Layer 2 (Data Link) explained with an interactive demo, MAC addressing, and frame examples.">
+    <link rel="canonical" href="https://osiexplain.com/layer2_datalink.html">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -11,6 +13,13 @@
             padding: 20px;
             background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
             color: white;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        select:focus-visible {
+            outline: 3px solid #f1c40f;
+            outline-offset: 3px;
         }
         
         .container {
@@ -328,7 +337,7 @@
     </style>
 </head>
 <body>
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode"><span id="darkModeIcon">🌙</span><span id="darkModeText">Dark Mode</span></button>
+    <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode" aria-label="Toggle dark mode" aria-pressed="false"><span id="darkModeIcon">🌙</span><span id="darkModeText">Dark Mode</span></button>
     <div class="container">
         <a href="index.html" class="back-button">← Back to OSI Overview</a>
         
@@ -1047,7 +1056,7 @@
         
         // Dark Mode Functions
         function toggleDarkMode(){document.body.classList.toggle('dark-mode');const isDark=document.body.classList.contains('dark-mode');localStorage.setItem('darkMode',isDark);updateDarkModeButton(isDark);}
-        function updateDarkModeButton(isDark){const icon=document.getElementById('darkModeIcon');const text=document.getElementById('darkModeText');if(isDark){icon.textContent='☀️';text.textContent='Light Mode';}else{icon.textContent='🌙';text.textContent='Dark Mode';}}
+        function updateDarkModeButton(isDark){const icon=document.getElementById('darkModeIcon');const text=document.getElementById('darkModeText');const btn=document.querySelector('.dark-mode-toggle');if(btn){btn.setAttribute('aria-pressed',isDark?'true':'false');}if(isDark){icon.textContent='☀️';text.textContent='Light Mode';}else{icon.textContent='🌙';text.textContent='Dark Mode';}}
         window.addEventListener('DOMContentLoaded',function(){const savedDarkMode=localStorage.getItem('darkMode')==='true';if(savedDarkMode){document.body.classList.add('dark-mode');updateDarkModeButton(true);}});
     </script>
     

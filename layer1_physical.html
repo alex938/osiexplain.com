@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OSI Layer 1: Physical Layer</title>
+    <meta name="description" content="OSI Layer 1 (Physical) explained with an interactive demo, examples, and key concepts.">
+    <link rel="canonical" href="https://osiexplain.com/layer1_physical.html">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -11,6 +13,13 @@
             padding: 20px;
             background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
             color: white;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        select:focus-visible {
+            outline: 3px solid #f1c40f;
+            outline-offset: 3px;
         }
         
         .container {
@@ -349,7 +358,7 @@
     </style>
 </head>
 <body>
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+    <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode" aria-label="Toggle dark mode" aria-pressed="false">
         <span id="darkModeIcon">🌙</span>
         <span id="darkModeText">Dark Mode</span>
     </button>
@@ -1162,6 +1171,10 @@
         function updateDarkModeButton(isDark) {
             const icon = document.getElementById('darkModeIcon');
             const text = document.getElementById('darkModeText');
+            const btn = document.querySelector('.dark-mode-toggle');
+            if (btn) {
+                btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+            }
             if (isDark) {
                 icon.textContent = '☀️';
                 text.textContent = 'Light Mode';
