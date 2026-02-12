@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OSI Layer 4: Transport Layer Explained - TCP, UDP & Ports</title>
     <meta name="description" content="Learn OSI Layer 4 (Transport Layer) covering TCP vs UDP, port numbers, and reliability. Interactive demos of 3-way handshake and flow control.">
+    <meta property="og:title" content="OSI Layer 4: Transport Layer Explained - TCP, UDP & Ports">
+    <meta property="og:description" content="Learn OSI Layer 4 (Transport Layer) covering TCP vs UDP, port numbers, and reliability. Interactive demos of 3-way handshake and flow control.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://osiexplain.com/layer4_transport.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="OSI Layer 4: Transport Layer Explained - TCP, UDP & Ports">
+    <meta name="twitter:description" content="Learn OSI Layer 4 (Transport Layer) covering TCP vs UDP, port numbers, and reliability.">
     <link rel="canonical" href="https://osiexplain.com/layer4_transport.html">
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -370,7 +378,7 @@
             overflow-wrap: break-word;
             line-height: 1.6;
             min-height: 120px;
-            max-height: 400px;
+            max-height: 250px;
             overflow-x: auto;
             overflow-y: auto;
             width: 100%;
@@ -1150,16 +1158,12 @@ Client 192.168.1.100:54321 → Server 192.168.1.50:80
         // Initialise
         showDetails();
         
-        // Dark Mode Functions
-        function toggleDarkMode(){document.body.classList.toggle('dark-mode');const isDark=document.body.classList.contains('dark-mode');localStorage.setItem('darkMode',isDark);updateDarkModeButton(isDark);}
-        function updateDarkModeButton(isDark){const icon=document.getElementById('darkModeIcon');const text=document.getElementById('darkModeText');const btn=document.querySelector('.dark-mode-toggle');if(btn){btn.setAttribute('aria-pressed',isDark?'true':'false');}if(isDark){icon.textContent='☀️';text.textContent='Light Mode';}else{icon.textContent='🌙';text.textContent='Dark Mode';}}
-        window.addEventListener('DOMContentLoaded',function(){const savedDarkMode=localStorage.getItem('darkMode')==='true';if(savedDarkMode){document.body.classList.add('dark-mode');updateDarkModeButton(true);}});
     </script>
+    <script src="main.js"></script>
     
-    <footer style="background: rgba(0, 0, 0, 0.3); padding: 20px; margin-top: 40px; border-top: 2px solid rgba(255, 255, 255, 0.1); text-align: center; border-radius: 10px;">
-        <p style="margin: 0; font-size: 0.9em; line-height: 1.6;">
-            Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com" style="color: #3498db; text-decoration: none;">alex@slash-root.com</a> should you spot any errors or wish to query anything.
-        </p>
+    <footer class="site-footer">
+        <p>Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com">alex@slash-root.com</a> should you spot any errors or wish to query anything.</p>
+        <p class="support-text">If you find this resource helpful, please consider <a href="https://buy.stripe.com/fZueVd5wY4ET99m2C6cZa02" target="_blank" rel="noopener noreferrer">supporting the project</a>.</p>
     </footer>
 </body>
 </html>

@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OSI Layer 6: Presentation Layer Explained - Encryption & Encoding</title>
     <meta name="description" content="Explore OSI Layer 6 (Presentation Layer) handling data translation, encryption (SSL/TLS), and compression. Interactive demos of data encoding and security.">
+    <meta property="og:title" content="OSI Layer 6: Presentation Layer Explained - Encryption & Encoding">
+    <meta property="og:description" content="Explore OSI Layer 6 (Presentation Layer) handling data translation, encryption (SSL/TLS), and compression. Interactive demos of data encoding and security.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://osiexplain.com/layer6_presentation.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="OSI Layer 6: Presentation Layer Explained - Encryption & Encoding">
+    <meta name="twitter:description" content="Explore OSI Layer 6 (Presentation Layer) handling data translation, encryption, and compression.">
     <link rel="canonical" href="https://osiexplain.com/layer6_presentation.html">
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -451,7 +459,7 @@
             overflow-wrap: break-word;
             line-height: 1.6;
             min-height: 120px;
-            max-height: 400px;
+            max-height: 250px;
             overflow-x: auto;
             overflow-y: auto;
             width: 100%;
@@ -1788,44 +1796,12 @@ User can now safely enter sensitive information like:
             });
         }
         
-        // Dark Mode Functions
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDark);
-            updateDarkModeButton(isDark);
-        }
-        
-        function updateDarkModeButton(isDark) {
-            const icon = document.getElementById('darkModeIcon');
-            const text = document.getElementById('darkModeText');
-            const btn = document.querySelector('.dark-mode-toggle');
-            if (btn) {
-                btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-            }
-            if (isDark) {
-                icon.textContent = '☀️';
-                text.textContent = 'Light Mode';
-            } else {
-                icon.textContent = '🌙';
-                text.textContent = 'Dark Mode';
-            }
-        }
-        
-        // Load dark mode preference on page load
-        window.addEventListener('DOMContentLoaded', function() {
-            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-            if (savedDarkMode) {
-                document.body.classList.add('dark-mode');
-                updateDarkModeButton(true);
-            }
-        });
     </script>
+    <script src="main.js"></script>
     
-    <footer style="background: rgba(0, 0, 0, 0.3); padding: 20px; margin-top: 40px; border-top: 2px solid rgba(255, 255, 255, 0.1); text-align: center; border-radius: 10px;">
-        <p style="margin: 0; font-size: 0.9em; line-height: 1.6;">
-            Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com" style="color: #3498db; text-decoration: none;">alex@slash-root.com</a> should you spot any errors or wish to query anything.
-        </p>
+    <footer class="site-footer">
+        <p>Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com">alex@slash-root.com</a> should you spot any errors or wish to query anything.</p>
+        <p class="support-text">If you find this resource helpful, please consider <a href="https://buy.stripe.com/fZueVd5wY4ET99m2C6cZa02" target="_blank" rel="noopener noreferrer">supporting the project</a>.</p>
     </footer>
 </body>
 </html>
