@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="OSIExplain.com — The OSI Model Explained">
+  <title>OSIExplain.com — The OSI Model Explained</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2c3e50"/>
+      <stop offset="100%" stop-color="#3498db"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g font-family="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" fill="#ffffff">
+    <text x="80" y="130" font-size="64" font-weight="700">🌐 OSI Explain</text>
+    <text x="80" y="190" font-size="32" opacity="0.9">The 7 Layers of the OSI Model</text>
+    <text x="80" y="230" font-size="22" opacity="0.75">Interactive demos · Wireshark examples · Memory aids</text>
+    <text x="80" y="590" font-size="22" opacity="0.8">osiexplain.com</text>
+  </g>
+  <g transform="translate(720,90)">
+    <rect x="0"   y="0"   width="400" height="55" rx="8" fill="#e74c3c"/>
+    <rect x="0"   y="65"  width="400" height="55" rx="8" fill="#e67e22"/>
+    <rect x="0"   y="130" width="400" height="55" rx="8" fill="#f39c12"/>
+    <rect x="0"   y="195" width="400" height="55" rx="8" fill="#27ae60"/>
+    <rect x="0"   y="260" width="400" height="55" rx="8" fill="#3498db"/>
+    <rect x="0"   y="325" width="400" height="55" rx="8" fill="#9b59b6"/>
+    <rect x="0"   y="390" width="400" height="55" rx="8" fill="#34495e"/>
+    <g font-family="'Segoe UI', sans-serif" fill="#ffffff" font-size="22" font-weight="600">
+      <text x="20" y="35">7 · Application</text>
+      <text x="20" y="100">6 · Presentation</text>
+      <text x="20" y="165">5 · Session</text>
+      <text x="20" y="230">4 · Transport</text>
+      <text x="20" y="295">3 · Network</text>
+      <text x="20" y="360">2 · Data Link</text>
+      <text x="20" y="425">1 · Physical</text>
+    </g>
+  </g>
+</svg>

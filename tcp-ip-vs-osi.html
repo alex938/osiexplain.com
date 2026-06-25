@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSI vs TCP/IP Model – Side-by-side Comparison | OSIExplain.com</title>
+    <meta name="description" content="Compare the OSI model (7 layers) with the TCP/IP model (4 layers). Side-by-side mapping of protocols, encapsulation units (PDUs) and real-world usage.">
+    <meta name="keywords" content="OSI vs TCP/IP, TCP/IP model, OSI model, layer comparison, networking, PDUs, encapsulation">
+    <meta name="author" content="Alex (osiexplain.com)">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta property="og:title" content="OSI vs TCP/IP Model – Side-by-side Comparison">
+    <meta property="og:description" content="Compare the 7-layer OSI model with the 4-layer TCP/IP model, with mapped protocols and PDU names.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://osiexplain.com/tcp-ip-vs-osi.html">
+    <meta property="og:site_name" content="OSIExplain.com">
+    <meta property="og:image" content="https://osiexplain.com/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="OSIExplain.com — OSI vs TCP/IP model comparison">
+    <meta property="og:locale" content="en_GB">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OSI vs TCP/IP Model – Side-by-side Comparison">
+    <meta name="twitter:description" content="Compare the OSI model (7 layers) with the TCP/IP model (4 layers).">
+    <meta name="twitter:image" content="https://osiexplain.com/og-image.svg">
+    <link rel="canonical" href="https://osiexplain.com/tcp-ip-vs-osi.html">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="alternate icon" href="/favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://osiexplain.com/" },
+            { "@type": "ListItem", "position": 2, "name": "OSI vs TCP/IP", "item": "https://osiexplain.com/tcp-ip-vs-osi.html" }
+          ]
+        },
+        {
+          "@type": "TechArticle",
+          "headline": "OSI vs TCP/IP Model – Side-by-side Comparison",
+          "description": "Compare the OSI model (7 layers) with the TCP/IP model (4 layers).",
+          "image": "https://osiexplain.com/og-image.svg",
+          "mainEntityOfPage": "https://osiexplain.com/tcp-ip-vs-osi.html",
+          "author": { "@type": "Person", "name": "Alex", "email": "alex@slash-root.com" },
+          "publisher": { "@type": "Organization", "name": "OSIExplain.com" },
+          "inLanguage": "en",
+          "about": "OSI Model"
+        }
+      ]
+    }
+    </script>
+    <style>
+        body { background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); }
+        h1 { text-align: center; font-size: 2.5em; margin-bottom: 10px; }
+        .lead { text-align: center; max-width: 850px; margin: 0 auto 30px; opacity: 0.92; }
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            margin: 30px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        .comparison header {
+            padding: 14px 18px;
+            font-size: 1.2em;
+            font-weight: 700;
+            text-align: center;
+            background: rgba(0,0,0,0.4);
+        }
+        .row {
+            display: contents;
+        }
+        .cell {
+            padding: 16px 18px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .cell strong { font-size: 1.05em; }
+        .cell small { opacity: 0.75; font-size: 0.85em; }
+        .osi-7 { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .osi-6 { background: linear-gradient(135deg, #e67e22, #d35400); }
+        .osi-5 { background: linear-gradient(135deg, #f39c12, #e67e22); }
+        .osi-4 { background: linear-gradient(135deg, #27ae60, #229954); }
+        .osi-3 { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .osi-2 { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+        .osi-1 { background: linear-gradient(135deg, #34495e, #2c3e50); }
+        .tcp-app { background: linear-gradient(135deg, #c0392b, #8e44ad); }
+        .tcp-trn { background: linear-gradient(135deg, #27ae60, #229954); }
+        .tcp-net { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .tcp-lnk { background: linear-gradient(135deg, #34495e, #2c3e50); }
+        .pdu-table { width: 100%; border-collapse: collapse; margin: 25px 0; }
+        .pdu-table th, .pdu-table td { padding: 12px; border: 1px solid rgba(255,255,255,0.2); text-align: left; }
+        .pdu-table th { background: rgba(52, 152, 219, 0.6); }
+        section.callout {
+            background: rgba(0,0,0,0.3);
+            padding: 20px 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 4px solid #f1c40f;
+        }
+        @media (max-width: 768px) {
+            .comparison { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><span id="darkModeIcon" aria-hidden="true">🌙</span><span id="darkModeText">Theme</span></button>
+    <nav class="site-nav" aria-label="Primary">
+        <a class="brand" href="index.html"><span aria-hidden="true">🌐</span> OSI Explain</a>
+        <a href="tcp-ip-vs-osi.html" aria-current="page">OSI vs TCP/IP</a>
+        <a href="glossary.html">Glossary</a>
+    </nav>
+
+    <main id="main" class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="index.html">Home</a></li>
+                <li aria-current="page">OSI vs TCP/IP</li>
+            </ol>
+        </nav>
+        <a href="index.html" class="back-button">← Back to OSI Overview</a>
+
+        <h1>OSI vs TCP/IP Model</h1>
+        <p class="lead">
+            The <strong>OSI model</strong> is a 7-layer theoretical framework used to <em>understand</em> network
+            communication. The <strong>TCP/IP model</strong> is the 4-layer protocol stack that actually
+            <em>runs</em> the internet. Here's how they line up.
+        </p>
+
+        <div class="comparison" role="table" aria-label="OSI vs TCP/IP side-by-side comparison">
+            <header>OSI Model (7 layers)</header>
+            <header>TCP/IP Model (4 layers)</header>
+
+            <div class="row">
+                <div class="cell osi-7"><strong>7 · Application</strong><small>HTTP, HTTPS, FTP, SMTP, DNS, SSH</small></div>
+                <div class="cell tcp-app" style="grid-row: span 3;"><strong>Application</strong><small>HTTP(S), DNS, SMTP, FTP, SSH, IMAP, SNMP</small></div>
+            </div>
+            <div class="row">
+                <div class="cell osi-6"><strong>6 · Presentation</strong><small>SSL/TLS, JPEG, ASCII, UTF-8, MIME</small></div>
+            </div>
+            <div class="row">
+                <div class="cell osi-5"><strong>5 · Session</strong><small>SMB, NetBIOS, RPC, SQL sessions</small></div>
+            </div>
+            <div class="row">
+                <div class="cell osi-4"><strong>4 · Transport</strong><small>TCP, UDP, SCTP</small></div>
+                <div class="cell tcp-trn"><strong>Transport</strong><small>TCP, UDP, SCTP</small></div>
+            </div>
+            <div class="row">
+                <div class="cell osi-3"><strong>3 · Network</strong><small>IPv4, IPv6, ICMP, OSPF, BGP, RIP</small></div>
+                <div class="cell tcp-net"><strong>Internet</strong><small>IP, ICMP, IGMP, ARP*</small></div>
+            </div>
+            <div class="row">
+                <div class="cell osi-2"><strong>2 · Data Link</strong><small>Ethernet, Wi-Fi, PPP, ARP, STP</small></div>
+                <div class="cell tcp-lnk" style="grid-row: span 2;"><strong>Network Access (Link)</strong><small>Ethernet, Wi-Fi, PPP, cabling, drivers</small></div>
+            </div>
+            <div class="row">
+                <div class="cell osi-1"><strong>1 · Physical</strong><small>Cables, fibre, radio, USB, hubs</small></div>
+            </div>
+        </div>
+
+        <p style="opacity:0.85; font-size:0.9em">* ARP is sometimes placed at Layer 2.5 / Internet boundary depending on the source.</p>
+
+        <section class="callout">
+            <h2>Key differences at a glance</h2>
+            <ul>
+                <li><strong>Layer count:</strong> OSI has 7 layers; TCP/IP has 4 (sometimes 5 if Physical and Data Link are split).</li>
+                <li><strong>Origin:</strong> OSI is an ISO/ITU-T standard from 1984; TCP/IP grew out of ARPANET in the 1970s and was standardised by the IETF.</li>
+                <li><strong>Purpose:</strong> OSI is descriptive — great for teaching and troubleshooting. TCP/IP is prescriptive — protocols that actually run on the wire.</li>
+                <li><strong>Strictness:</strong> OSI keeps layers tightly separated; TCP/IP layers are more pragmatic and overlap (e.g. HTTPS spans Application + Presentation + Session ideas).</li>
+                <li><strong>Real-world use:</strong> Every packet you send is TCP/IP; you reach for OSI when describing or isolating where a problem lives.</li>
+            </ul>
+        </section>
+
+        <h2>Encapsulation units (PDUs) per layer</h2>
+        <table class="pdu-table">
+            <thead>
+                <tr><th>OSI Layer</th><th>PDU Name</th><th>Example</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>7 Application</td><td>Data</td><td>HTTP GET / request body</td></tr>
+                <tr><td>6 Presentation</td><td>Data</td><td>TLS-encrypted payload</td></tr>
+                <tr><td>5 Session</td><td>Data</td><td>SMB session message</td></tr>
+                <tr><td>4 Transport</td><td>Segment (TCP) / Datagram (UDP)</td><td>TCP segment with seq/ack</td></tr>
+                <tr><td>3 Network</td><td>Packet</td><td>IPv4 packet with src/dst IP</td></tr>
+                <tr><td>2 Data Link</td><td>Frame</td><td>Ethernet frame with MAC + FCS</td></tr>
+                <tr><td>1 Physical</td><td>Bit</td><td>Voltage / light / radio pulse on the wire</td></tr>
+            </tbody>
+        </table>
+
+        <section class="callout">
+            <h2>When to use which model</h2>
+            <p><strong>Use the OSI model</strong> when you want to <em>explain</em> a concept (e.g. "ARP works at Layer 2") or pinpoint where a fault occurs ("the cable is fine — must be a Layer 3 routing issue").</p>
+            <p><strong>Use the TCP/IP model</strong> when you want to <em>describe what's actually running</em> — every modern protocol is part of the TCP/IP family.</p>
+            <p>In practice, network engineers slip between both models in the same sentence. CompTIA Network+ and CCNA exams expect fluency with both.</p>
+        </section>
+
+        <h2>Want to go deeper?</h2>
+        <p>Each OSI layer has its own page with interactive demos and Wireshark captures:</p>
+        <ul>
+            <li><a href="layer7_application.html">Layer 7: Application</a></li>
+            <li><a href="layer6_presentation.html">Layer 6: Presentation</a></li>
+            <li><a href="layer5_session_demo.html">Layer 5: Session</a></li>
+            <li><a href="layer4_transport.html">Layer 4: Transport</a></li>
+            <li><a href="layer3_network.html">Layer 3: Network</a></li>
+            <li><a href="layer2_datalink.html">Layer 2: Data Link</a></li>
+            <li><a href="layer1_physical.html">Layer 1: Physical</a></li>
+        </ul>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="back-button">← Return to OSI Overview</a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com">alex@slash-root.com</a> should you spot any errors or wish to query anything.</p>
+        <p class="support-text">If you find this resource helpful, please consider <a href="https://buy.stripe.com/fZueVd5wY4ET99m2C6cZa02" target="_blank" rel="noopener noreferrer">supporting the project</a>.</p>
+    </footer>
+</body>
+</html>

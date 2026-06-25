@@ -5,45 +5,65 @@
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-<url>
-  <loc>https://osiexplain.com/</loc>
-  <lastmod>2026-01-01</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://osiexplain.com/layer7_application.html</loc>
-  <lastmod>2026-01-01</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://osiexplain.com/layer6_presentation.html</loc>
-  <lastmod>2026-01-01</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://osiexplain.com/layer5_session_demo.html</loc>
-  <lastmod>2026-01-01</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://osiexplain.com/layer4_transport.html</loc>
-  <lastmod>2026-01-01</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://osiexplain.com/layer3_network.html</loc>
-  <lastmod>2026-01-01</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://osiexplain.com/layer2_datalink.html</loc>
-  <lastmod>2026-01-01</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://osiexplain.com/layer1_physical.html</loc>
-  <lastmod>2026-01-01</lastmod>
-  <priority>0.80</priority>
-</url>
+  <url>
+    <loc>https://osiexplain.com/</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://osiexplain.com/tcp-ip-vs-osi.html</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://osiexplain.com/glossary.html</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://osiexplain.com/layer7_application.html</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://osiexplain.com/layer6_presentation.html</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://osiexplain.com/layer5_session_demo.html</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://osiexplain.com/layer4_transport.html</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://osiexplain.com/layer3_network.html</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://osiexplain.com/layer2_datalink.html</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://osiexplain.com/layer1_physical.html</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
 
 </urlset>

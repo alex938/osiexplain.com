@@ -1,10 +1,28 @@
 /* ===== Base Styles ===== */
+html { color-scheme: light dark; }
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 20px;
     color: white;
     min-height: 100vh;
+}
+
+/* Skip-link for screen readers / keyboard users */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 8px;
+    background: #000;
+    color: #fff;
+    padding: 8px 12px;
+    z-index: 2000;
+    border-radius: 4px;
+    text-decoration: none;
+}
+.skip-link:focus {
+    top: 8px;
 }
 
 a:focus-visible,
@@ -419,6 +437,178 @@ details > summary:hover {
 details[open] > summary {
     margin-bottom: 15px;
     border-radius: 10px 10px 0 0;
+}
+
+/* ===== Breadcrumbs ===== */
+.breadcrumbs {
+    margin: 10px 0 20px 0;
+    font-size: 0.9em;
+    opacity: 0.85;
+}
+.breadcrumbs ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.breadcrumbs li:not(:last-child)::after {
+    content: ' / ';
+    margin-left: 6px;
+    opacity: 0.6;
+}
+.breadcrumbs a {
+    color: #f1c40f;
+    text-decoration: none;
+}
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+.breadcrumbs [aria-current="page"] {
+    opacity: 0.9;
+}
+
+/* ===== Site Navigation (header) ===== */
+.site-nav {
+    max-width: 1200px;
+    margin: 0 auto 20px auto;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+}
+.site-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+    background: rgba(255, 255, 255, 0.15);
+}
+.site-nav .brand {
+    font-weight: 700;
+    margin-right: auto;
+}
+
+/* ===== Prev/Next Layer Navigation ===== */
+.layer-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin: 40px 0 20px 0;
+    flex-wrap: wrap;
+}
+.layer-nav a {
+    flex: 1 1 220px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.layer-nav a:hover {
+    background: rgba(0, 0, 0, 0.45);
+    transform: translateY(-2px);
+}
+.layer-nav .layer-nav-next {
+    text-align: right;
+    margin-left: auto;
+}
+.layer-nav small {
+    opacity: 0.7;
+    font-size: 0.85em;
+    display: block;
+    margin-bottom: 4px;
+}
+.layer-nav strong {
+    font-size: 1.05em;
+}
+
+/* ===== Quiz ===== */
+.quiz {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 25px;
+    border-radius: 15px;
+    margin: 30px 0;
+    border-left: 4px solid #f1c40f;
+}
+.quiz-question {
+    margin: 18px 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+}
+.quiz-question p { margin: 0 0 10px 0; font-weight: 600; }
+.quiz-options { list-style: none; padding: 0; margin: 0; }
+.quiz-options li { margin: 6px 0; }
+.quiz-options button {
+    width: 100%;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-size: 1em;
+}
+.quiz-options button:hover { background: rgba(255, 255, 255, 0.2); }
+.quiz-options button.correct {
+    background: rgba(46, 204, 113, 0.5);
+    border-color: #2ecc71;
+}
+.quiz-options button.incorrect {
+    background: rgba(231, 76, 60, 0.5);
+    border-color: #e74c3c;
+}
+.quiz-feedback {
+    margin-top: 10px;
+    font-style: italic;
+    min-height: 1.4em;
+}
+
+/* ===== Print-friendly ===== */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+        padding: 0;
+    }
+    .container, .content-box, .example-box, .demo-section,
+    .protocol-info, .layer-header, .intro-section,
+    .mnemonic-section, .teaching-tips {
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        border-color: #ccc !important;
+    }
+    .dark-mode-toggle, .layer-nav, .controls, .site-nav,
+    .back-button, .skip-link, .quiz, .demo-area,
+    .site-footer { display: none !important; }
+    a { color: #000 !important; text-decoration: underline; }
+    h1, h2, h3, h4 { color: #000 !important; text-shadow: none !important; }
+}
+
+/* ===== Honour system dark-mode preference ===== */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-mode):not(.dark-mode) {
+        /* Subtle deepening when user prefers dark, until JS resolves theme. */
+        background-blend-mode: multiply;
+    }
 }
 
 /* ===== Responsive ===== */

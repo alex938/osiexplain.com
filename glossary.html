@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Networking Glossary – OSI Model Terms Explained | OSIExplain.com</title>
+    <meta name="description" content="Networking glossary of common terms used in the OSI model and TCP/IP: MAC, MTU, MSS, ARP, NAT, OFDM, sliding window, broadcast domain and more.">
+    <meta name="keywords" content="networking glossary, OSI glossary, MAC, MTU, MSS, ARP, NAT, BGP, OFDM, sliding window, broadcast domain">
+    <meta name="author" content="Alex (osiexplain.com)">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta property="og:title" content="Networking Glossary – OSI Model Terms Explained">
+    <meta property="og:description" content="A concise glossary of OSI / TCP/IP networking terms with examples.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://osiexplain.com/glossary.html">
+    <meta property="og:site_name" content="OSIExplain.com">
+    <meta property="og:image" content="https://osiexplain.com/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="OSIExplain.com — Networking Glossary">
+    <meta property="og:locale" content="en_GB">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Networking Glossary – OSIExplain.com">
+    <meta name="twitter:description" content="A concise glossary of OSI / TCP/IP networking terms.">
+    <meta name="twitter:image" content="https://osiexplain.com/og-image.svg">
+    <link rel="canonical" href="https://osiexplain.com/glossary.html">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="alternate icon" href="/favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://osiexplain.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://osiexplain.com/glossary.html" }
+          ]
+        },
+        {
+          "@type": "DefinedTermSet",
+          "name": "Networking Glossary",
+          "url": "https://osiexplain.com/glossary.html",
+          "inLanguage": "en",
+          "publisher": { "@type": "Organization", "name": "OSIExplain.com" }
+        }
+      ]
+    }
+    </script>
+    <style>
+        body { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); }
+        h1 { text-align: center; font-size: 2.5em; margin-bottom: 8px; }
+        .lead { text-align: center; max-width: 800px; margin: 0 auto 30px; opacity: 0.92; }
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0 30px;
+        }
+        .filter-bar input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 16px;
+            border-radius: 25px;
+            border: 2px solid rgba(255,255,255,0.25);
+            background: rgba(0,0,0,0.3);
+            color: white;
+            font-size: 1em;
+        }
+        .filter-bar input::placeholder { color: rgba(255,255,255,0.6); }
+        .alpha-jump {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .alpha-jump a {
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            min-width: 32px;
+            text-align: center;
+        }
+        .alpha-jump a:hover { background: rgba(241, 196, 15, 0.4); }
+        section.letter {
+            margin: 35px 0;
+        }
+        section.letter h2 {
+            color: #f1c40f;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+            padding-bottom: 6px;
+        }
+        dl { margin: 0; }
+        dt {
+            font-weight: 700;
+            margin-top: 16px;
+            color: #ecf0f1;
+        }
+        dt .layer-badge {
+            display: inline-block;
+            font-size: 0.7em;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            vertical-align: middle;
+            font-weight: 600;
+            background: rgba(241, 196, 15, 0.3);
+            color: #f1c40f;
+        }
+        dd { margin: 4px 0 0 0; opacity: 0.92; line-height: 1.5; }
+        .hide { display: none !important; }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><span id="darkModeIcon" aria-hidden="true">🌙</span><span id="darkModeText">Theme</span></button>
+    <nav class="site-nav" aria-label="Primary">
+        <a class="brand" href="index.html"><span aria-hidden="true">🌐</span> OSI Explain</a>
+        <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a>
+        <a href="glossary.html" aria-current="page">Glossary</a>
+    </nav>
+
+    <main id="main" class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="index.html">Home</a></li>
+                <li aria-current="page">Glossary</li>
+            </ol>
+        </nav>
+        <a href="index.html" class="back-button">← Back to OSI Overview</a>
+
+        <h1>Networking Glossary</h1>
+        <p class="lead">Common terms that appear across the OSI layers. Type to filter; click a letter to jump.</p>
+
+        <div class="filter-bar">
+            <label class="visually-hidden" for="glossaryFilter">Filter glossary</label>
+            <input type="search" id="glossaryFilter" placeholder="Filter by term or definition…" autocomplete="off">
+        </div>
+
+        <nav class="alpha-jump" aria-label="Jump to letter">
+            <a href="#A">A</a><a href="#B">B</a><a href="#C">C</a><a href="#D">D</a><a href="#E">E</a>
+            <a href="#F">F</a><a href="#G">G</a><a href="#H">H</a><a href="#I">I</a><a href="#J">J</a>
+            <a href="#K">K</a><a href="#L">L</a><a href="#M">M</a><a href="#N">N</a><a href="#O">O</a>
+            <a href="#P">P</a><a href="#Q">Q</a><a href="#R">R</a><a href="#S">S</a><a href="#T">T</a>
+            <a href="#U">U</a><a href="#V">V</a><a href="#W">W</a><a href="#X">X</a>
+        </nav>
+
+        <section class="letter" id="A">
+            <h2>A</h2>
+            <dl>
+                <dt>ACK — Acknowledgement <span class="layer-badge">L4</span></dt>
+                <dd>A TCP flag confirming receipt of bytes up to a given sequence number.</dd>
+                <dt>ACL — Access Control List</dt>
+                <dd>Ordered set of permit/deny rules on a router, switch or firewall that filters traffic by IP, port or other fields.</dd>
+                <dt>AES — Advanced Encryption Standard <span class="layer-badge">L6</span></dt>
+                <dd>Symmetric block cipher (128/192/256-bit keys) used by TLS, Wi-Fi (WPA2/WPA3), VPNs and disk encryption.</dd>
+                <dt>Anycast <span class="layer-badge">L3</span></dt>
+                <dd>One IP address advertised from many locations; routing delivers each request to the topologically nearest instance (used by DNS roots, CDNs).</dd>
+                <dt>API — Application Programming Interface <span class="layer-badge">L7</span></dt>
+                <dd>A defined set of endpoints/operations one program exposes to another, typically over HTTP(S) (REST, GraphQL, gRPC).</dd>
+                <dt>ARP — Address Resolution Protocol <span class="layer-badge">L2/L3</span></dt>
+                <dd>Resolves an IPv4 address to a MAC address within the local broadcast domain.</dd>
+                <dt>ASN — Autonomous System Number <span class="layer-badge">L3</span></dt>
+                <dd>A globally unique number identifying a routing domain on the internet, used by BGP.</dd>
+                <dt>Authentication / Authorisation <span class="layer-badge">L5+</span></dt>
+                <dd>AuthN proves who you are (password, certificate, MFA). AuthZ decides what you may do (roles, scopes, ACLs).</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="B">
+            <h2>B</h2>
+            <dl>
+                <dt>Bandwidth</dt>
+                <dd>The theoretical maximum data rate of a link, in bits per second (e.g. 1 Gbps).</dd>
+                <dt>BGP — Border Gateway Protocol <span class="layer-badge">L3</span></dt>
+                <dd>Path-vector routing protocol that exchanges reachability information between Autonomous Systems on the internet.</dd>
+                <dt>Bit rate</dt>
+                <dd>Actual rate of bits transferred over a link, often lower than the bandwidth due to overhead and contention.</dd>
+                <dt>Bridge <span class="layer-badge">L2</span></dt>
+                <dd>Layer 2 device that joins two network segments and forwards frames between them — a switch is effectively a multi-port bridge.</dd>
+                <dt>Broadcast <span class="layer-badge">L2</span></dt>
+                <dd>A frame or packet delivered to every host on a segment (MAC <code>FF:FF:FF:FF:FF:FF</code>, IPv4 <code>255.255.255.255</code>).</dd>
+                <dt>Broadcast domain <span class="layer-badge">L2</span></dt>
+                <dd>Set of devices that receive each other's Layer 2 broadcast frames (typically separated by routers/VLANs).</dd>
+                <dt>BSSID — Basic Service Set Identifier <span class="layer-badge">L2</span></dt>
+                <dd>The MAC address of a Wi-Fi access point's radio; uniquely identifies one AP within an ESS.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="C">
+            <h2>C</h2>
+            <dl>
+                <dt>Cache</dt>
+                <dd>Local copy of data (DNS records, web pages, ARP entries) used to avoid repeated lookups across the network.</dd>
+                <dt>CDN — Content Delivery Network</dt>
+                <dd>Distributed network of edge servers (Cloudflare, Akamai, Fastly) that caches and serves content close to users.</dd>
+                <dt>Checksum</dt>
+                <dd>Value computed from data so the receiver can detect corruption (used in IP, TCP, UDP, Ethernet FCS, etc.).</dd>
+                <dt>CIDR — Classless Inter-Domain Routing <span class="layer-badge">L3</span></dt>
+                <dd>Notation like <code>192.168.0.0/24</code> expressing the network/host split via prefix length.</dd>
+                <dt>Cipher suite <span class="layer-badge">L6</span></dt>
+                <dd>A named combination of algorithms negotiated during a TLS handshake (e.g. <code>TLS_AES_128_GCM_SHA256</code>) for key exchange, encryption and integrity.</dd>
+                <dt>Collision <span class="layer-badge">L1/L2</span></dt>
+                <dd>What happens when two devices transmit on a shared medium at the same time; Ethernet hubs/half-duplex links use CSMA/CD to handle them.</dd>
+                <dt>Cookie <span class="layer-badge">L7</span></dt>
+                <dd>Small piece of state stored by the browser on behalf of a site, sent back on subsequent HTTP requests (auth, sessions, tracking).</dd>
+                <dt>CRC — Cyclic Redundancy Check</dt>
+                <dd>Family of hash-style checksums (CRC-16, CRC-32) used by Ethernet, Wi-Fi, USB and storage to detect bit errors.</dd>
+                <dt>CSMA/CD &amp; CSMA/CA <span class="layer-badge">L2</span></dt>
+                <dd>Carrier Sense Multiple Access — with Collision Detection (Ethernet) or Collision Avoidance (Wi-Fi).</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="D">
+            <h2>D</h2>
+            <dl>
+                <dt>Datagram <span class="layer-badge">L3/L4</span></dt>
+                <dd>Self-contained packet sent without a prior connection (the natural PDU for IP and UDP).</dd>
+                <dt>DDoS — Distributed Denial of Service</dt>
+                <dd>Attack that floods a target with traffic from many sources to exhaust bandwidth, sockets or CPU.</dd>
+                <dt>Default gateway <span class="layer-badge">L3</span></dt>
+                <dd>The next-hop router used when no more specific route matches the destination.</dd>
+                <dt>DHCP — Dynamic Host Configuration Protocol <span class="layer-badge">L7</span></dt>
+                <dd>Automatically assigns IP addresses, subnet masks, gateways and DNS servers to clients (DORA: Discover / Offer / Request / Ack).</dd>
+                <dt>DMZ — Demilitarised Zone</dt>
+                <dd>Network segment between the internet and the internal LAN, hosting public-facing services (web, mail) under tighter firewall control.</dd>
+                <dt>DNS — Domain Name System <span class="layer-badge">L7</span></dt>
+                <dd>Translates human-readable names like <code>example.com</code> to IP addresses.</dd>
+                <dt>DNSSEC</dt>
+                <dd>Cryptographic signatures on DNS records that let resolvers verify a response hasn't been forged or tampered with.</dd>
+                <dt>DoH / DoT — DNS over HTTPS / TLS</dt>
+                <dd>Encrypted DNS transports that prevent on-path observers from seeing or modifying DNS lookups.</dd>
+                <dt>DSCP — Differentiated Services Code Point</dt>
+                <dd>6-bit field in the IP header used to mark packets for QoS treatment (voice, video, best effort).</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="E">
+            <h2>E</h2>
+            <dl>
+                <dt>EAP — Extensible Authentication Protocol <span class="layer-badge">L2</span></dt>
+                <dd>Authentication framework used inside 802.1X (enterprise Wi-Fi/wired) with variants like EAP-TLS, PEAP and EAP-FAST.</dd>
+                <dt>EIGRP <span class="layer-badge">L3</span></dt>
+                <dd>Enhanced Interior Gateway Routing Protocol — Cisco-originated hybrid routing protocol using DUAL for loop-free paths.</dd>
+                <dt>Encapsulation</dt>
+                <dd>Wrapping data with each layer's header (and sometimes trailer) on the way down the stack.</dd>
+                <dt>Endpoint</dt>
+                <dd>The terminating device or service in a communication — a host, browser, API server, IoT device, etc.</dd>
+                <dt>Ephemeral port <span class="layer-badge">L4</span></dt>
+                <dd>Short-lived high-numbered source port (typically 49152–65535) chosen by an OS for outgoing connections.</dd>
+                <dt>Ethernet <span class="layer-badge">L2</span></dt>
+                <dd>The dominant wired LAN technology (IEEE 802.3), framing data with MAC addresses and an FCS.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="F">
+            <h2>F</h2>
+            <dl>
+                <dt>FCS — Frame Check Sequence <span class="layer-badge">L2</span></dt>
+                <dd>CRC-32 trailer appended to an Ethernet frame for error detection.</dd>
+                <dt>Firewall</dt>
+                <dd>Device or software that filters traffic according to a policy — stateful firewalls track connection state, NGFWs add application awareness.</dd>
+                <dt>Flow control <span class="layer-badge">L4</span></dt>
+                <dd>Mechanism (e.g. TCP's sliding window) that prevents a fast sender from overwhelming a slow receiver.</dd>
+                <dt>FQDN — Fully Qualified Domain Name</dt>
+                <dd>A complete DNS name including all labels up to the root, e.g. <code>www.example.com.</code></dd>
+                <dt>Fragmentation <span class="layer-badge">L3</span></dt>
+                <dd>Splitting an IP packet into smaller pieces because it exceeds a link's MTU; reassembled at the destination.</dd>
+                <dt>Frame <span class="layer-badge">L2</span></dt>
+                <dd>The PDU at Layer 2 — for example, an Ethernet frame.</dd>
+                <dt>FTP / SFTP / FTPS <span class="layer-badge">L7</span></dt>
+                <dd>File transfer protocols: FTP (cleartext, ports 20/21), SFTP (over SSH, port 22), FTPS (FTP + TLS).</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="G">
+            <h2>G</h2>
+            <dl>
+                <dt>Gateway</dt>
+                <dd>Device that bridges between networks or protocols — in IP networking, usually a router that forwards traffic off the local subnet.</dd>
+                <dt>GRE — Generic Routing Encapsulation <span class="layer-badge">L3</span></dt>
+                <dd>Tunnelling protocol that wraps arbitrary network-layer packets inside IP — commonly used to tunnel IPv4/IPv6 or build VPNs.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="H">
+            <h2>H</h2>
+            <dl>
+                <dt>Handshake</dt>
+                <dd>A multi-step exchange that establishes a connection or session (e.g. TCP 3-way handshake, TLS handshake).</dd>
+                <dt>Hop <span class="layer-badge">L3</span></dt>
+                <dd>One step in a packet's journey — each router traversed counts as a hop, decrementing the IP TTL.</dd>
+                <dt>Host</dt>
+                <dd>Any device addressable on a network (laptop, server, phone, IoT thing).</dd>
+                <dt>HSRP / VRRP <span class="layer-badge">L3</span></dt>
+                <dd>First-Hop Redundancy Protocols that let multiple routers share a virtual gateway IP for seamless failover.</dd>
+                <dt>HTTP / HTTPS <span class="layer-badge">L7</span></dt>
+                <dd>HyperText Transfer Protocol; the secure variant runs over TLS (Layer 6).</dd>
+                <dt>HTTP/2 &amp; HTTP/3 <span class="layer-badge">L7</span></dt>
+                <dd>Newer HTTP versions: HTTP/2 multiplexes binary streams over TCP; HTTP/3 runs over QUIC (UDP) for lower latency.</dd>
+                <dt>Hub <span class="layer-badge">L1</span></dt>
+                <dd>Legacy multi-port repeater that simply rebroadcasts incoming signals to every port — effectively obsolete, replaced by switches.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="I">
+            <h2>I</h2>
+            <dl>
+                <dt>ICMP — Internet Control Message Protocol <span class="layer-badge">L3</span></dt>
+                <dd>Used for diagnostics (ping, traceroute) and error reporting at the IP layer.</dd>
+                <dt>IDS / IPS — Intrusion Detection / Prevention System</dt>
+                <dd>Inspects traffic for malicious patterns. IDS alerts only; IPS sits inline and can drop or reset offending flows.</dd>
+                <dt>IGMP — Internet Group Management Protocol <span class="layer-badge">L3</span></dt>
+                <dd>Lets IPv4 hosts join and leave multicast groups so routers know where to deliver multicast traffic.</dd>
+                <dt>IGP / EGP</dt>
+                <dd>Interior vs Exterior Gateway Protocols — IGPs (OSPF, IS-IS, EIGRP) run within an AS; EGPs (BGP) run between ASes.</dd>
+                <dt>IP — Internet Protocol <span class="layer-badge">L3</span></dt>
+                <dd>Provides logical addressing and best-effort packet delivery (IPv4 and IPv6).</dd>
+                <dt>IPsec <span class="layer-badge">L3</span></dt>
+                <dd>Suite that adds authentication and encryption at the IP layer (AH, ESP). Underpins many site-to-site and remote-access VPNs.</dd>
+                <dt>IPv4 / IPv6 <span class="layer-badge">L3</span></dt>
+                <dd>32-bit (e.g. 192.0.2.1) and 128-bit (e.g. 2001:db8::1) addressing, respectively.</dd>
+                <dt>IS-IS <span class="layer-badge">L3</span></dt>
+                <dd>Intermediate System to Intermediate System — link-state IGP common in large ISP backbones, similar in spirit to OSPF.</dd>
+                <dt>IXP — Internet Exchange Point</dt>
+                <dd>Physical facility where ISPs and content networks peer directly to exchange traffic without transiting a third party.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="J">
+            <h2>J</h2>
+            <dl>
+                <dt>Jitter</dt>
+                <dd>Variation in packet delay over time. Critical for VoIP/video; buffered out using a jitter buffer.</dd>
+                <dt>Jumbo frame <span class="layer-badge">L2</span></dt>
+                <dd>Ethernet frame with a payload larger than the standard 1500-byte MTU (typically up to ~9000 bytes), used in storage and data-centre fabrics.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="K">
+            <h2>K</h2>
+            <dl>
+                <dt>Kerberos <span class="layer-badge">L5/L7</span></dt>
+                <dd>Ticket-based authentication protocol used in Active Directory and many enterprise environments to avoid sending passwords over the wire.</dd>
+                <dt>Keep-alive</dt>
+                <dd>Lightweight probe (TCP keep-alive, HTTP <code>Connection: keep-alive</code>) used to detect or hold open idle connections.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="L">
+            <h2>L</h2>
+            <dl>
+                <dt>LACP — Link Aggregation Control Protocol <span class="layer-badge">L2</span></dt>
+                <dd>IEEE 802.3ad protocol that bundles multiple physical links into one logical link for bandwidth and redundancy.</dd>
+                <dt>LAN / WAN</dt>
+                <dd>Local-Area Network (one site) versus Wide-Area Network (multiple sites or the internet).</dd>
+                <dt>Latency</dt>
+                <dd>Time for a packet to travel from source to destination, usually measured in milliseconds.</dd>
+                <dt>Link-local <span class="layer-badge">L3</span></dt>
+                <dd>Addresses valid only on the local link — IPv4 <code>169.254.0.0/16</code> (APIPA) and IPv6 <code>fe80::/10</code>.</dd>
+                <dt>Load balancer</dt>
+                <dd>Device or service that spreads incoming connections across many back-end servers — L4 (TCP/UDP) or L7 (HTTP-aware).</dd>
+                <dt>Loopback</dt>
+                <dd>The virtual interface a host uses to talk to itself — IPv4 <code>127.0.0.0/8</code> (commonly <code>127.0.0.1</code>) and IPv6 <code>::1</code>.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="M">
+            <h2>M</h2>
+            <dl>
+                <dt>MAC — Media Access Control address <span class="layer-badge">L2</span></dt>
+                <dd>48-bit hardware address burnt in by the NIC vendor (e.g. <code>00:1A:2B:3C:4D:5E</code>).</dd>
+                <dt>mDNS — Multicast DNS <span class="layer-badge">L7</span></dt>
+                <dd>Zero-configuration name resolution on local links using the <code>.local</code> domain (Apple Bonjour, Avahi).</dd>
+                <dt>MPLS — Multi-Protocol Label Switching</dt>
+                <dd>Forwards packets using short labels instead of IP lookups — widely used by carriers for VPNs and traffic engineering.</dd>
+                <dt>MSS — Maximum Segment Size <span class="layer-badge">L4</span></dt>
+                <dd>The largest TCP payload, usually MTU − 40 bytes (IPv4 + TCP headers).</dd>
+                <dt>MTU — Maximum Transmission Unit <span class="layer-badge">L2/L3</span></dt>
+                <dd>The largest payload a link can carry without fragmentation (standard Ethernet: 1500 bytes).</dd>
+                <dt>Multicast <span class="layer-badge">L3</span></dt>
+                <dd>One-to-many delivery to a group of subscribed hosts (IPv4 <code>224.0.0.0/4</code>, IPv6 <code>ff00::/8</code>).</dd>
+                <dt>Multiplexing</dt>
+                <dd>Carrying multiple streams over one channel — ports multiplex applications, OFDM multiplexes radio sub-carriers, HTTP/2 multiplexes requests.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="N">
+            <h2>N</h2>
+            <dl>
+                <dt>NAT — Network Address Translation <span class="layer-badge">L3/L4</span></dt>
+                <dd>Rewrites IP/port information so many private hosts can share a single public address.</dd>
+                <dt>NDP — Neighbour Discovery Protocol <span class="layer-badge">L3</span></dt>
+                <dd>IPv6 equivalent of ARP plus router discovery, prefix discovery and SLAAC (RFC 4861).</dd>
+                <dt>NetBIOS <span class="layer-badge">L5</span></dt>
+                <dd>Legacy session/name service used by older Windows file sharing (NetBIOS over TCP/IP on ports 137–139).</dd>
+                <dt>NIC — Network Interface Card</dt>
+                <dd>The hardware (or virtual device) that connects a computer to a network.</dd>
+                <dt>NTP — Network Time Protocol <span class="layer-badge">L7</span></dt>
+                <dd>Synchronises clocks across the internet (UDP port 123); essential for logging, TLS certificate validity and Kerberos.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="O">
+            <h2>O</h2>
+            <dl>
+                <dt>OAuth 2.0 <span class="layer-badge">L7</span></dt>
+                <dd>Delegated-authorisation framework that lets apps act on a user's behalf using access tokens, without sharing the password.</dd>
+                <dt>OFDM — Orthogonal Frequency-Division Multiplexing <span class="layer-badge">L1</span></dt>
+                <dd>Modulation scheme used by Wi-Fi, LTE, 5G that splits a signal across many narrow subcarriers.</dd>
+                <dt>OSPF — Open Shortest Path First <span class="layer-badge">L3</span></dt>
+                <dd>Link-state interior-gateway routing protocol that computes shortest paths via Dijkstra.</dd>
+                <dt>OUI — Organisationally Unique Identifier <span class="layer-badge">L2</span></dt>
+                <dd>The first 24 bits of a MAC address, assigned by the IEEE to identify the NIC vendor.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="P">
+            <h2>P</h2>
+            <dl>
+                <dt>Packet <span class="layer-badge">L3</span></dt>
+                <dd>The PDU at the Network layer — e.g. an IPv4 packet.</dd>
+                <dt>Payload</dt>
+                <dd>The actual data carried inside a packet/frame/segment, excluding headers and trailers.</dd>
+                <dt>PDU — Protocol Data Unit</dt>
+                <dd>Generic name for "the unit of data at this layer" (bit, frame, packet, segment, etc.).</dd>
+                <dt>Ping</dt>
+                <dd>Diagnostic tool that sends ICMP Echo Requests and measures round-trip time and packet loss.</dd>
+                <dt>PoE — Power over Ethernet <span class="layer-badge">L1</span></dt>
+                <dd>Delivers electrical power down the same twisted-pair cable as data (IEEE 802.3af / at / bt), powering phones, APs and cameras.</dd>
+                <dt>Port <span class="layer-badge">L4</span></dt>
+                <dd>16-bit transport identifier (0–65535) that distinguishes multiple applications on one host.</dd>
+                <dt>Proxy <span class="layer-badge">L7</span></dt>
+                <dd>Intermediary that relays requests on behalf of clients (forward proxy) or servers (reverse proxy), often adding caching, filtering or TLS termination.</dd>
+                <dt>Public-key cryptography</dt>
+                <dd>Asymmetric crypto (RSA, ECDSA, Ed25519) where a public key encrypts/verifies and a private key decrypts/signs — the basis of TLS, SSH and PKI.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="Q">
+            <h2>Q</h2>
+            <dl>
+                <dt>QoS — Quality of Service</dt>
+                <dd>Techniques (classification, queuing, shaping, policing, DSCP) used to prioritise latency-sensitive traffic like voice and video.</dd>
+                <dt>QUIC <span class="layer-badge">L4</span></dt>
+                <dd>Modern UDP-based transport with built-in TLS 1.3 and multiplexed streams — the foundation of HTTP/3.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="R">
+            <h2>R</h2>
+            <dl>
+                <dt>RADIUS <span class="layer-badge">L7</span></dt>
+                <dd>Remote Authentication Dial-In User Service — central AAA server used by Wi-Fi, VPN and switch port authentication (802.1X).</dd>
+                <dt>REST <span class="layer-badge">L7</span></dt>
+                <dd>Architectural style for HTTP APIs based on resources, verbs (GET/POST/PUT/DELETE) and stateless requests.</dd>
+                <dt>RFC — Request for Comments</dt>
+                <dd>The IETF document series that defines internet standards (e.g. RFC 791 for IPv4, RFC 9110 for HTTP semantics).</dd>
+                <dt>RIP — Routing Information Protocol <span class="layer-badge">L3</span></dt>
+                <dd>Old distance-vector IGP using hop count as its metric (max 15). Rare today, but historically important.</dd>
+                <dt>Router <span class="layer-badge">L3</span></dt>
+                <dd>Device that forwards packets between networks based on IP destination and a routing table.</dd>
+                <dt>Routing table</dt>
+                <dd>Database of <code>destination prefix → next-hop / interface</code> entries used by a router or host to forward each packet.</dd>
+                <dt>RSTP / STP <span class="layer-badge">L2</span></dt>
+                <dd>(Rapid) Spanning Tree Protocol — prevents Layer 2 loops in switched networks by blocking redundant paths until needed.</dd>
+                <dt>RTT — Round-Trip Time</dt>
+                <dd>Time for a packet to go from sender to receiver and back (often measured by ping).</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="S">
+            <h2>S</h2>
+            <dl>
+                <dt>SAML <span class="layer-badge">L7</span></dt>
+                <dd>Security Assertion Markup Language — XML-based SSO protocol common in enterprises, often paired with identity providers like Okta or Entra ID.</dd>
+                <dt>SDN — Software-Defined Networking</dt>
+                <dd>Architecture that separates the network's control plane from the data plane, allowing centralised, programmable policy.</dd>
+                <dt>Segment <span class="layer-badge">L4</span></dt>
+                <dd>The PDU at the Transport layer (TCP segment / UDP datagram).</dd>
+                <dt>SIP — Session Initiation Protocol <span class="layer-badge">L7</span></dt>
+                <dd>Signalling protocol used to set up, modify and tear down VoIP and video calls; media usually flows over RTP.</dd>
+                <dt>Sliding window <span class="layer-badge">L4</span></dt>
+                <dd>TCP flow-control mechanism allowing multiple unacknowledged segments in flight up to the window size.</dd>
+                <dt>SMTP / IMAP / POP3 <span class="layer-badge">L7</span></dt>
+                <dd>Email protocols: SMTP sends mail (ports 25/465/587); IMAP and POP3 retrieve it from a mailbox.</dd>
+                <dt>SNAT / DNAT <span class="layer-badge">L3/L4</span></dt>
+                <dd>Source NAT rewrites the source IP/port (typical home router); Destination NAT rewrites the destination (used for port forwarding).</dd>
+                <dt>SNMP <span class="layer-badge">L7</span></dt>
+                <dd>Simple Network Management Protocol — used to poll and trap statistics and events from routers, switches and other devices (UDP 161/162).</dd>
+                <dt>SSH <span class="layer-badge">L7</span></dt>
+                <dd>Secure Shell — encrypted protocol for remote login, command execution and tunnelling (TCP port 22).</dd>
+                <dt>SSID — Service Set Identifier <span class="layer-badge">L2</span></dt>
+                <dd>The human-readable name of a Wi-Fi network broadcast by an access point.</dd>
+                <dt>Stateful vs Stateless</dt>
+                <dd>Stateful devices/protocols remember context across messages (TCP, firewalls with connection tracking); stateless ones don't (UDP, HTTP request-by-request).</dd>
+                <dt>Subnet mask <span class="layer-badge">L3</span></dt>
+                <dd>Marks which bits of an IP address belong to the network vs the host (e.g. 255.255.255.0 = /24).</dd>
+                <dt>Switch <span class="layer-badge">L2</span></dt>
+                <dd>Device that learns MAC addresses and forwards frames only out the relevant port.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="T">
+            <h2>T</h2>
+            <dl>
+                <dt>TCP — Transmission Control Protocol <span class="layer-badge">L4</span></dt>
+                <dd>Connection-oriented, reliable, ordered byte-stream protocol with flow and congestion control.</dd>
+                <dt>Telnet <span class="layer-badge">L7</span></dt>
+                <dd>Cleartext remote-terminal protocol (port 23). Long obsolete for management — superseded by SSH — still occasionally used for port testing.</dd>
+                <dt>Three-way handshake <span class="layer-badge">L4</span></dt>
+                <dd>TCP connection setup: SYN → SYN/ACK → ACK. Synchronises sequence numbers in both directions.</dd>
+                <dt>Throughput</dt>
+                <dd>Actual measured data rate of a link or flow, accounting for overhead, congestion and loss — always ≤ bandwidth.</dd>
+                <dt>TLS — Transport Layer Security <span class="layer-badge">L6</span></dt>
+                <dd>Cryptographic protocol that encrypts/authenticates traffic (powers HTTPS and many others).</dd>
+                <dt>Topology</dt>
+                <dd>The shape of a network's connections — physical (bus, star, ring, mesh) or logical (broadcast domain, routing graph).</dd>
+                <dt>Traceroute / tracert</dt>
+                <dd>Diagnostic tool that maps the routers between you and a destination by sending packets with increasing TTLs and watching the ICMP "time exceeded" replies.</dd>
+                <dt>Trunk <span class="layer-badge">L2</span></dt>
+                <dd>Switch port that carries multiple VLANs tagged with 802.1Q headers — used between switches and to VLAN-aware servers.</dd>
+                <dt>TTL — Time To Live <span class="layer-badge">L3</span></dt>
+                <dd>IP header field decremented at each router; a packet is dropped when TTL reaches 0.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="U">
+            <h2>U</h2>
+            <dl>
+                <dt>UDP — User Datagram Protocol <span class="layer-badge">L4</span></dt>
+                <dd>Connectionless, best-effort transport with minimal overhead. Used by DNS, DHCP, VoIP, games.</dd>
+                <dt>Unicast</dt>
+                <dd>One-to-one delivery to a single specific host — the default for most traffic.</dd>
+                <dt>URI / URL</dt>
+                <dd>Uniform Resource Identifier identifies a resource; a URL also tells you how to locate it (e.g. <code>https://example.com/page</code>).</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="V">
+            <h2>V</h2>
+            <dl>
+                <dt>VLAN — Virtual LAN <span class="layer-badge">L2</span></dt>
+                <dd>Logical segmentation of a physical switch into multiple isolated broadcast domains (IEEE 802.1Q).</dd>
+                <dt>VoIP — Voice over IP <span class="layer-badge">L7</span></dt>
+                <dd>Carrying voice calls over IP networks, typically signalled by SIP and transported by RTP/SRTP.</dd>
+                <dt>VPN — Virtual Private Network</dt>
+                <dd>Tunnel that carries traffic securely across an untrusted network (e.g. IPsec, WireGuard, OpenVPN).</dd>
+                <dt>VRRP <span class="layer-badge">L3</span></dt>
+                <dd>Virtual Router Redundancy Protocol — IETF standard alternative to HSRP for first-hop gateway failover.</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="W">
+            <h2>W</h2>
+            <dl>
+                <dt>WebSocket <span class="layer-badge">L7</span></dt>
+                <dd>Full-duplex protocol layered over HTTP that lets browsers and servers exchange messages in real time (chat, live dashboards, games).</dd>
+                <dt>Wi-Fi <span class="layer-badge">L1/L2</span></dt>
+                <dd>IEEE 802.11 family of wireless LAN standards (Wi-Fi 6 = 802.11ax, Wi-Fi 7 = 802.11be).</dd>
+                <dt>WireGuard</dt>
+                <dd>Modern, compact VPN protocol using state-of-the-art cryptography; runs in the Linux kernel and on every major platform.</dd>
+                <dt>Wireshark</dt>
+                <dd>Free open-source packet analyser used to capture and inspect traffic at any layer.</dd>
+                <dt>WPA2 / WPA3 <span class="layer-badge">L2</span></dt>
+                <dd>Wi-Fi Protected Access — the security suites that protect Wi-Fi traffic (WPA3 added SAE for stronger password handshakes).</dd>
+            </dl>
+        </section>
+
+        <section class="letter" id="X">
+            <h2>X</h2>
+            <dl>
+                <dt>X.509</dt>
+                <dd>The certificate format used by TLS, S/MIME and most PKI — binds a public key to a subject through a signed chain of trust.</dd>
+            </dl>
+        </section>
+
+        <p style="opacity:0.85; margin-top: 40px;">Missing a term? <a href="mailto:alex@slash-root.com?subject=Glossary%20suggestion">Email me</a> and I'll add it.</p>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="back-button">← Return to OSI Overview</a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com">alex@slash-root.com</a> should you spot any errors or wish to query anything.</p>
+        <p class="support-text">If you find this resource helpful, please consider <a href="https://buy.stripe.com/fZueVd5wY4ET99m2C6cZa02" target="_blank" rel="noopener noreferrer">supporting the project</a>.</p>
+    </footer>
+
+    <script>
+    // Live filter for glossary terms.
+    (function () {
+        var input = document.getElementById('glossaryFilter');
+        if (!input) return;
+        var sections = document.querySelectorAll('section.letter');
+        input.addEventListener('input', function () {
+            var q = input.value.trim().toLowerCase();
+            sections.forEach(function (section) {
+                var anyVisible = false;
+                section.querySelectorAll('dt').forEach(function (dt) {
+                    var dd = dt.nextElementSibling;
+                    var text = (dt.textContent + ' ' + (dd ? dd.textContent : '')).toLowerCase();
+                    var match = !q || text.indexOf(q) !== -1;
+                    dt.classList.toggle('hide', !match);
+                    if (dd) dd.classList.toggle('hide', !match);
+                    if (match) anyVisible = true;
+                });
+                section.classList.toggle('hide', !anyVisible);
+            });
+        });
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="OSI Explain">
+  <title>OSI Explain</title>
+  <rect width="64" height="64" rx="10" fill="#2c3e50"/>
+  <g>
+    <rect x="10" y="8"  width="44" height="6" rx="2" fill="#e74c3c"/>
+    <rect x="10" y="16" width="44" height="6" rx="2" fill="#e67e22"/>
+    <rect x="10" y="24" width="44" height="6" rx="2" fill="#f39c12"/>
+    <rect x="10" y="32" width="44" height="6" rx="2" fill="#27ae60"/>
+    <rect x="10" y="40" width="44" height="6" rx="2" fill="#3498db"/>
+    <rect x="10" y="48" width="44" height="6" rx="2" fill="#9b59b6"/>
+    <rect x="10" y="56" width="44" height="4" rx="2" fill="#34495e"/>
+  </g>
+</svg>

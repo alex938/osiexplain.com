@@ -3,17 +3,32 @@ name: Upload Website
 on:
   push:
     branches:
-    - main
+      - main
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-    - uses: actions/checkout@master
-    - uses: jakejarvis/s3-sync-action@master
-      with:
-        args: --acl public-read --follow-symlinks --delete --exclude '.git*/*'
-      env:
-        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Sync to S3
+        uses: jakejarvis/s3-sync-action@v0.5.1
+        with:
+          args: >-
+            --acl public-read
+            --follow-symlinks
+            --delete
+            --exclude '.git/*'
+            --exclude '.github/*'
+            --exclude 'README.md'
+            --exclude 'LICENSE'
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

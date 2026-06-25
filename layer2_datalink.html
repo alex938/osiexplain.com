@@ -9,11 +9,50 @@
     <meta property="og:description" content="Explore OSI Layer 2 (Data Link) including MAC addressing, Ethernet frames, and switching. Interactive demos of frame encapsulation and error detection.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://osiexplain.com/layer2_datalink.html">
-    <meta name="twitter:card" content="summary">
+    <meta property="og:site_name" content="OSIExplain.com">
+    <meta property="og:image" content="https://osiexplain.com/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="OSIExplain.com — OSI Layer 2 Data Link Layer">
+    <meta property="og:locale" content="en_GB">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="OSI Layer 2: Data Link Layer Explained - MAC, Frames & Switching">
     <meta name="twitter:description" content="Explore OSI Layer 2 (Data Link) including MAC addressing, Ethernet frames, and switching.">
+    <meta name="twitter:image" content="https://osiexplain.com/og-image.svg">
+    <meta name="author" content="Alex (osiexplain.com)">
+    <meta name="theme-color" content="#8e44ad">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="keywords" content="OSI Layer 2, Data Link Layer, MAC address, Ethernet frame, switching, ARP, VLAN, STP">
     <link rel="canonical" href="https://osiexplain.com/layer2_datalink.html">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="alternate icon" href="/favicon.svg">
     <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://osiexplain.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Layer 2: Data Link", "item": "https://osiexplain.com/layer2_datalink.html" }
+          ]
+        },
+        {
+          "@type": "TechArticle",
+          "headline": "OSI Layer 2: Data Link Layer Explained",
+          "description": "Explore OSI Layer 2 (Data Link) including MAC addressing, Ethernet frames, and switching.",
+          "image": "https://osiexplain.com/og-image.svg",
+          "mainEntityOfPage": "https://osiexplain.com/layer2_datalink.html",
+          "author": { "@type": "Person", "name": "Alex", "email": "alex@slash-root.com" },
+          "publisher": { "@type": "Organization", "name": "OSIExplain.com" },
+          "inLanguage": "en",
+          "about": "OSI Model"
+        }
+      ]
+    }
+    </script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -345,18 +384,30 @@
     </style>
 </head>
 <body>
-    <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode" aria-label="Toggle dark mode" aria-pressed="false"><span id="darkModeIcon">🌙</span><span id="darkModeText">Dark Mode</span></button>
-    <div class="container">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><span id="darkModeIcon" aria-hidden="true">🌙</span><span id="darkModeText">Theme</span></button>
+    <nav class="site-nav" aria-label="Primary">
+        <a class="brand" href="index.html"><span aria-hidden="true">🌐</span> OSI Explain</a>
+        <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a>
+        <a href="glossary.html">Glossary</a>
+    </nav>
+    <main id="main" class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="index.html">Home</a></li>
+                <li aria-current="page">Layer 2: Data Link</li>
+            </ol>
+        </nav>
         <a href="index.html" class="back-button">← Back to OSI Overview</a>
-        
-        <h1>🔗 OSI Layer 2: Data Link Layer</h1>
+
+        <h1><span aria-hidden="true">🔗</span> OSI Layer 2: Data Link Layer</h1>
         
         <div class="layer2-explanation">
             <h2>Layer 2 (Data Link) Technologies</h2>
             <p>
                 The <span class="highlight">Data Link Layer</span> is responsible for reliable node-to-node delivery 
                 of frames over a physical link. It provides <span class="highlight">MAC addressing, frame formatting, 
-                error detection, and media access control</span> for direct neighbors.
+                error detection, and media access control</span> for direct neighbours.
             </p>
             
             <div class="datalink-characteristics">
@@ -383,7 +434,7 @@
         
         <div class="protocol-selector">
             <label for="protocolSelect">Choose Data Link Protocol: </label>
-            <select id="protocolSelect">
+            <select id="protocolSelect" data-on-change-show-details="true">
                 <option value="ethernet">Ethernet (IEEE 802.3)</option>
                 <option value="wifi">Wi-Fi (IEEE 802.11)</option>
                 <option value="arp">ARP (Address Resolution)</option>
@@ -645,7 +696,7 @@
                         <li>Port statistics (errors, collisions)</li>
                         <li>Spanning Tree Protocol status</li>
                         <li>VLAN configuration verification</li>
-                        <li>Protocol analyzers (Wireshark)</li>
+                        <li>Protocol analysers (Wireshark)</li>
                         <li>Network topology discovery</li>
                     </ul>
                 </div>
@@ -688,10 +739,15 @@
             </ul>
         </div>
         
-        <div style="text-align: center; margin-top: 40px;">
+        <nav class="layer-nav" aria-label="Layer navigation">
+            <a href="layer1_physical.html" class="layer-nav-prev"><small>← Previous</small><strong>Layer 1: Physical</strong></a>
+            <a href="layer3_network.html" class="layer-nav-next"><small>Next →</small><strong>Layer 3: Network</strong></a>
+        </nav>
+
+        <div style="text-align: center; margin-top: 20px;">
             <a href="index.html" class="back-button">← Return to OSI Overview</a>
         </div>
-    </div>
+    </main>
 
     <script>
         let demoRunning = false;
@@ -763,7 +819,7 @@
                     "Uses MAC addresses for wireless device identification and association",
                     "Implements wireless-specific frame formats with multiple address fields",
                     "Provides error detection and automatic retransmission (ARQ)",
-                    "Manages wireless medium access with CSMA/CA and acknowledgments",
+                    "Manages wireless medium access with CSMA/CA and acknowledgements",
                     "Handles association state between stations and access points"
                 ]
             },
@@ -1058,12 +1114,15 @@
                 <ul>${evidenceHtml}</ul>
             `;
         }
-        
-        // Initialise
+
+        window.showDetails = showDetails;
+
+        // Initialise + react to protocol selection changes.
         showDetails();
+        var _l2Sel = document.getElementById('protocolSelect');
+        if (_l2Sel) _l2Sel.addEventListener('change', showDetails);
         
     </script>
-    <script src="main.js"></script>
     
     <footer class="site-footer">
         <p>Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com">alex@slash-root.com</a> should you spot any errors or wish to query anything.</p>

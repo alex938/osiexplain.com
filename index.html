@@ -3,17 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OSI Model Explained – OSIExplain.com | Networking Basics & Layer Guide</title>
-    <meta name="description" content="Learn the OSI model networking framework with simple layer explanations, examples, and interactive demos. Perfect for students and network professionals.">
-    <meta property="og:title" content="OSI Model Explained – OSIExplain.com | Networking Basics & Layer Guide">
-    <meta property="og:description" content="Learn the OSI model networking framework with simple layer explanations, examples, and interactive demos. Perfect for students and network professionals.">
+    <title>OSI Model Explained – 7 Layers of Networking | OSIExplain.com</title>
+    <meta name="description" content="Learn the OSI model's 7 layers with interactive demos, Wireshark examples, protocol references, mnemonics and a beginner-friendly guide for students, CompTIA Network+ and CCNA learners.">
+    <meta name="keywords" content="OSI model, 7 layers of OSI, networking layers, OSI explained, OSI vs TCP/IP, network protocols, CompTIA Network+, CCNA, Wireshark, network fundamentals">
+    <meta name="author" content="Alex (osiexplain.com)">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta property="og:site_name" content="OSIExplain.com">
+    <meta property="og:title" content="OSI Model Explained – 7 Layers of Networking | OSIExplain.com">
+    <meta property="og:description" content="Learn the OSI model's 7 layers with interactive demos, Wireshark examples, protocol references and a beginner-friendly guide.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://osiexplain.com/">
-    <meta name="twitter:card" content="summary">
+    <meta property="og:image" content="https://osiexplain.com/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="OSIExplain.com — diagram of the 7 OSI model layers">
+    <meta property="og:locale" content="en_GB">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="OSI Model Explained – OSIExplain.com">
     <meta name="twitter:description" content="Learn the OSI model networking framework with simple layer explanations, examples, and interactive demos.">
+    <meta name="twitter:image" content="https://osiexplain.com/og-image.svg">
     <link rel="canonical" href="https://osiexplain.com/">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="alternate icon" href="/favicon.svg">
     <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
     <style>
         body { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); }
         h1 { font-size: 3em; margin-bottom: 30px; color: #ecf0f1; }
@@ -43,9 +57,16 @@
     </style>
 </head>
 <body>
-    <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode" aria-label="Toggle dark mode" aria-pressed="false"><span id="darkModeIcon">🌙</span><span id="darkModeText">Dark Mode</span></button>
-    <div class="container">
-        <h1>🌐 OSI Explain</h1>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><span id="darkModeIcon" aria-hidden="true">🌙</span><span id="darkModeText">Theme</span></button>
+    <nav class="site-nav" aria-label="Primary">
+        <a class="brand" href="index.html" aria-current="page"><span aria-hidden="true">🌐</span> OSI Explain</a>
+        <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a>
+        <a href="glossary.html">Glossary</a>
+        <a href="https://github.com/" rel="noopener noreferrer" hidden>GitHub</a>
+    </nav>
+    <main id="main" class="container">
+        <h1><span aria-hidden="true">🌐</span> OSI Explain</h1>
         
         <div class="intro-section">
             <h2>The Open Systems Interconnection (OSI) Model Explained</h2>
@@ -66,9 +87,13 @@
         </div>
         
         <div class="mnemonic-section">
-            <h3>🧠 Memory Aid</h3>
+            <h3><span aria-hidden="true">🧠</span> Memory Aids</h3>
+            <p><strong>Bottom &rarr; Top (Layer 1 to 7):</strong></p>
             <div class="mnemonic">Please Do Not Throw Sausage Pizza Away</div>
-            <p><strong>P</strong>hysical • <strong>D</strong>ata Link • <strong>N</strong>etwork • <strong>T</strong>ransport • <strong>S</strong>ession • <strong>P</strong>resentation • <strong>A</strong>pplication</p>
+            <p><strong>P</strong>hysical &middot; <strong>D</strong>ata Link &middot; <strong>N</strong>etwork &middot; <strong>T</strong>ransport &middot; <strong>S</strong>ession &middot; <strong>P</strong>resentation &middot; <strong>A</strong>pplication</p>
+            <p style="margin-top:18px"><strong>Top &rarr; Bottom (Layer 7 to 1):</strong></p>
+            <div class="mnemonic">All People Seem To Need Data Processing</div>
+            <p><strong>A</strong>pplication &middot; <strong>P</strong>resentation &middot; <strong>S</strong>ession &middot; <strong>T</strong>ransport &middot; <strong>N</strong>etwork &middot; <strong>D</strong>ata Link &middot; <strong>P</strong>hysical</p>
         </div>
         
         <div class="osi-stack">
@@ -138,7 +163,7 @@
         
         
         <div class="teaching-tips">
-            <h3>❓ Frequently Asked Questions (FAQ)</h3>
+            <h3><span aria-hidden="true">❓</span> Frequently Asked Questions (FAQ)</h3>
             <div class="tip-grid">
                 <div class="tip">
                     <strong>What is the OSI Model?</strong>
@@ -162,8 +187,46 @@
         <script type="application/ld+json">
         {
           "@context": "https://schema.org",
-          "@type": "FAQPage",
-          "mainEntity": [{
+          "@graph": [
+            {
+              "@type": "WebSite",
+              "@id": "https://osiexplain.com/#website",
+              "url": "https://osiexplain.com/",
+              "name": "OSIExplain.com",
+              "description": "Interactive guide to the OSI model and its 7 networking layers.",
+              "inLanguage": "en",
+              "publisher": { "@id": "https://osiexplain.com/#person" }
+            },
+            {
+              "@type": "Person",
+              "@id": "https://osiexplain.com/#person",
+              "name": "Alex",
+              "email": "alex@slash-root.com",
+              "url": "https://osiexplain.com/"
+            },
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://osiexplain.com/" }
+              ]
+            },
+            {
+              "@type": "ItemList",
+              "name": "OSI Model Layers",
+              "itemListOrder": "https://schema.org/ItemListOrderDescending",
+              "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Application Layer (7)", "url": "https://osiexplain.com/layer7_application.html" },
+                { "@type": "ListItem", "position": 2, "name": "Presentation Layer (6)", "url": "https://osiexplain.com/layer6_presentation.html" },
+                { "@type": "ListItem", "position": 3, "name": "Session Layer (5)", "url": "https://osiexplain.com/layer5_session_demo.html" },
+                { "@type": "ListItem", "position": 4, "name": "Transport Layer (4)", "url": "https://osiexplain.com/layer4_transport.html" },
+                { "@type": "ListItem", "position": 5, "name": "Network Layer (3)", "url": "https://osiexplain.com/layer3_network.html" },
+                { "@type": "ListItem", "position": 6, "name": "Data Link Layer (2)", "url": "https://osiexplain.com/layer2_datalink.html" },
+                { "@type": "ListItem", "position": 7, "name": "Physical Layer (1)", "url": "https://osiexplain.com/layer1_physical.html" }
+              ]
+            },
+            {
+              "@type": "FAQPage",
+              "mainEntity": [{
             "@type": "Question",
             "name": "What is the OSI Model?",
             "acceptedAnswer": {
@@ -192,17 +255,21 @@
               "text": "The OSI model is a theoretical framework with 7 layers, while TCP/IP is the practical model used for the Internet with 4 layers. OSI is better for understanding concepts, while TCP/IP reflects real-world implementation."
             }
           }]
+            }
+          ]
         }
         </script>
 
         <div class="footer">
-            <p>📚 Interactive OSI Model Reference</p>
+            <p><span aria-hidden="true">📚</span> Interactive OSI Model Reference</p>
             <p>Click on any layer to explore protocols, examples, and demonstrations</p>
+            <p style="margin-top:14px">
+                Also see: <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP comparison</a> &middot;
+                <a href="glossary.html">Networking glossary</a>
+            </p>
         </div>
-    </div>
-    
-    <script src="main.js"></script>
-    
+    </main>
+
     <footer class="site-footer">
         <p>
             Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com">alex@slash-root.com</a> should you spot any errors or wish to query anything.

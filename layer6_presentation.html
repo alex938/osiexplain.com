@@ -9,11 +9,50 @@
     <meta property="og:description" content="Explore OSI Layer 6 (Presentation Layer) handling data translation, encryption (SSL/TLS), and compression. Interactive demos of data encoding and security.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://osiexplain.com/layer6_presentation.html">
-    <meta name="twitter:card" content="summary">
+    <meta property="og:site_name" content="OSIExplain.com">
+    <meta property="og:image" content="https://osiexplain.com/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="OSIExplain.com — OSI Layer 6 Presentation Layer">
+    <meta property="og:locale" content="en_GB">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="OSI Layer 6: Presentation Layer Explained - Encryption & Encoding">
     <meta name="twitter:description" content="Explore OSI Layer 6 (Presentation Layer) handling data translation, encryption, and compression.">
+    <meta name="twitter:image" content="https://osiexplain.com/og-image.svg">
+    <meta name="author" content="Alex (osiexplain.com)">
+    <meta name="theme-color" content="#d35400">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="keywords" content="OSI Layer 6, Presentation Layer, TLS, SSL, encryption, compression, JPEG, UTF-8, ASCII">
     <link rel="canonical" href="https://osiexplain.com/layer6_presentation.html">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="alternate icon" href="/favicon.svg">
     <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://osiexplain.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Layer 6: Presentation", "item": "https://osiexplain.com/layer6_presentation.html" }
+          ]
+        },
+        {
+          "@type": "TechArticle",
+          "headline": "OSI Layer 6: Presentation Layer Explained",
+          "description": "Explore OSI Layer 6 (Presentation Layer) handling data translation, encryption (SSL/TLS), and compression.",
+          "image": "https://osiexplain.com/og-image.svg",
+          "mainEntityOfPage": "https://osiexplain.com/layer6_presentation.html",
+          "author": { "@type": "Person", "name": "Alex", "email": "alex@slash-root.com" },
+          "publisher": { "@type": "Organization", "name": "OSIExplain.com" },
+          "inLanguage": "en",
+          "about": "OSI Model"
+        }
+      ]
+    }
+    </script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -550,15 +589,28 @@
     </style>
 </head>
 <body>
-    <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode" aria-label="Toggle dark mode" aria-pressed="false">
-        <span id="darkModeIcon">🌙</span>
-        <span id="darkModeText">Dark Mode</span>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false">
+        <span id="darkModeIcon" aria-hidden="true">🌙</span>
+        <span id="darkModeText">Theme</span>
     </button>
-    
-    <div class="container">
+
+    <nav class="site-nav" aria-label="Primary">
+        <a class="brand" href="index.html"><span aria-hidden="true">🌐</span> OSI Explain</a>
+        <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a>
+        <a href="glossary.html">Glossary</a>
+    </nav>
+
+    <main id="main" class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="index.html">Home</a></li>
+                <li aria-current="page">Layer 6: Presentation</li>
+            </ol>
+        </nav>
         <a href="index.html" class="back-button">← Back to OSI Overview</a>
-        
-        <h1>🎭 Layer 6: Presentation Layer</h1>
+
+        <h1><span aria-hidden="true">🎭</span> Layer 6: Presentation Layer</h1>
         
         <div class="layer-header">
             <h2>Data Translation, Encryption & Compression</h2>
@@ -1026,7 +1078,7 @@ All properly decoded by browser's Presentation Layer!
                     <li><strong>Compression Tools:</strong> Test compression/decompression manually</li>
                     <li><strong>Certificate Analysers:</strong> Validate SSL certificate chains</li>
                     <li><strong>Format Converters:</strong> Transform between different data formats</li>
-                    <li><strong>Wireshark:</strong> analyse encrypted vs plaintext data flows</li>
+                    <li><strong>Wireshark:</strong> Analyse encrypted vs plaintext data flows</li>
                 </ul>
             </div>
         </div>
@@ -1057,10 +1109,15 @@ All properly decoded by browser's Presentation Layer!
             </ul>
         </div>
         
-        <div style="text-align: center; margin-top: 40px;">
+        <nav class="layer-nav" aria-label="Layer navigation">
+            <a href="layer5_session_demo.html" class="layer-nav-prev"><small>← Previous</small><strong>Layer 5: Session</strong></a>
+            <a href="layer7_application.html" class="layer-nav-next"><small>Next →</small><strong>Layer 7: Application</strong></a>
+        </nav>
+
+        <div style="text-align: center; margin-top: 20px;">
             <a href="index.html" class="back-button">← Return to OSI Overview</a>
         </div>
-    </div>
+    </main>
     
     <script>
         // Presentation Layer Interactive Demo
@@ -1082,7 +1139,7 @@ All properly decoded by browser's Presentation Layer!
                         {
                             title: 'Client Hello',
                             senderData: 'HTTPS Request + Supported Ciphers + Client Random',
-                            receiverData: 'Processing... Analyzing capabilities',
+                            receiverData: 'Processing... Analysing capabilities',
                             phase: 'TLS Handshake Initiation',
                             explanation: 'Client initiates secure connection by sending supported encryption methods and random number.',
                             wireshark: `Client Hello Message:
@@ -1149,7 +1206,7 @@ Encrypted Response:
 
 Decrypted Content:
   GET /account/balance HTTP/1.1
-  Authorisation: Bearer eyJhbGc...
+  Authorization: Bearer eyJhbGc...
   
   HTTP/1.1 200 OK
   {"balance": 1234.56, "currency": "USD"}`,
@@ -1278,7 +1335,7 @@ Total: 156 bytes for multilingual text`,
                             senderData: 'UTF-8 Byte Stream\n4a 6f 73 c3 a9 20 47 61 72 63 c3 ad 61\ne5 8c 97 e4 ba ac\nd0 97 d0 b4 d1 80 d0 b0 d0 b2...',
                             receiverData: 'Receiving byte stream\nUTF-8 header detected\nContent-Type: charset=UTF-8',
                             phase: 'Encoded Data Transmission',
-                            explanation: 'UTF-8 encoded bytes transmitted over network. Server recognizes UTF-8 encoding from Content-Type header.',
+                            explanation: 'UTF-8 encoded bytes transmitted over network. Server recognises UTF-8 encoding from Content-Type header.',
                             wireshark: `HTTP POST Data:
 POST /contact HTTP/1.1
 Host: example.com
@@ -1325,11 +1382,11 @@ Database Storage:
                             senderData: 'Digital Camera RAW\nSize: 24 MB\nResolution: 4000x3000\nRGB values per pixel',
                             receiverData: 'Image editor loading...\nPreparing compression',
                             phase: 'Uncompressed Image Data',
-                            explanation: 'High-quality digital photo contains millions of pixels, each with full RGB color information.',
+                            explanation: 'High-quality digital photo contains millions of pixels, each with full RGB colour information.',
                             wireshark: `Image File Analysis:
 Original RAW Image:
 - Resolution: 4000 × 3000 pixels = 12,000,000 pixels
-- Color depth: 24 bits per pixel (8 bits each R,G,B)
+- Colour depth: 24 bits per pixel (8 bits each R,G,B)
 - Total size: 12,000,000 × 3 bytes = 36,000,000 bytes (~34.3 MB)
 - Format: Uncompressed bitmap data
 
@@ -1343,22 +1400,22 @@ Bitmap File Header:
                         },
                         {
                             title: 'JPEG Compression Process',
-                            senderData: 'Applying JPEG compression...\n1. Color space conversion (RGB→YCbCr)\n2. DCT transformation\n3. Quantization\n4. Huffman encoding',
-                            receiverData: 'Compression in progress...\nAnalyzing image complexity',
+                            senderData: 'Applying JPEG compression...\n1. Colour space conversion (RGB→YCbCr)\n2. DCT transformation\n3. Quantisation\n4. Huffman encoding',
+                            receiverData: 'Compression in progress...\nAnalysing image complexity',
                             phase: 'Lossy Compression Algorithm',
                             explanation: 'JPEG algorithm transforms image data through multiple steps, removing information human eyes rarely notice.',
                             wireshark: `JPEG Compression Steps:
 
-1. Color Space Conversion:
-   RGB → YCbCr (separates brightness from color)
+1. Colour Space Conversion:
+   RGB → YCbCr (separates brightness from colour)
    - Y (Luma): brightness information
-   - Cb, Cr (Chroma): color information
+   - Cb, Cr (Chroma): colour information
    
 2. Discrete Cosine Transform (DCT):
    - Image divided into 8×8 blocks
    - Each block converted to frequency components
    
-3. Quantization:
+3. Quantisation:
    - High-frequency details reduced/removed
    - Quality setting determines amount of data discarded
    
@@ -1370,7 +1427,7 @@ Bitmap File Header:
                         {
                             title: 'Compressed JPEG File',
                             senderData: 'JPEG Image\nSize: 2.1 MB (91% smaller!)\nQuality: 85%\nFFD8FFE0... (JPEG header)',
-                            receiverData: 'Receiving JPEG file\nAnalyzing compression ratio',
+                            receiverData: 'Receiving JPEG file\nAnalysing compression ratio',
                             phase: 'Efficient Image Storage',
                             explanation: 'Original 24MB image compressed to 2.1MB with minimal visible quality loss. 91% size reduction!',
                             wireshark: `JPEG File Structure:
@@ -1379,7 +1436,7 @@ File Header:
   APP0 Segment: FF E0 00 10 4A 46 49 46... (JFIF)
   
 Image Data:
-  DQT (Quantization Tables): FF DB...
+  DQT (Quantisation Tables): FF DB...
   SOF (Start of Frame): FF C0...
     - Image Width: 4000
     - Image Height: 3000
@@ -1414,7 +1471,7 @@ Browser Processing:
 1. Receives 2.1 MB JPEG file (vs 36 MB original)
 2. JPEG decoder reverses compression steps:
    - Huffman decoding
-   - Inverse quantization  
+   - Inverse quantisation  
    - Inverse DCT transform
    - YCbCr → RGB conversion
 3. Image rendered at full 4000×3000 resolution
@@ -1797,7 +1854,6 @@ User can now safely enter sensitive information like:
         }
         
     </script>
-    <script src="main.js"></script>
     
     <footer class="site-footer">
         <p>Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com">alex@slash-root.com</a> should you spot any errors or wish to query anything.</p>
