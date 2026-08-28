@@ -7,10 +7,10 @@
     <meta name="description" content="Discover OSI Layer 7 (Application Layer) where users interact with the network. Deep dive into HTTP, DNS, SMTP, and FTP with Wireshark examples.">
     <meta property="og:title" content="OSI Layer 7: Application Layer Explained - HTTP, DNS & SMTP">
     <meta property="og:description" content="Discover OSI Layer 7 (Application Layer) where users interact with the network. Deep dive into HTTP, DNS, SMTP, and FTP with Wireshark examples.">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="article">
     <meta property="og:url" content="https://osiexplain.com/layer7_application.html">
     <meta property="og:site_name" content="OSIExplain.com">
-    <meta property="og:image" content="https://osiexplain.com/og-image.svg">
+    <meta property="og:image" content="https://osiexplain.com/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="OSIExplain.com — OSI Layer 7 Application Layer">
@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="OSI Layer 7: Application Layer Explained - HTTP, DNS & SMTP">
     <meta name="twitter:description" content="Discover OSI Layer 7 (Application Layer) with HTTP, DNS, SMTP, and FTP Wireshark examples.">
-    <meta name="twitter:image" content="https://osiexplain.com/og-image.svg">
+    <meta name="twitter:image" content="https://osiexplain.com/og-image.png">
     <meta name="author" content="Alex (osiexplain.com)">
     <meta name="theme-color" content="#c0392b">
     <meta name="robots" content="index, follow, max-image-preview:large">
@@ -26,32 +26,96 @@
     <link rel="canonical" href="https://osiexplain.com/layer7_application.html">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" href="/favicon.svg">
-    <link rel="stylesheet" href="styles.css?v=20260625">
-    <script src="main.js?v=20260625" defer></script>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="styles.css?v=20260828">
+    <script src="main.js?v=20260828" defer></script>
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@graph": [
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
         {
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://osiexplain.com/" },
-            { "@type": "ListItem", "position": 2, "name": "Layer 7: Application", "item": "https://osiexplain.com/layer7_application.html" }
-          ]
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://osiexplain.com/"
         },
         {
-          "@type": "TechArticle",
-          "headline": "OSI Layer 7: Application Layer Explained",
-          "description": "Discover OSI Layer 7 (Application Layer) where users interact with the network. Deep dive into HTTP, DNS, SMTP and FTP with Wireshark examples.",
-          "image": "https://osiexplain.com/og-image.svg",
-          "mainEntityOfPage": "https://osiexplain.com/layer7_application.html",
-          "author": { "@type": "Person", "name": "Alex", "email": "alex@slash-root.com" },
-          "publisher": { "@type": "Organization", "name": "OSIExplain.com" },
-          "inLanguage": "en",
-          "about": "OSI Model"
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Layer 7: Application",
+          "item": "https://osiexplain.com/layer7_application.html"
+        }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "OSI Layer 7: Application Layer Explained",
+      "description": "Discover OSI Layer 7 (Application Layer) where users interact with the network. Deep dive into HTTP, DNS, SMTP and FTP with Wireshark examples.",
+      "image": "https://osiexplain.com/og-image.png",
+      "mainEntityOfPage": "https://osiexplain.com/layer7_application.html",
+      "author": {
+        "@type": "Person",
+        "name": "Alex",
+        "email": "alex@slash-root.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "OSIExplain.com",
+        "url": "https://osiexplain.com/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://osiexplain.com/apple-touch-icon.png",
+          "width": 180,
+          "height": 180
+        }
+      },
+      "datePublished": "2025-01-15",
+      "dateModified": "2026-08-28",
+      "inLanguage": "en",
+      "about": "OSI Model"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the Application Layer in the OSI model?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Application Layer is Layer 7, the top of the stack. It defines the protocols through which programs request network services — HTTP for the web, SMTP and IMAP for email, DNS for name resolution, SSH for remote access. It is the layer closest to the user, and the one most network problems are actually reported from."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my web browser part of Layer 7?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not quite. The browser is an application that *uses* Layer 7 protocols; the layer itself is the interface those protocols provide. In everyday conversation people say “the browser is Layer 7” as shorthand, but exams tend to want the stricter answer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between Layer 7 and Layer 6?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Layer 7 decides *what* is being asked for — a GET request for a particular URL, an email being delivered, a DNS name being resolved. Layer 6 decides *how that data is represented* on the wire — which character set, whether it is compressed, whether it is encrypted."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What ports do common Layer 7 protocols use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "HTTP 80, HTTPS 443, SSH 22, Telnet 23, FTP 20 and 21, SMTP 25 (submission 587, implicit TLS 465), DNS 53, DHCP 67 and 68, POP3 110, IMAP 143, SNMP 161 and 162, NTP 123, and RDP 3389."
+          }
         }
       ]
     }
+  ]
+}
     </script>
     <style>
         body {
@@ -93,14 +157,7 @@
             margin-bottom: 30px;
             text-align: center;
         }
-        
-        .content-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin: 30px 0;
-        }
-        
+
         .content-box {
             background: rgba(0, 0, 0, 0.3);
             padding: 25px;
@@ -121,49 +178,9 @@
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
+
         
-        .wireshark-example {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            padding: 12px;
-            margin: 12px 0;
-            font-family: 'Courier New', monospace;
-            color: #00ff00;
-            font-size: 0.9em;
-        }
-        
-        .example-box {
-            background: rgba(41, 128, 185, 0.3);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 4px solid #3498db;
-        }
-        
-        .back-button {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 24px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-        
-        .back-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-        
-        .highlight {
-            color: #f1c40f;
-            font-weight: bold;
-        }
+
         
         .user-experience {
             background: rgba(142, 68, 173, 0.3);
@@ -456,12 +473,13 @@
         body.dark-mode .content-box,body.dark-mode .protocols-list,body.dark-mode .example-box,body.dark-mode .real-world,body.dark-mode .user-experience,body.dark-mode .interactive-demo{background:rgba(0,0,0,0.5);}
     </style>
 </head>
-<body>
+<body data-page-id="layer7">
     <a class="skip-link" href="#main">Skip to content</a>
     <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><span id="darkModeIcon" aria-hidden="true">🌙</span><span id="darkModeText">Theme</span></button>
     <nav class="site-nav" aria-label="Primary">
         <a class="brand" href="index.html"><span aria-hidden="true">🌐</span> OSI Explain</a>
         <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a>
+        <a href="quiz.html">Practice quiz</a>
         <a href="glossary.html">Glossary</a>
     </nav>
     <main id="main" class="container">
@@ -587,7 +605,7 @@ Application preparing to make network requests
                 <div class="protocol-card">
                     <h4>🌍 HTTP/HTTPS (Web Browsing)</h4>
                     <p><strong>HyperText Transfer Protocol</strong></p>
-                    <div class="wireshark-example">GET /index.html HTTP/1.1
+                    <div class="wireshark-example" data-copy>GET /index.html HTTP/1.1
 Host: www.example.com
 User-Agent: Mozilla/5.0
 Accept: text/html,application/xhtml+xml</div>
@@ -598,7 +616,7 @@ Accept: text/html,application/xhtml+xml</div>
                 <div class="protocol-card">
                     <h4>📧 SMTP/POP3/IMAP (Email)</h4>
                     <p><strong>Email Protocols</strong></p>
-                    <div class="wireshark-example">SMTP: MAIL FROM: <user@example.com>
+                    <div class="wireshark-example" data-copy>SMTP: MAIL FROM: <user@example.com>
 SMTP: RCPT TO: <friend@email.com>
 SMTP: DATA (email content follows)</div>
                     <p><strong>What you see in Wireshark:</strong> Email commands, authentication, and message transfer</p>
@@ -608,7 +626,7 @@ SMTP: DATA (email content follows)</div>
                 <div class="protocol-card">
                     <h4>📁 FTP (File Transfer)</h4>
                     <p><strong>File Transfer Protocol</strong></p>
-                    <div class="wireshark-example">FTP: USER anonymous
+                    <div class="wireshark-example" data-copy>FTP: USER anonymous
 FTP: PASS guest@
 FTP: RETR filename.txt</div>
                     <p><strong>What you see in Wireshark:</strong> Login commands, directory navigation, file transfers</p>
@@ -618,7 +636,7 @@ FTP: RETR filename.txt</div>
                 <div class="protocol-card">
                     <h4>🔍 DNS (Name Resolution)</h4>
                     <p><strong>Domain Name System</strong></p>
-                    <div class="wireshark-example">DNS Query: www.google.com Type A
+                    <div class="wireshark-example" data-copy>DNS Query: www.google.com Type A
 DNS Response: 142.250.191.46
 TTL: 300 seconds</div>
                     <p><strong>What you see in Wireshark:</strong> Name queries and IP address responses</p>
@@ -628,7 +646,7 @@ TTL: 300 seconds</div>
                 <div class="protocol-card">
                     <h4>🔧 DHCP (IP Configuration)</h4>
                     <p><strong>Dynamic Host Configuration Protocol</strong></p>
-                    <div class="wireshark-example">DHCP Discover (broadcast)
+                    <div class="wireshark-example" data-copy>DHCP Discover (broadcast)
 DHCP Offer: IP 192.168.1.100
 DHCP Request: Accept offer
 DHCP ACK: Configuration confirmed</div>
@@ -639,7 +657,7 @@ DHCP ACK: Configuration confirmed</div>
                 <div class="protocol-card">
                     <h4>💬 SSH/Telnet (Remote Access)</h4>
                     <p><strong>Remote Terminal Access</strong></p>
-                    <div class="wireshark-example">SSH: Protocol version negotiation
+                    <div class="wireshark-example" data-copy>SSH: Protocol version negotiation
 SSH: Key exchange and authentication
 SSH: Encrypted terminal session</div>
                     <p><strong>What you see in Wireshark:</strong> Connection setup and encrypted data</p>
@@ -700,7 +718,7 @@ SSH: Encrypted terminal session</div>
                 <li><strong>Additional Requests:</strong> Browser makes more HTTP requests for images, ads, etc.</li>
             </ol>
             
-            <div class="wireshark-example">
+            <div class="wireshark-example" data-copy>
 Wireshark Application Layer Capture:
 DNS: Standard query A www.google.com
 HTTP: GET / HTTP/1.1
@@ -781,6 +799,107 @@ HTTP: Set-Cookie: session_id=abc123...
             </ul>
         </div>
         
+
+        <section class="quiz" id="quiz" data-quiz-id="layer7" aria-labelledby="quiz-heading">
+            <h2 id="quiz-heading"><span aria-hidden="true">🎯</span> Check your understanding &mdash; Layer 7</h2>
+            <p class="quiz-intro">Five questions on Layer 7 — the protocols users actually meet.</p>
+            <ol class="quiz-list">
+                <li class="quiz-question" data-answer="2">
+                    <p class="quiz-prompt">Which of these is an Application Layer protocol?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">TCP</button></li>
+                        <li><button type="button" data-option="1">IP</button></li>
+                        <li><button type="button" data-option="2">HTTP</button></li>
+                        <li><button type="button" data-option="3">Ethernet</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>HTTP is Layer 7. TCP is Layer 4, IP is Layer 3 and Ethernet is Layer 2 — those three carry HTTP rather than being part of it.</p>
+                </li>
+                <li class="quiz-question" data-answer="1">
+                    <p class="quiz-prompt">Which port and transport does DNS normally use?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">TCP 53 only</button></li>
+                        <li><button type="button" data-option="1">UDP 53, falling back to TCP 53 for large responses</button></li>
+                        <li><button type="button" data-option="2">UDP 68</button></li>
+                        <li><button type="button" data-option="3">TCP 853 only</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>DNS uses UDP port 53 for ordinary queries because it is fast and a lookup fits in one datagram. It switches to TCP 53 for zone transfers and any response too large for a single UDP datagram.</p>
+                </li>
+                <li class="quiz-question" data-answer="1">
+                    <p class="quiz-prompt">What is the correct order of the DHCP exchange?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Request → Offer → Discover → Ack</button></li>
+                        <li><button type="button" data-option="1">Discover → Offer → Request → Ack</button></li>
+                        <li><button type="button" data-option="2">Offer → Discover → Ack → Request</button></li>
+                        <li><button type="button" data-option="3">Discover → Request → Offer → Ack</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>DORA: the client broadcasts a Discover, servers respond with an Offer, the client formally Requests one of them, and the server confirms with an Ack.</p>
+                </li>
+                <li class="quiz-question" data-answer="2">
+                    <p class="quiz-prompt">What does it mean to call something a “Layer 7 firewall”?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">It filters purely on IP address</button></li>
+                        <li><button type="button" data-option="1">It filters on port number</button></li>
+                        <li><button type="button" data-option="2">It inspects application content, such as URLs, HTTP methods or SQL statements</button></li>
+                        <li><button type="button" data-option="3">It operates on the physical cable</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>A Layer 7 (or next-generation) firewall understands the application protocol, so it can block a specific URL path or a SQL injection attempt. A traditional Layer 3/4 firewall can only see addresses and ports.</p>
+                </li>
+                <li class="quiz-question" data-answer="1">
+                    <p class="quiz-prompt">Is your web browser itself the Application Layer?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Yes, the browser is Layer 7</button></li>
+                        <li><button type="button" data-option="1">No — the browser is the application; Layer 7 is the protocol interface it uses, such as HTTP</button></li>
+                        <li><button type="button" data-option="2">No, the browser is Layer 6</button></li>
+                        <li><button type="button" data-option="3">Only when it is loading HTTPS pages</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>This trips people up constantly. OSI Layer 7 provides network services *to* applications; it is not the application itself. The browser is a user program, and HTTP is the Layer 7 protocol it speaks.</p>
+                </li>
+            </ol>
+            <p class="quiz-score" role="status" aria-live="polite"></p>
+            <button type="button" class="btn quiz-reset" hidden>Try these again</button>
+        </section>
+
+        <section class="faq-section" id="faq" aria-labelledby="faq-heading">
+            <h2 id="faq-heading"><span aria-hidden="true">❓</span> Layer 7 (Application) &mdash; frequently asked questions</h2>
+            <div class="faq-item">
+                <h3>What is the Application Layer in the OSI model?</h3>
+                <p>The Application Layer is Layer 7, the top of the stack. It defines the protocols through which programs request network services — HTTP for the web, SMTP and IMAP for email, DNS for name resolution, SSH for remote access. It is the layer closest to the user, and the one most network problems are actually reported from.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Is my web browser part of Layer 7?</h3>
+                <p>Not quite. The browser is an application that *uses* Layer 7 protocols; the layer itself is the interface those protocols provide. In everyday conversation people say “the browser is Layer 7” as shorthand, but exams tend to want the stricter answer.</p>
+            </div>
+            <div class="faq-item">
+                <h3>What is the difference between Layer 7 and Layer 6?</h3>
+                <p>Layer 7 decides *what* is being asked for — a GET request for a particular URL, an email being delivered, a DNS name being resolved. Layer 6 decides *how that data is represented* on the wire — which character set, whether it is compressed, whether it is encrypted.</p>
+            </div>
+            <div class="faq-item">
+                <h3>What ports do common Layer 7 protocols use?</h3>
+                <p>HTTP 80, HTTPS 443, SSH 22, Telnet 23, FTP 20 and 21, SMTP 25 (submission 587, implicit TLS 465), DNS 53, DHCP 67 and 68, POP3 110, IMAP 143, SNMP 161 and 162, NTP 123, and RDP 3389.</p>
+            </div>
+        </section>
+
+        <section class="related-terms" aria-labelledby="terms-heading">
+            <h2 id="terms-heading"><span aria-hidden="true">📖</span> Related glossary terms</h2>
+            <ul>
+                <li><a href="glossary.html#term-httphttps">HTTP / HTTPS</a></li>
+                <li><a href="glossary.html#term-dns">DNS</a></li>
+                <li><a href="glossary.html#term-dhcp">DHCP</a></li>
+                <li><a href="glossary.html#term-smtpimappop3">SMTP / IMAP / POP3</a></li>
+                <li><a href="glossary.html#term-ssh">SSH</a></li>
+                <li><a href="glossary.html#term-ftpsftpftps">FTP / SFTP / FTPS</a></li>
+                <li><a href="glossary.html#term-rest">REST</a></li>
+                <li><a href="glossary.html#term-proxy">Proxy</a></li>
+                <li><a href="glossary.html#term-websocket">WebSocket</a></li>
+                <li><a href="glossary.html#term-loadbalancer">Load balancer</a></li>
+            </ul>
+        </section>
+
         <nav class="layer-nav" aria-label="Layer navigation">
             <a href="layer6_presentation.html" class="layer-nav-prev"><small>← Previous</small><strong>Layer 6: Presentation</strong></a>
             <a href="index.html" class="layer-nav-next"><small>OSI Overview →</small><strong>All 7 Layers</strong></a>

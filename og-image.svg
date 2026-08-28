@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="OSIExplain.com — The OSI Model Explained">
-  <title>OSIExplain.com — The OSI Model Explained</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="OSIExplain.com — The 7 Layers of the OSI Model">
+  <title>OSIExplain.com — The 7 Layers of the OSI Model</title>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#2c3e50"/>
@@ -8,12 +8,29 @@
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <g font-family="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" fill="#ffffff">
-    <text x="80" y="130" font-size="64" font-weight="700">🌐 OSI Explain</text>
-    <text x="80" y="190" font-size="32" opacity="0.9">The 7 Layers of the OSI Model</text>
-    <text x="80" y="230" font-size="22" opacity="0.75">Interactive demos · Wireshark examples · Memory aids</text>
-    <text x="80" y="590" font-size="22" opacity="0.8">osiexplain.com</text>
+
+  <!-- Globe mark (vector, so it renders identically everywhere) -->
+  <g transform="translate(80,68)" fill="none" stroke="#ffffff" stroke-width="4">
+    <circle cx="32" cy="32" r="30"/>
+    <ellipse cx="32" cy="32" rx="13" ry="30"/>
+    <path d="M4 22h56M4 42h56"/>
   </g>
+
+  <g font-family="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" fill="#ffffff">
+    <text x="164" y="122" font-size="64" font-weight="700">OSI Explain</text>
+    <text x="80" y="190" font-size="34" opacity="0.92">The 7 Layers of the OSI Model</text>
+    <text x="80" y="234" font-size="22" opacity="0.78">Interactive demos · Wireshark examples · Quizzes · Glossary</text>
+
+    <g opacity="0.95">
+      <rect x="80" y="292" width="560" height="92" rx="12" fill="#000000" fill-opacity="0.22"/>
+      <text x="104" y="330" font-size="20" opacity="0.75">Memory aid — Layer 1 to 7</text>
+      <text x="104" y="366" font-size="27" font-weight="600" letter-spacing="0.5">Please Do Not Throw Sausage Pizza Away</text>
+    </g>
+
+    <text x="80" y="452" font-size="21" opacity="0.8">Built for CompTIA Network+, CCNA and networking students</text>
+    <text x="80" y="586" font-size="23" opacity="0.85" font-weight="600">osiexplain.com</text>
+  </g>
+
   <g transform="translate(720,90)">
     <rect x="0"   y="0"   width="400" height="55" rx="8" fill="#e74c3c"/>
     <rect x="0"   y="65"  width="400" height="55" rx="8" fill="#e67e22"/>
@@ -22,7 +39,7 @@
     <rect x="0"   y="260" width="400" height="55" rx="8" fill="#3498db"/>
     <rect x="0"   y="325" width="400" height="55" rx="8" fill="#9b59b6"/>
     <rect x="0"   y="390" width="400" height="55" rx="8" fill="#34495e"/>
-    <g font-family="'Segoe UI', sans-serif" fill="#ffffff" font-size="22" font-weight="600">
+    <g font-family="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" fill="#ffffff" font-size="22" font-weight="600">
       <text x="20" y="35">7 · Application</text>
       <text x="20" y="100">6 · Presentation</text>
       <text x="20" y="165">5 · Session</text>

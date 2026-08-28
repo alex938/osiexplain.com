@@ -82,6 +82,42 @@ h2 {
     font-weight: bold;
 }
 
+/* Body copy links had no colour of their own, so they fell back to the browser
+   default (#0000EE) — near-unreadable on this site's blue/dark backgrounds. */
+main a {
+    color: #ffd75e;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+main a:hover {
+    color: #ffffff;
+}
+
+/* Components that paint their own links keep their existing look. */
+main .breadcrumbs a {
+    color: #f1c40f;
+}
+
+main .back-button,
+main .btn,
+main .layer,
+main .layer-nav a,
+main .related-terms a,
+main .layer-jump a,
+main .quiz-options button {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+main .back-button:hover,
+main .layer:hover,
+main .layer-nav a:hover,
+main .related-terms a:hover,
+main .layer-jump a:hover {
+    color: #ffffff;
+}
+
 /* ===== Buttons ===== */
 .btn {
     background: rgba(255, 255, 255, 0.2);
@@ -115,6 +151,14 @@ select {
     border-radius: 5px;
     font-size: 16px;
     backdrop-filter: blur(5px);
+}
+
+/* The open dropdown is painted by the OS and ignores the translucent background
+   above, so options need an explicit pair. Layer pages override this with their
+   own accent colour; this is the site-wide fallback. */
+select option {
+    color: #1a1a1a;
+    background: #ffffff;
 }
 
 /* ===== Layout ===== */
@@ -396,8 +440,13 @@ body.dark-mode .demo-section {
 }
 
 .site-footer a {
-    color: #3498db;
-    text-decoration: none;
+    color: #8ecbf5;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.site-footer a:hover {
+    color: #ffffff;
 }
 
 /* ===== Collapsible Sections ===== */
@@ -578,7 +627,261 @@ details[open] > summary {
 .quiz-feedback {
     margin-top: 10px;
     font-style: italic;
-    min-height: 1.4em;
+}
+
+.quiz-feedback:empty,
+.quiz-score:empty {
+    display: none;
+}
+
+/* ===== Quiz (enhanced) ===== */
+.quiz-intro {
+    margin: 0 0 10px 0;
+    opacity: 0.85;
+}
+.quiz-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: quiz;
+}
+.quiz-list > .quiz-question {
+    counter-increment: quiz;
+}
+.quiz-prompt::before {
+    content: 'Q' counter(quiz) '. ';
+    color: #f1c40f;
+    font-weight: 700;
+}
+.quiz-options button[aria-disabled="true"] {
+    cursor: default;
+}
+.quiz-options button[aria-disabled="true"]:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+.quiz-options button.correct,
+.quiz-options button.correct:hover {
+    background: rgba(46, 204, 113, 0.5);
+    border-color: #2ecc71;
+}
+.quiz-options button.incorrect,
+.quiz-options button.incorrect:hover {
+    background: rgba(231, 76, 60, 0.5);
+    border-color: #e74c3c;
+}
+.quiz-feedback.is-correct { color: #7ee2a8; }
+.quiz-feedback.is-incorrect { color: #ffb1a8; }
+.quiz-explain {
+    margin: 8px 0 0 0;
+    padding: 10px 14px;
+    background: rgba(0, 0, 0, 0.3);
+    border-left: 4px solid #3498db;
+    border-radius: 6px;
+    font-size: 0.95em;
+    line-height: 1.55;
+}
+.quiz-score {
+    margin-top: 18px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    min-height: 1.2em;
+}
+.quiz-score.is-done {
+    background: rgba(241, 196, 15, 0.22);
+    border: 1px solid rgba(241, 196, 15, 0.5);
+}
+.quiz-reset {
+    margin: 14px 0 0 0;
+}
+
+/* ===== Progress tracker (home page) ===== */
+.progress-summary {
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    padding: 20px 25px;
+    margin: 30px 0;
+}
+.progress-summary h3 {
+    margin: 0 0 10px 0;
+}
+.progress-bar {
+    height: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 12px 0 10px 0;
+}
+.progress-bar-fill {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #27ae60, #2ecc71);
+    border-radius: 999px;
+    transition: width 0.4s ease;
+}
+.progress-text {
+    margin: 0;
+    font-size: 0.95em;
+    opacity: 0.9;
+}
+.progress-reset {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: inherit;
+    border-radius: 20px;
+    padding: 6px 14px;
+    margin-top: 12px;
+    cursor: pointer;
+    font-size: 0.85em;
+}
+.progress-reset:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+.progress-badge {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 0.75em;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+.progress-badge.is-quizzed {
+    background: rgba(46, 204, 113, 0.55);
+    border-color: #2ecc71;
+}
+
+/* ===== Copy-to-clipboard buttons ===== */
+.has-copy {
+    position: relative;
+}
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 0.75em;
+    font-family: inherit;
+    cursor: pointer;
+    opacity: 0.55;
+    transition: opacity 0.2s ease, background 0.2s ease;
+}
+.has-copy:hover .copy-btn,
+.copy-btn:focus-visible {
+    opacity: 1;
+}
+.copy-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+.copy-btn.is-copied {
+    background: rgba(46, 204, 113, 0.6);
+    border-color: #2ecc71;
+    opacity: 1;
+}
+
+/* ===== FAQ ===== */
+.faq-section {
+    background: rgba(0, 0, 0, 0.28);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 30px 0;
+    border-left: 4px solid #f1c40f;
+}
+.faq-section h2 {
+    margin-top: 0;
+}
+.faq-item {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 14px;
+    margin-top: 14px;
+}
+.faq-item:first-of-type {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+}
+.faq-item h3 {
+    margin: 0 0 6px 0;
+    font-size: 1.1em;
+}
+.faq-item p {
+    margin: 0;
+    line-height: 1.6;
+    opacity: 0.92;
+}
+
+/* ===== Related links ===== */
+.related-terms {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin: 30px 0;
+}
+.related-terms h2 {
+    margin-top: 0;
+    font-size: 1.3em;
+}
+.related-terms ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.related-terms a {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+.related-terms a:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* ===== Wide content must scroll inside itself, never the page ===== */
+.table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 20px 0;
+}
+.table-scroll > table {
+    margin: 0;
+    min-width: 560px;
+}
+
+/* ===== Respect reduced-motion preferences ===== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+    .layer:hover,
+    .btn:hover:not(:disabled),
+    .back-button:hover,
+    .dark-mode-toggle:hover,
+    .layer-nav a:hover,
+    .phase.active {
+        transform: none !important;
+    }
 }
 
 /* ===== Print-friendly ===== */
@@ -597,8 +900,20 @@ details[open] > summary {
         border-color: #ccc !important;
     }
     .dark-mode-toggle, .layer-nav, .controls, .site-nav,
-    .back-button, .skip-link, .quiz, .demo-area,
+    .back-button, .skip-link, .demo-area, .copy-btn,
+    .progress-summary, .progress-badge, .quiz-reset,
     .site-footer { display: none !important; }
+    .quiz, .quiz-question, .faq-section, .related-terms {
+        background: white !important;
+        color: black !important;
+        border-color: #ccc !important;
+    }
+    .quiz-options button {
+        background: white !important;
+        color: black !important;
+        border: 1px solid #999 !important;
+    }
+    .quiz-explain { display: none !important; }
     a { color: #000 !important; text-decoration: underline; }
     h1, h2, h3, h4 { color: #000 !important; text-shadow: none !important; }
 }

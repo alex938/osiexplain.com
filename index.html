@@ -14,7 +14,7 @@
     <meta property="og:description" content="Learn the OSI model's 7 layers with interactive demos, Wireshark examples, protocol references and a beginner-friendly guide.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://osiexplain.com/">
-    <meta property="og:image" content="https://osiexplain.com/og-image.svg">
+    <meta property="og:image" content="https://osiexplain.com/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="OSIExplain.com — diagram of the 7 OSI model layers">
@@ -22,12 +22,13 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="OSI Model Explained – OSIExplain.com">
     <meta name="twitter:description" content="Learn the OSI model networking framework with simple layer explanations, examples, and interactive demos.">
-    <meta name="twitter:image" content="https://osiexplain.com/og-image.svg">
+    <meta name="twitter:image" content="https://osiexplain.com/og-image.png">
     <link rel="canonical" href="https://osiexplain.com/">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" href="/favicon.svg">
-    <link rel="stylesheet" href="styles.css?v=20260625">
-    <script src="main.js?v=20260625" defer></script>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="styles.css?v=20260828">
+    <script src="main.js?v=20260828" defer></script>
     <style>
         body { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); }
         h1 { font-size: 3em; margin-bottom: 30px; color: #ecf0f1; }
@@ -56,12 +57,13 @@
         body.dark-mode .intro-section, body.dark-mode .mnemonic-section, body.dark-mode .teaching-tips { background: rgba(0, 0, 0, 0.4); }
     </style>
 </head>
-<body>
+<body data-page-id="home">
     <a class="skip-link" href="#main">Skip to content</a>
     <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><span id="darkModeIcon" aria-hidden="true">🌙</span><span id="darkModeText">Theme</span></button>
     <nav class="site-nav" aria-label="Primary">
         <a class="brand" href="index.html" aria-current="page"><span aria-hidden="true">🌐</span> OSI Explain</a>
         <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a>
+        <a href="quiz.html">Practice quiz</a>
         <a href="glossary.html">Glossary</a>
         <a href="https://github.com/" rel="noopener noreferrer" hidden>GitHub</a>
     </nav>
@@ -96,8 +98,19 @@
             <p><strong>A</strong>pplication &middot; <strong>P</strong>resentation &middot; <strong>S</strong>ession &middot; <strong>T</strong>ransport &middot; <strong>N</strong>etwork &middot; <strong>D</strong>ata Link &middot; <strong>P</strong>hysical</p>
         </div>
         
+
+        <section class="progress-summary" id="progressSummary" aria-labelledby="progress-heading" hidden>
+            <h3 id="progress-heading"><span aria-hidden="true">📈</span> Your progress</h3>
+            <div class="progress-bar" role="progressbar" aria-labelledby="progress-heading" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0">
+                <span class="progress-bar-fill"></span>
+            </div>
+            <p class="progress-text"></p>
+            <button type="button" class="progress-reset">Clear progress</button>
+        </section>
+
         <div class="osi-stack">
-            <a href="layer7_application.html" class="layer layer7">
+            <a href="layer7_application.html" class="layer layer7" data-progress-id="layer7">
+                <span class="progress-badge" hidden></span>
                 <div class="layer-number">7</div>
                 <div class="layer-info">
                     <div class="layer-name">Application Layer</div>
@@ -106,7 +119,8 @@
                 </div>
             </a>
             
-            <a href="layer6_presentation.html" class="layer layer6">
+            <a href="layer6_presentation.html" class="layer layer6" data-progress-id="layer6">
+                <span class="progress-badge" hidden></span>
                 <div class="layer-number">6</div>
                 <div class="layer-info">
                     <div class="layer-name">Presentation Layer</div>
@@ -115,7 +129,8 @@
                 </div>
             </a>
             
-            <a href="layer5_session_demo.html" class="layer layer5">
+            <a href="layer5_session_demo.html" class="layer layer5" data-progress-id="layer5">
+                <span class="progress-badge" hidden></span>
                 <div class="layer-number">5</div>
                 <div class="layer-info">
                     <div class="layer-name">Session Layer</div>
@@ -124,7 +139,8 @@
                 </div>
             </a>
             
-            <a href="layer4_transport.html" class="layer layer4">
+            <a href="layer4_transport.html" class="layer layer4" data-progress-id="layer4">
+                <span class="progress-badge" hidden></span>
                 <div class="layer-number">4</div>
                 <div class="layer-info">
                     <div class="layer-name">Transport Layer</div>
@@ -133,7 +149,8 @@
                 </div>
             </a>
             
-            <a href="layer3_network.html" class="layer layer3">
+            <a href="layer3_network.html" class="layer layer3" data-progress-id="layer3">
+                <span class="progress-badge" hidden></span>
                 <div class="layer-number">3</div>
                 <div class="layer-info">
                     <div class="layer-name">Network Layer</div>
@@ -142,7 +159,8 @@
                 </div>
             </a>
             
-            <a href="layer2_datalink.html" class="layer layer2">
+            <a href="layer2_datalink.html" class="layer layer2" data-progress-id="layer2">
+                <span class="progress-badge" hidden></span>
                 <div class="layer-number">2</div>
                 <div class="layer-info">
                     <div class="layer-name">Data Link Layer</div>
@@ -151,7 +169,8 @@
                 </div>
             </a>
             
-            <a href="layer1_physical.html" class="layer layer1">
+            <a href="layer1_physical.html" class="layer layer1" data-progress-id="layer1">
+                <span class="progress-badge" hidden></span>
                 <div class="layer-number">1</div>
                 <div class="layer-info">
                     <div class="layer-name">Physical Layer</div>
@@ -162,6 +181,29 @@
         </div>
         
         
+
+        <section class="teaching-tips" aria-labelledby="next-heading">
+            <h3 id="next-heading"><span aria-hidden="true">🚀</span> Where to go next</h3>
+            <div class="tip-grid">
+                <div class="tip">
+                    <strong><a href="quiz.html">Take the 20-question practice quiz</a></strong>
+                    <p>Mixed questions across all seven layers, with an explanation after every answer. Good preparation for CompTIA Network+ and CCNA.</p>
+                </div>
+                <div class="tip">
+                    <strong><a href="tcp-ip-vs-osi.html">Compare OSI with TCP/IP</a></strong>
+                    <p>See how the seven theoretical layers map onto the four layers that actually run the internet, with PDU names side by side.</p>
+                </div>
+                <div class="tip">
+                    <strong><a href="glossary.html">Browse the networking glossary</a></strong>
+                    <p>Over 140 terms — MAC, MTU, MSS, ARP, NAT, sliding window and more — each tagged with the layer it belongs to.</p>
+                </div>
+                <div class="tip">
+                    <strong><a href="layer1_physical.html">Start at Layer 1 and work up</a></strong>
+                    <p>Each layer page ends with a link to the next, so you can walk the whole stack from cables to HTTP in one sitting.</p>
+                </div>
+            </div>
+        </section>
+
         <div class="teaching-tips">
             <h3><span aria-hidden="true">❓</span> Frequently Asked Questions (FAQ)</h3>
             <div class="tip-grid">

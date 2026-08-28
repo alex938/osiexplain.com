@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSI Model Quiz – 20 Practice Questions with Answers | OSIExplain.com</title>
+    <meta name="description" content="Free OSI model quiz: 20 multiple-choice questions covering all 7 layers, PDUs, ports, subnetting and troubleshooting. Every answer is explained. Ideal revision for CompTIA Network+ and CCNA.">
+    <meta name="keywords" content="OSI model quiz, OSI layers test, networking quiz, CompTIA Network+ practice questions, CCNA practice quiz, 7 layers questions and answers">
+    <meta name="author" content="Alex (osiexplain.com)">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta property="og:site_name" content="OSIExplain.com">
+    <meta property="og:title" content="OSI Model Quiz – 20 Practice Questions with Answers">
+    <meta property="og:description" content="Test yourself on all 7 OSI layers with 20 multiple-choice questions. Every answer comes with an explanation.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://osiexplain.com/quiz.html">
+    <meta property="og:image" content="https://osiexplain.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="OSIExplain.com — OSI model practice quiz">
+    <meta property="og:locale" content="en_GB">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OSI Model Quiz – 20 Practice Questions">
+    <meta name="twitter:description" content="Test yourself on all 7 OSI layers. Every answer is explained.">
+    <meta name="twitter:image" content="https://osiexplain.com/og-image.png">
+    <link rel="canonical" href="https://osiexplain.com/quiz.html">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="alternate icon" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="styles.css?v=20260828">
+    <script src="main.js?v=20260828" defer></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://osiexplain.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "OSI Model Practice Quiz",
+          "item": "https://osiexplain.com/quiz.html"
+        }
+      ]
+    },
+    {
+      "@type": "Quiz",
+      "name": "OSI Model Practice Quiz — 20 Questions",
+      "url": "https://osiexplain.com/quiz.html",
+      "about": {
+        "@type": "Thing",
+        "name": "OSI model"
+      },
+      "educationalLevel": "beginner to intermediate",
+      "educationalAlignment": {
+        "@type": "AlignmentObject",
+        "alignmentType": "educationalSubject",
+        "targetName": "Computer networking"
+      },
+      "learningResourceType": "Quiz",
+      "inLanguage": "en",
+      "numberOfQuestions": 20,
+      "publisher": {
+        "@type": "Organization",
+        "name": "OSIExplain.com",
+        "url": "https://osiexplain.com/"
+      }
+    }
+  ]
+}
+    </script>
+    <style>
+        body { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); }
+        .quiz { margin-top: 20px; }
+        .layer-jump { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin: 20px 0 0 0; padding: 0; list-style: none; }
+        .layer-jump a { display: block; padding: 12px 14px; border-radius: 10px; color: #fff; text-decoration: none; font-weight: 600; }
+        .layer-jump a:hover { filter: brightness(1.15); }
+        .lj7 { background: #c0392b; } .lj6 { background: #d35400; } .lj5 { background: #e67e22; }
+        .lj4 { background: #229954; } .lj3 { background: #2980b9; } .lj2 { background: #8e44ad; }
+        .lj1 { background: #34495e; }
+    </style>
+</head>
+<body data-page-id="quiz">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><span id="darkModeIcon" aria-hidden="true">🌙</span><span id="darkModeText">Theme</span></button>
+    <nav class="site-nav" aria-label="Primary">
+        <a class="brand" href="index.html"><span aria-hidden="true">🌐</span> OSI Explain</a>
+        <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a>
+        <a href="quiz.html" aria-current="page">Practice quiz</a>
+        <a href="glossary.html">Glossary</a>
+    </nav>
+
+    <main id="main" class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="index.html">Home</a></li>
+                <li aria-current="page">Practice quiz</li>
+            </ol>
+        </nav>
+        <a href="index.html" class="back-button">← Back to OSI Overview</a>
+
+        <h1><span aria-hidden="true">📝</span> OSI Model Practice Quiz</h1>
+
+        <div class="example-box">
+            <p>
+                20 multiple-choice questions drawn from all seven layers &mdash; PDUs, addressing, ports,
+                subnetting, protocol placement and layer-by-layer troubleshooting. Pick an answer and the
+                explanation appears straight away, so a wrong guess is still worth something.
+            </p>
+            <p style="margin-bottom:0">
+                Nothing is submitted anywhere. Your score stays in this browser, and the
+                <a href="index.html">home page</a> remembers which layers you have worked through.
+            </p>
+        </div>
+
+        <section class="quiz" data-quiz-id="exam" aria-labelledby="quiz-heading">
+            <h2 id="quiz-heading"><span aria-hidden="true">🎯</span> All seven layers</h2>
+            <ol class="quiz-list">
+                <li class="quiz-question" data-answer="1">
+                    <p class="quiz-prompt">Which mnemonic gives the OSI layers from Layer 1 up to Layer 7?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">All People Seem To Need Data Processing</button></li>
+                        <li><button type="button" data-option="1">Please Do Not Throw Sausage Pizza Away</button></li>
+                        <li><button type="button" data-option="2">Some People Fear Birthdays</button></li>
+                        <li><button type="button" data-option="3">Do Not Trust Sales People</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>“Please Do Not Throw Sausage Pizza Away” reads bottom-up: Physical, Data Link, Network, Transport, Session, Presentation, Application. “All People Seem To Need Data Processing” is the same list top-down.</p>
+                </li>
+                <li class="quiz-question" data-answer="0">
+                    <p class="quiz-prompt">Put these PDUs in order from Layer 1 to Layer 4.</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Bit, frame, packet, segment</button></li>
+                        <li><button type="button" data-option="1">Frame, bit, segment, packet</button></li>
+                        <li><button type="button" data-option="2">Packet, segment, bit, frame</button></li>
+                        <li><button type="button" data-option="3">Segment, packet, frame, bit</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>Bit (L1) → frame (L2) → packet (L3) → segment or datagram (L4). Layers 5, 6 and 7 all just call it data.</p>
+                </li>
+                <li class="quiz-question" data-answer="1">
+                    <p class="quiz-prompt">A switch forwards traffic based on what?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">IP addresses</button></li>
+                        <li><button type="button" data-option="1">MAC addresses</button></li>
+                        <li><button type="button" data-option="2">Port numbers</button></li>
+                        <li><button type="button" data-option="3">Domain names</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>A switch is a Layer 2 device. It builds a table of MAC address to port and forwards each frame only where it needs to go.</p>
+                </li>
+                <li class="quiz-question" data-answer="1">
+                    <p class="quiz-prompt">Which layer adds the source and destination IP addresses?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Layer 2</button></li>
+                        <li><button type="button" data-option="1">Layer 3</button></li>
+                        <li><button type="button" data-option="2">Layer 4</button></li>
+                        <li><button type="button" data-option="3">Layer 7</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>IP addressing is the defining job of the Network Layer, Layer 3. MAC addresses are Layer 2, port numbers are Layer 4.</p>
+                </li>
+                <li class="quiz-question" data-answer="0">
+                    <p class="quiz-prompt">A cable is plugged into the wrong port and the link light is off. Which layer would you troubleshoot first?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Layer 1</button></li>
+                        <li><button type="button" data-option="1">Layer 3</button></li>
+                        <li><button type="button" data-option="2">Layer 4</button></li>
+                        <li><button type="button" data-option="3">Layer 7</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>No link light means no signal, which is Layer 1. The standard troubleshooting habit is to work up the stack — there is no point checking routes if the cable is dead.</p>
+                </li>
+                <li class="quiz-question" data-answer="2">
+                    <p class="quiz-prompt">Which protocol resolves an IPv4 address into a MAC address?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">DNS</button></li>
+                        <li><button type="button" data-option="1">DHCP</button></li>
+                        <li><button type="button" data-option="2">ARP</button></li>
+                        <li><button type="button" data-option="3">ICMP</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>ARP broadcasts “who has this IP?” on the local segment and caches the MAC address in the reply. DNS resolves names to IPs, which is a different problem.</p>
+                </li>
+                <li class="quiz-question" data-answer="1">
+                    <p class="quiz-prompt">How many usable host addresses are in a /28 subnet?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">6</button></li>
+                        <li><button type="button" data-option="1">14</button></li>
+                        <li><button type="button" data-option="2">16</button></li>
+                        <li><button type="button" data-option="3">30</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>A /28 has 4 host bits, so 2⁴ = 16 addresses. Take away the network and broadcast addresses and you get 14 usable hosts.</p>
+                </li>
+                <li class="quiz-question" data-answer="1">
+                    <p class="quiz-prompt">What is the correct sequence of the TCP three-way handshake?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">SYN → ACK → SYN/ACK</button></li>
+                        <li><button type="button" data-option="1">SYN → SYN/ACK → ACK</button></li>
+                        <li><button type="button" data-option="2">SYN/ACK → ACK → SYN</button></li>
+                        <li><button type="button" data-option="3">FIN → ACK → FIN/ACK</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>SYN, then SYN/ACK, then ACK. FIN is used for teardown, which takes four steps because each direction closes separately.</p>
+                </li>
+                <li class="quiz-question" data-answer="2">
+                    <p class="quiz-prompt">Which of these uses UDP rather than TCP?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">HTTPS web browsing</button></li>
+                        <li><button type="button" data-option="1">Email delivery over SMTP</button></li>
+                        <li><button type="button" data-option="2">A DNS lookup</button></li>
+                        <li><button type="button" data-option="3">An SSH session</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>DNS queries use UDP port 53 because a lookup fits in one datagram and speed matters more than a handshake. It falls back to TCP for large responses and zone transfers.</p>
+                </li>
+                <li class="quiz-question" data-answer="1">
+                    <p class="quiz-prompt">What does TTL in an IPv4 header prevent?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Packets being read by attackers</button></li>
+                        <li><button type="button" data-option="1">Packets circulating forever in a routing loop</button></li>
+                        <li><button type="button" data-option="2">Packets arriving out of order</button></li>
+                        <li><button type="button" data-option="3">Packets exceeding the MTU</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>Every router decrements TTL by one and discards the packet at zero, so a routing loop dies out instead of consuming bandwidth indefinitely.</p>
+                </li>
+                <li class="quiz-question" data-answer="3">
+                    <p class="quiz-prompt">Which layer is responsible for encryption in the OSI model as it is usually taught?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Layer 3</button></li>
+                        <li><button type="button" data-option="1">Layer 4</button></li>
+                        <li><button type="button" data-option="2">Layer 5</button></li>
+                        <li><button type="button" data-option="3">Layer 6</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>Encryption, compression and character-set translation are all Presentation Layer (Layer 6) concerns. TLS is the usual example, though in practice it straddles several layers.</p>
+                </li>
+                <li class="quiz-question" data-answer="2">
+                    <p class="quiz-prompt">What is the standard MTU of an Ethernet link?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">576 bytes</button></li>
+                        <li><button type="button" data-option="1">1460 bytes</button></li>
+                        <li><button type="button" data-option="2">1500 bytes</button></li>
+                        <li><button type="button" data-option="3">9000 bytes</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>1500 bytes is the standard Ethernet MTU. 1460 is the usual TCP MSS that results from it (1500 − 20 bytes IP − 20 bytes TCP), and 9000 is a jumbo frame.</p>
+                </li>
+                <li class="quiz-question" data-answer="2">
+                    <p class="quiz-prompt">Which device separates broadcast domains?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Hub</button></li>
+                        <li><button type="button" data-option="1">Repeater</button></li>
+                        <li><button type="button" data-option="2">Router</button></li>
+                        <li><button type="button" data-option="3">Media converter</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>A router does not pass Layer 2 broadcasts, so each interface is its own broadcast domain. On a switch you need VLANs to achieve the same split.</p>
+                </li>
+                <li class="quiz-question" data-answer="0">
+                    <p class="quiz-prompt">What is the difference between a well-known port and an ephemeral port?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Well-known ports are 0–1023 and identify the service; ephemeral ports are high-numbered and picked per connection by the client</button></li>
+                        <li><button type="button" data-option="1">Well-known ports are encrypted, ephemeral ports are not</button></li>
+                        <li><button type="button" data-option="2">Ephemeral ports are only used by UDP</button></li>
+                        <li><button type="button" data-option="3">There is no difference; the terms are interchangeable</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>The server listens on a well-known port such as 443, while the client's operating system picks a high-numbered source port for each outgoing connection so replies can be matched to the right process.</p>
+                </li>
+                <li class="quiz-question" data-answer="3">
+                    <p class="quiz-prompt">HTTP, SMTP and DNS all live at which layer?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Layer 4</button></li>
+                        <li><button type="button" data-option="1">Layer 5</button></li>
+                        <li><button type="button" data-option="2">Layer 6</button></li>
+                        <li><button type="button" data-option="3">Layer 7</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>They are all Application Layer protocols. The transport beneath them (TCP or UDP) is Layer 4.</p>
+                </li>
+                <li class="quiz-question" data-answer="1">
+                    <p class="quiz-prompt">What does the Frame Check Sequence at the end of an Ethernet frame do?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Corrects any bit errors it finds</button></li>
+                        <li><button type="button" data-option="1">Detects corruption so the frame can be discarded</button></li>
+                        <li><button type="button" data-option="2">Encrypts the frame payload</button></li>
+                        <li><button type="button" data-option="3">Identifies the VLAN</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>The FCS is a CRC-32 that only detects errors. A corrupt frame is dropped silently, and it is a higher layer such as TCP that notices something is missing and retransmits.</p>
+                </li>
+                <li class="quiz-question" data-answer="2">
+                    <p class="quiz-prompt">In the four-layer TCP/IP model, which OSI layers map onto the Application layer?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Layers 1 and 2</button></li>
+                        <li><button type="button" data-option="1">Layers 3 and 4</button></li>
+                        <li><button type="button" data-option="2">Layers 5, 6 and 7</button></li>
+                        <li><button type="button" data-option="3">Layer 7 only</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>TCP/IP collapses Session, Presentation and Application into one layer. That is why session state and encryption end up inside application protocols rather than in layers of their own.</p>
+                </li>
+                <li class="quiz-question" data-answer="3">
+                    <p class="quiz-prompt">Which routing protocol is used between Autonomous Systems on the public internet?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">OSPF</button></li>
+                        <li><button type="button" data-option="1">RIP</button></li>
+                        <li><button type="button" data-option="2">EIGRP</button></li>
+                        <li><button type="button" data-option="3">BGP</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>BGP is the internet's exterior gateway protocol, exchanging reachability between ASes. OSPF, RIP and EIGRP are interior protocols that run inside a single AS.</p>
+                </li>
+                <li class="quiz-question" data-answer="3">
+                    <p class="quiz-prompt">You can ping a server by IP address but not by name. Which layer is most likely at fault?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Layer 1 — the cable</button></li>
+                        <li><button type="button" data-option="1">Layer 2 — the switch</button></li>
+                        <li><button type="button" data-option="2">Layer 3 — routing</button></li>
+                        <li><button type="button" data-option="3">Layer 7 — DNS</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>If the IP works, Layers 1 through 4 are clearly fine. Name resolution is DNS, an Application Layer service, so that is where to look.</p>
+                </li>
+                <li class="quiz-question" data-answer="2">
+                    <p class="quiz-prompt">Which statement about UDP is true?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">It guarantees delivery and ordering</button></li>
+                        <li><button type="button" data-option="1">It uses a three-way handshake</button></li>
+                        <li><button type="button" data-option="2">It has an 8-byte header and no built-in retransmission</button></li>
+                        <li><button type="button" data-option="3">It is only used on local networks</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>UDP's header is a fixed 8 bytes — source port, destination port, length, checksum — and that is all. No handshake, no acknowledgements, no ordering, no retransmission.</p>
+                </li>
+            </ol>
+            <p class="quiz-score" role="status" aria-live="polite"></p>
+            <button type="button" class="btn quiz-reset" hidden>Start again</button>
+        </section>
+
+        <section class="related-terms" aria-labelledby="revise-heading">
+            <h2 id="revise-heading"><span aria-hidden="true">📚</span> Revise a specific layer</h2>
+            <ul class="layer-jump">
+                <li><a class="lj7" href="layer7_application.html">7 · Application</a></li>
+                <li><a class="lj6" href="layer6_presentation.html">6 · Presentation</a></li>
+                <li><a class="lj5" href="layer5_session_demo.html">5 · Session</a></li>
+                <li><a class="lj4" href="layer4_transport.html">4 · Transport</a></li>
+                <li><a class="lj3" href="layer3_network.html">3 · Network</a></li>
+                <li><a class="lj2" href="layer2_datalink.html">2 · Data Link</a></li>
+                <li><a class="lj1" href="layer1_physical.html">1 · Physical</a></li>
+            </ul>
+            <p style="margin-top:16px">
+                Each layer page ends with its own five-question quiz, so you can drill whichever
+                one this exam showed up as weak. There is also an
+                <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP comparison</a> and a
+                <a href="glossary.html">networking glossary</a>.
+            </p>
+        </section>
+
+        <nav class="layer-nav" aria-label="Related pages">
+            <a href="index.html" class="layer-nav-prev"><small>← Back to</small><strong>All 7 Layers</strong></a>
+            <a href="glossary.html" class="layer-nav-next"><small>Next →</small><strong>Networking Glossary</strong></a>
+        </nav>
+    </main>
+
+    <footer class="site-footer">
+        <p>
+            Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com">alex@slash-root.com</a> should you spot any errors or wish to query anything.
+        </p>
+        <p class="support-text">
+            If you find this resource helpful, please consider <a href="https://buy.stripe.com/fZueVd5wY4ET99m2C6cZa02" target="_blank" rel="noopener noreferrer">supporting the project</a>.
+        </p>
+    </footer>
+</body>
+</html>
