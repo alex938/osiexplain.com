@@ -2,7 +2,7 @@
 
 A website I created to assist me in teaching the OSI 7 Layer model to my students.
 
-<img width="956" height="1241" alt="image" src="https://github.com/user-attachments/assets/1ed7d4ea-e2bf-420f-8c07-6dd4774b8d99" />
+![Animated overview of OSI Explain: the 7-layer OSI stack, practice quiz, OSI vs TCP/IP comparison, glossary and Wireshark packet captures](assets/overview.gif)
 
 ## Pages
 
@@ -17,6 +17,9 @@ A website I created to assist me in teaching the OSI 7 Layer model to my student
 
 Shared assets: `styles.css`, `main.js`, `favicon.svg`, `og-image.svg` / `og-image.png`,
 `apple-touch-icon.png`, `robots.txt`, `sitemap.xml`.
+
+`assets/` holds README-only media (e.g. the overview GIF above) and is excluded
+from the S3 sync — it ships to GitHub but never to the live site.
 
 ## Conventions
 
@@ -44,5 +47,5 @@ Shared assets: `styles.css`, `main.js`, `favicon.svg`, `og-image.svg` / `og-imag
 ## Deployment
 
 Pushing to `main` triggers `.github/workflows/main.yml`, which syncs the
-repository to S3 (`--delete`, excluding `.git`, `.github`, `README.md` and
-`LICENSE`). Set the bucket's error document to `404.html`.
+repository to S3 (`--delete`, excluding `.git`, `.github`, `README.md`,
+`LICENSE` and `assets/`). Set the bucket's error document to `404.html`.
