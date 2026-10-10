@@ -27,8 +27,8 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=20260828">
-    <script src="main.js?v=20260828" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261010">
+    <script src="main.js?v=20261010" defer></script>
     <script type="application/ld+json">
     {
   "@context": "https://schema.org",
@@ -135,6 +135,7 @@
     </style>
 </head>
 <body data-page-id="layer1">
+    <script>/* Apply the saved theme before first paint so dark-mode users don't see a light flash; main.js takes over after. */(function(){var t;try{t=localStorage.getItem('theme');}catch(e){}var d=t==='dark'||(t!=='light'&&!!window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.body.classList.add('dark-mode');else if(t==='light')document.body.classList.add('light-mode');})();</script>
     <a class="skip-link" href="#main">Skip to content</a>
     <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false">
         <span id="darkModeIcon" aria-hidden="true">🌙</span>
@@ -143,6 +144,7 @@
 
     <nav class="site-nav" aria-label="Primary">
         <a class="brand" href="index.html"><span aria-hidden="true">🌐</span> OSI Explain</a>
+        <a href="packet-journey.html">Packet journey</a>
         <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a>
         <a href="quiz.html">Practice quiz</a>
         <a href="glossary.html">Glossary</a>
@@ -254,7 +256,7 @@
         </div>
         
         <!-- Comprehensive Educational Content -->
-        <div class="content-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin: 30px 0;">
+        <div class="content-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr)); gap: 30px; margin: 30px 0;">
             <div class="content-box" style="background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 15px; border-left: 4px solid #3498db;">
                 <h3>🎯 Primary Functions</h3>
                 <ul>
@@ -280,7 +282,7 @@
         
         <div class="content-box" style="background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 15px; border-left: 4px solid #3498db;">
             <h3>🌐 Physical Layer Technologies & Media</h3>
-            <div class="protocols-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+            <div class="protocols-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 15px; margin: 20px 0;">
                 <div class="protocol-card" style="background: rgba(52, 73, 94, 0.4); padding: 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);">
                     <strong>Copper Cables</strong>
                     <p>Twisted pair (Cat5e, Cat6, Cat6a), Coaxial cables</p>
@@ -439,7 +441,7 @@
         <details>
             <summary>🛠️ Troubleshooting & Wireshark Filters</summary>
         <div class="example-box" style="background: rgba(41, 128, 185, 0.3); padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #3498db;">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; margin: 20px 0;">
                 <div style="background: rgba(231, 76, 60, 0.2); padding: 15px; border-radius: 8px;">
                     <h4>🚨 Common Problems</h4>
                     <ul>

@@ -27,8 +27,8 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=20260828">
-    <script src="main.js?v=20260828" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261010">
+    <script src="main.js?v=20261010" defer></script>
     <style>
         body { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); }
         h1 { font-size: 3em; margin-bottom: 30px; color: #ecf0f1; }
@@ -51,17 +51,19 @@
         .mnemonic-section { background: rgba(142, 68, 173, 0.3); padding: 20px; border-radius: 15px; margin: 30px 0; text-align: center; }
         .mnemonic { font-size: 1.5em; font-weight: bold; margin: 15px 0; letter-spacing: 2px; }
         .teaching-tips { background: rgba(46, 204, 113, 0.2); padding: 25px; border-radius: 15px; margin: 30px 0; }
-        .tip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
+        .tip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; margin-top: 20px; }
         .tip { background: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 10px; border-left: 4px solid #2ecc71; }
         .footer { text-align: center; margin-top: 50px; opacity: 0.8; }
         body.dark-mode .intro-section, body.dark-mode .mnemonic-section, body.dark-mode .teaching-tips { background: rgba(0, 0, 0, 0.4); }
     </style>
 </head>
 <body data-page-id="home">
+    <script>/* Apply the saved theme before first paint so dark-mode users don't see a light flash; main.js takes over after. */(function(){var t;try{t=localStorage.getItem('theme');}catch(e){}var d=t==='dark'||(t!=='light'&&!!window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.body.classList.add('dark-mode');else if(t==='light')document.body.classList.add('light-mode');})();</script>
     <a class="skip-link" href="#main">Skip to content</a>
     <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><span id="darkModeIcon" aria-hidden="true">🌙</span><span id="darkModeText">Theme</span></button>
     <nav class="site-nav" aria-label="Primary">
         <a class="brand" href="index.html" aria-current="page"><span aria-hidden="true">🌐</span> OSI Explain</a>
+        <a href="packet-journey.html">Packet journey</a>
         <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a>
         <a href="quiz.html">Practice quiz</a>
         <a href="glossary.html">Glossary</a>
@@ -186,6 +188,10 @@
             <h3 id="next-heading"><span aria-hidden="true">🚀</span> Where to go next</h3>
             <div class="tip-grid">
                 <div class="tip">
+                    <strong><a href="packet-journey.html">Follow a packet through all seven layers</a></strong>
+                    <p>One HTTPS request, step by step: every header added on the way down, changed by routers in the middle, and removed on the way up.</p>
+                </div>
+                <div class="tip">
                     <strong><a href="quiz.html">Take the 20-question practice quiz</a></strong>
                     <p>Mixed questions across all seven layers, with an explanation after every answer. Good preparation for CompTIA Network+ and CCNA.</p>
                 </div>
@@ -195,7 +201,7 @@
                 </div>
                 <div class="tip">
                     <strong><a href="glossary.html">Browse the networking glossary</a></strong>
-                    <p>Over 140 terms — MAC, MTU, MSS, ARP, NAT, sliding window and more — each tagged with the layer it belongs to.</p>
+                    <p>Over 140 terms — MAC, MTU, MSS, ARP, NAT, sliding window and more — each tagged with the layer it belongs to. Study them as flashcards, one layer at a time.</p>
                 </div>
                 <div class="tip">
                     <strong><a href="layer1_physical.html">Start at Layer 1 and work up</a></strong>
@@ -306,7 +312,8 @@
             <p><span aria-hidden="true">📚</span> Interactive OSI Model Reference</p>
             <p>Click on any layer to explore protocols, examples, and demonstrations</p>
             <p style="margin-top:14px">
-                Also see: <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP comparison</a> &middot;
+                Also see: <a href="packet-journey.html">A packet's journey</a> &middot;
+                <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP comparison</a> &middot;
                 <a href="glossary.html">Networking glossary</a>
             </p>
         </div>

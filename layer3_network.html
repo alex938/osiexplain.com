@@ -27,8 +27,9 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=20260828">
-    <script src="main.js?v=20260828" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261010">
+    <script src="main.js?v=20261010" defer></script>
+    <script src="subnet-tool.js?v=20261010" defer></script>
     <script type="application/ld+json">
     {
   "@context": "https://schema.org",
@@ -179,7 +180,7 @@
             margin: 15px 0;
             font-family: monospace;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
             gap: 10px;
         }
         
@@ -331,10 +332,12 @@
     </style>
 </head>
 <body data-page-id="layer3">
+    <script>/* Apply the saved theme before first paint so dark-mode users don't see a light flash; main.js takes over after. */(function(){var t;try{t=localStorage.getItem('theme');}catch(e){}var d=t==='dark'||(t!=='light'&&!!window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.body.classList.add('dark-mode');else if(t==='light')document.body.classList.add('light-mode');})();</script>
     <a class="skip-link" href="#main">Skip to content</a>
     <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><span id="darkModeIcon" aria-hidden="true">🌙</span><span id="darkModeText">Theme</span></button>
     <nav class="site-nav" aria-label="Primary">
         <a class="brand" href="index.html"><span aria-hidden="true">🌐</span> OSI Explain</a>
+        <a href="packet-journey.html">Packet journey</a>
         <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a>
         <a href="quiz.html">Practice quiz</a>
         <a href="glossary.html">Glossary</a>
@@ -736,7 +739,7 @@ Each hop shows a router making a forwarding decision!
                 <div>
                     <h6 style="color: #e74c3c; margin-bottom: 15px; font-size: 1.1em;">📊 Step 4: Calculate Network Details</h6>
                     <div style="background: rgba(231, 76, 60, 0.1); padding: 18px; border-radius: 10px; border: 1px solid rgba(231, 76, 60, 0.4);">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 12px;">
                             <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 6px; text-align: center;">
                                 <div style="color: #3498db; font-weight: bold; margin-bottom: 5px;">Network Address</div>
                                 <div style="font-family: monospace; font-size: 1.1em; color: #ecf0f1;">192.168.1.0</div>
@@ -917,7 +920,7 @@ Each hop shows a router making a forwarding decision!
                 </div>
 
                 <h5 style="color: #f39c12; margin: 25px 0 15px 0;">🎯 Step 3: Subnet Breakdown</h5>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 15px;">
                     <div style="background: rgba(231, 76, 60, 0.1); padding: 12px; border-radius: 6px; border: 1px solid rgba(231, 76, 60, 0.3);">
                         <h6 style="color: #e74c3c; margin: 0 0 8px 0;">🏢 Sales Department</h6>
                         <div style="font-family: monospace; font-size: 0.9em; line-height: 1.4;">
@@ -957,13 +960,14 @@ Each hop shows a router making a forwarding decision!
             </div>
             
             <h4>🧮 Visual Subnetting Calculator</h4>
+            <p>Want to try your own numbers? Use the <a href="#subnet-calculator">interactive subnet calculator</a> further down the page.</p>
             <div style="background: rgba(0, 0, 0, 0.3); padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid rgba(52, 152, 219, 0.3);">
                 <div style="text-align: center; margin-bottom: 20px;">
                     <h5 style="color: #3498db; margin-bottom: 5px;">Quick Reference: Common Subnet Divisions</h5>
                     <p style="font-size: 0.9em; color: #bdc3c7; margin: 0;">Choose how many subnets you need from a /24 network</p>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 15px;">
                     <div style="background: rgba(231, 76, 60, 0.1); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(231, 76, 60, 0.3);">
                         <div style="font-size: 1.5em; margin-bottom: 8px;">🔴</div>
                         <div style="font-weight: bold; color: #e74c3c;">2 Subnets</div>
@@ -1318,7 +1322,7 @@ Each hop shows a router making a forwarding decision!
                 
                 <div style="background: rgba(52, 152, 219, 0.1); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center;">
                     <strong style="color: #3498db;">🎯 Key Network Layer Functions Demonstrated:</strong>
-                    <div style="margin-top: 10px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.9em;">
+                    <div style="margin-top: 10px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 10px; font-size: 0.9em;">
                         <div>✅ Logical Addressing (IP)</div>
                         <div>✅ Routing & Path Selection</div>
                         <div>✅ Packet Fragmentation</div>
@@ -1381,6 +1385,45 @@ Each hop shows a router making a forwarding decision!
             </ul>
         </div>
         
+
+        <section class="subnet-tool" id="subnet-calculator" data-subnet-tool aria-labelledby="subnet-tool-heading">
+            <h2 id="subnet-tool-heading"><span aria-hidden="true">🧮</span> Subnet calculator &amp; practice</h2>
+            <p>Enter any IPv4 address with a prefix length to see its network, broadcast and host range, with the binary and the by-hand working shown. When the method makes sense, switch to <strong>Practice</strong> and test yourself on random addresses.</p>
+            <noscript><p class="subnet-note">The calculator needs JavaScript. The subnetting guide above walks through the same method by hand.</p></noscript>
+
+            <div class="tool-tabs" role="tablist" aria-label="Subnet tool mode" hidden>
+                <button type="button" role="tab" id="subnetTabCalc" aria-controls="subnetPanelCalc" aria-selected="true">Calculator</button>
+                <button type="button" role="tab" id="subnetTabPractice" aria-controls="subnetPanelPractice" aria-selected="false" tabindex="-1">Practice</button>
+            </div>
+
+            <div role="tabpanel" id="subnetPanelCalc" aria-labelledby="subnetTabCalc" hidden>
+                <form class="subnet-form" id="subnetForm" novalidate>
+                    <label for="subnetInput">IPv4 address and prefix</label>
+                    <div class="subnet-input-row">
+                        <input type="text" id="subnetInput" value="192.168.10.77/26" inputmode="decimal" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="subnetHint subnetError">
+                        <button type="submit" class="btn">Calculate</button>
+                    </div>
+                    <p class="subnet-hint" id="subnetHint">For example <code>10.4.200.9/20</code>, or an address and a mask: <code>172.16.5.130 255.255.255.192</code></p>
+                    <p class="subnet-error" id="subnetError" role="alert"></p>
+                </form>
+                <div id="subnetResult" aria-live="polite"></div>
+            </div>
+
+            <div role="tabpanel" id="subnetPanelPractice" aria-labelledby="subnetTabPractice" hidden>
+                <p class="practice-question" id="practiceQuestion"></p>
+                <form class="subnet-form" id="practiceForm" novalidate>
+                    <label class="visually-hidden" for="practiceAnswer">Your answer</label>
+                    <div class="subnet-input-row">
+                        <input type="text" id="practiceAnswer" autocomplete="off" autocapitalize="off" spellcheck="false">
+                        <button type="submit" class="btn">Check</button>
+                        <button type="button" class="btn btn-quiet" id="practiceReveal">Show answer</button>
+                    </div>
+                </form>
+                <div class="practice-feedback" id="practiceFeedback" role="status" aria-live="polite"></div>
+                <button type="button" class="btn" id="practiceNext" hidden>Next question →</button>
+                <p class="practice-score" id="practiceScore" aria-live="polite"></p>
+            </div>
+        </section>
 
         <section class="quiz" id="quiz" data-quiz-id="layer3" aria-labelledby="quiz-heading">
             <h2 id="quiz-heading"><span aria-hidden="true">🎯</span> Check your understanding &mdash; Layer 3</h2>

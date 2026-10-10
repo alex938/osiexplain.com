@@ -268,6 +268,7 @@ select option {
     font-family: 'Courier New', monospace;
     color: #00ff00;
     font-size: 0.9em;
+    overflow-x: auto; /* long capture lines scroll inside the box, not the page */
 }
 
 .packet-explanation {
@@ -290,7 +291,7 @@ select option {
 /* ===== Content Sections ===== */
 .content-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
     gap: 30px;
     margin: 30px 0;
 }
@@ -304,7 +305,7 @@ select option {
 
 .protocols-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
     gap: 20px;
     margin: 20px 0;
 }
@@ -862,6 +863,266 @@ details[open] > summary {
 .table-scroll > table {
     margin: 0;
     min-width: 560px;
+}
+
+/* ===== Screen-reader-only text ===== */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ===== Tabs (subnet tool, flashcards) ===== */
+.tool-tabs {
+    display: flex;
+    gap: 6px;
+    margin: 20px 0 0 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+.tool-tabs[hidden] {
+    display: none;
+}
+.tool-tabs [role="tab"] {
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    padding: 10px 18px;
+    font-size: 1em;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+.tool-tabs [role="tab"]:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+.tool-tabs [role="tab"][aria-selected="true"] {
+    background: rgba(241, 196, 15, 0.25);
+    border-color: rgba(241, 196, 15, 0.6);
+}
+.btn-quiet {
+    background: transparent;
+}
+
+/* ===== Text inputs ===== */
+.subnet-form input[type="text"] {
+    flex: 1 1 240px;
+    min-width: 0;
+    padding: 11px 14px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    font-size: 1.05em;
+    font-family: 'Courier New', monospace;
+}
+.subnet-form input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.55);
+}
+.subnet-form input[type="text"]:focus-visible {
+    outline: 3px solid #f1c40f;
+    outline-offset: 2px;
+}
+.subnet-form input[aria-invalid="true"] {
+    border-color: #ff8a7a;
+}
+.subnet-form input:disabled {
+    opacity: 0.7;
+}
+
+/* ===== Subnet calculator & practice (Layer 3) ===== */
+.subnet-tool {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 25px;
+    border-radius: 15px;
+    margin: 30px 0;
+    border-left: 4px solid #e67e22;
+    scroll-margin-top: 20px;
+}
+.subnet-tool h2 {
+    margin-top: 0;
+}
+.subnet-tool [role="tabpanel"] {
+    padding-top: 20px;
+}
+.subnet-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.subnet-input-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: stretch;
+}
+.subnet-input-row .btn {
+    margin: 0;
+}
+.subnet-hint {
+    font-size: 0.9em;
+    opacity: 0.8;
+    margin: 8px 0 0 0;
+}
+.subnet-error {
+    color: #ffb1a8;
+    font-weight: 600;
+    margin: 8px 0 0 0;
+}
+.subnet-error:empty {
+    display: none;
+}
+.subnet-table th {
+    width: 40%;
+    background: rgba(52, 152, 219, 0.35);
+}
+.subnet-table td {
+    font-family: 'Courier New', monospace;
+    font-size: 1.05em;
+}
+.subnet-note {
+    background: rgba(241, 196, 15, 0.18);
+    border-left: 4px solid #f1c40f;
+    padding: 10px 14px;
+    border-radius: 6px;
+}
+.subnet-subhead {
+    margin: 25px 0 8px 0;
+    font-size: 1.15em;
+}
+.table-scroll > table.subnet-table,
+.table-scroll > table.subnet-binary {
+    min-width: 0;
+}
+.subnet-binary th {
+    width: 1%;
+    white-space: nowrap;
+    background: rgba(52, 152, 219, 0.35);
+}
+.subnet-binary code,
+.subnet-tool code {
+    font-family: 'Courier New', monospace;
+}
+.subnet-binary code {
+    font-size: 1.05em;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+.bits-net {
+    color: #ffd75e;
+    font-weight: 700;
+}
+.bits-host {
+    color: #9fdcff;
+}
+.bits-split {
+    color: #ff8a7a;
+    font-weight: 700;
+    margin: 0 2px;
+}
+.bits-dot {
+    opacity: 0.6;
+}
+.bits-octet {
+    white-space: nowrap;
+}
+.subnet-legend {
+    font-size: 0.9em;
+    margin: 0 0 6px 0;
+}
+.subnet-working {
+    line-height: 1.6;
+}
+.subnet-working ol {
+    padding-left: 22px;
+}
+.subnet-working li {
+    margin: 4px 0;
+}
+.practice-question {
+    font-size: 1.2em;
+    margin: 0 0 14px 0;
+}
+.practice-question code {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+.practice-feedback {
+    margin: 14px 0;
+}
+.practice-feedback:empty {
+    display: none;
+}
+.practice-feedback.is-correct .practice-verdict { color: #7ee2a8; }
+.practice-feedback.is-incorrect .practice-verdict { color: #ffb1a8; }
+.practice-verdict {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+}
+.practice-working {
+    margin: 10px 0;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+.practice-working > summary {
+    font-size: 1em;
+    padding: 10px 14px;
+}
+.practice-working > :not(summary) {
+    padding: 0 16px 6px 16px;
+}
+.practice-working[open] > summary {
+    margin-bottom: 6px;
+}
+.practice-score {
+    font-weight: 600;
+    margin: 12px 0 0 0;
+}
+.practice-score:empty {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    /* Stack label above value so nothing hides off the right edge. */
+    .table-scroll > table.subnet-table,
+    .table-scroll > table.subnet-binary,
+    .subnet-table tbody,
+    .subnet-binary tbody {
+        display: block;
+    }
+    .subnet-table tr,
+    .subnet-binary tr {
+        display: block;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-bottom: none;
+    }
+    .subnet-table tr:last-child,
+    .subnet-binary tr:last-child {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .subnet-table th,
+    .subnet-table td,
+    .subnet-binary th,
+    .subnet-binary td {
+        display: block;
+        width: auto;
+        border: none;
+        padding: 8px 12px;
+    }
+    .subnet-binary code {
+        font-size: 0.95em;
+        letter-spacing: 0;
+        white-space: normal;
+    }
 }
 
 /* ===== Respect reduced-motion preferences ===== */

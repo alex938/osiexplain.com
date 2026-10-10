@@ -8,14 +8,30 @@
         return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
 
+    // localStorage throws (rather than returning null) when storage is blocked,
+    // e.g. some private modes and embedded webviews. The theme must still work.
+    var memoryTheme = null;
+
+    function storageGet(key) {
+        try { return localStorage.getItem(key); } catch (e) { return null; }
+    }
+
+    function storageSet(key, value) {
+        try { localStorage.setItem(key, value); } catch (e) { /* ignore */ }
+    }
+
+    function storageRemove(key) {
+        try { localStorage.removeItem(key); } catch (e) { /* ignore */ }
+    }
+
     function getSavedTheme() {
         // Migrate the old 'darkMode' boolean key if present.
-        var legacy = localStorage.getItem('darkMode');
-        if (legacy !== null && !localStorage.getItem(STORAGE_KEY)) {
-            localStorage.setItem(STORAGE_KEY, legacy === 'true' ? 'dark' : 'light');
-            localStorage.removeItem('darkMode');
+        var legacy = storageGet('darkMode');
+        if (legacy !== null && !storageGet(STORAGE_KEY)) {
+            storageSet(STORAGE_KEY, legacy === 'true' ? 'dark' : 'light');
+            storageRemove('darkMode');
         }
-        return localStorage.getItem(STORAGE_KEY) || 'system';
+        return storageGet(STORAGE_KEY) || memoryTheme || 'system';
     }
 
     function isDarkResolved(theme) {
@@ -62,7 +78,8 @@
         var next = current === 'system' ? 'light'
                  : current === 'light'  ? 'dark'
                  :                        'system';
-        localStorage.setItem(STORAGE_KEY, next);
+        memoryTheme = next;
+        storageSet(STORAGE_KEY, next);
         applyTheme(next);
     }
 

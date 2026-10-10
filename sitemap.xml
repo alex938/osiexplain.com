@@ -7,9 +7,15 @@
 
   <url>
     <loc>https://osiexplain.com/</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://osiexplain.com/packet-journey.html</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
   </url>
   <url>
     <loc>https://osiexplain.com/quiz.html</loc>
@@ -19,13 +25,13 @@
   </url>
   <url>
     <loc>https://osiexplain.com/tcp-ip-vs-osi.html</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://osiexplain.com/glossary.html</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
@@ -55,7 +61,7 @@
   </url>
   <url>
     <loc>https://osiexplain.com/layer3_network.html</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>

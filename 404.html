@@ -10,12 +10,12 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="/styles.css?v=20260828">
-    <script src="/main.js?v=20260828" defer></script>
+    <link rel="stylesheet" href="/styles.css?v=20261010">
+    <script src="/main.js?v=20261010" defer></script>
     <style>
         body { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); }
         .code { font-size: 5em; font-weight: 700; margin: 0; opacity: 0.75; letter-spacing: 4px; }
-        .layer-jump { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin: 20px 0 0 0; padding: 0; list-style: none; }
+        .layer-jump { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr)); gap: 10px; margin: 20px 0 0 0; padding: 0; list-style: none; }
         .layer-jump a { display: block; padding: 12px 14px; border-radius: 10px; color: #fff; text-decoration: none; font-weight: 600; }
         .layer-jump a:hover { filter: brightness(1.15); }
         .lj7 { background: #c0392b; } .lj6 { background: #d35400; } .lj5 { background: #e67e22; }
@@ -24,10 +24,12 @@
     </style>
 </head>
 <body>
+    <script>/* Apply the saved theme before first paint so dark-mode users don't see a light flash; main.js takes over after. */(function(){var t;try{t=localStorage.getItem('theme');}catch(e){}var d=t==='dark'||(t!=='light'&&!!window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.body.classList.add('dark-mode');else if(t==='light')document.body.classList.add('light-mode');})();</script>
     <a class="skip-link" href="#main">Skip to content</a>
     <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><span id="darkModeIcon" aria-hidden="true">🌙</span><span id="darkModeText">Theme</span></button>
     <nav class="site-nav" aria-label="Primary">
         <a class="brand" href="/index.html"><span aria-hidden="true">🌐</span> OSI Explain</a>
+        <a href="packet-journey.html">Packet journey</a>
         <a href="/tcp-ip-vs-osi.html">OSI vs TCP/IP</a>
         <a href="/quiz.html">Practice quiz</a>
         <a href="/glossary.html">Glossary</a>

@@ -27,8 +27,8 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=20260828">
-    <script src="main.js?v=20260828" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261010">
+    <script src="main.js?v=20261010" defer></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -125,13 +125,100 @@
             border-radius: 4px;
         }
         dt.is-target { scroll-margin-top: 20px; }
+
+        /* ---- Flashcards ---- */
+        .flash-launch { text-align: center; margin: -10px 0 25px 0; }
+        .flashcards {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid #f1c40f;
+            border-radius: 15px;
+            padding: 20px 25px;
+            margin: 0 0 30px 0;
+            scroll-margin-top: 75px; /* clear the fixed theme button */
+        }
+        .flash-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        .flash-top h2 { margin: 0; }
+        .flash-top .progress-reset { margin: 0; }
+        .flash-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 22px;
+            align-items: center;
+            margin: 16px 0;
+            font-size: 0.95em;
+        }
+        .flash-options label { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+        .flash-options input[type="checkbox"] { width: 18px; height: 18px; accent-color: #f1c40f; }
+        .flash-options select { padding: 6px 10px; }
+        .flash-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 14px;
+            padding: 24px;
+            min-height: 170px;
+            cursor: pointer;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .flash-card:hover { border-color: rgba(241, 196, 15, 0.6); }
+        .flash-meta {
+            margin: 0 0 8px 0;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.75;
+        }
+        .flash-badge {
+            display: inline-block;
+            padding: 1px 8px;
+            border-radius: 10px;
+            margin-left: 6px;
+            background: rgba(241, 196, 15, 0.3);
+            color: #f1c40f;
+            letter-spacing: 0;
+        }
+        .flash-badge:empty { display: none; }
+        .flash-front { margin: 0; font-size: 1.45em; font-weight: 700; line-height: 1.35; }
+        .flash-card.is-reversed .flash-front { font-size: 1.1em; font-weight: 400; line-height: 1.55; }
+        .flash-answer {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.35);
+            animation: flash-in 0.25s ease;
+        }
+        .flash-back { margin: 0; font-size: 1.1em; line-height: 1.55; }
+        .flash-card.is-reversed .flash-back { font-size: 1.35em; font-weight: 700; }
+        @keyframes flash-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+        .flash-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 16px 0 0 0; }
+        .flash-actions .btn { margin: 0; }
+        #flashKnow { background: rgba(46, 204, 113, 0.35); border-color: #2ecc71; }
+        #flashAgain { background: rgba(230, 126, 34, 0.3); border-color: #e67e22; }
+        .flash-status { text-align: center; font-weight: 600; margin: 14px 0 0 0; }
+        .flash-keys { text-align: center; font-size: 0.8em; opacity: 0.7; margin: 6px 0 0 0; }
+        .flash-keys kbd {
+            font-family: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
+            padding: 0 5px;
+        }
+        .flash-reset-row { text-align: center; margin: 4px 0 0 0; }
+        @media (max-width: 600px) {
+            .flashcards { padding: 16px; }
+            .flash-card { padding: 18px 14px; min-height: 140px; }
+            .flash-front { font-size: 1.25em; }
+            .flash-keys { display: none; }
+        }
     </style>
 </head>
 <body data-page-id="glossary">
+    <script>/* Apply the saved theme before first paint so dark-mode users don't see a light flash; main.js takes over after. */(function(){var t;try{t=localStorage.getItem('theme');}catch(e){}var d=t==='dark'||(t!=='light'&&!!window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.body.classList.add('dark-mode');else if(t==='light')document.body.classList.add('light-mode');})();</script>
     <a class="skip-link" href="#main">Skip to content</a>
     <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><span id="darkModeIcon" aria-hidden="true">🌙</span><span id="darkModeText">Theme</span></button>
     <nav class="site-nav" aria-label="Primary">
         <a class="brand" href="index.html"><span aria-hidden="true">🌐</span> OSI Explain</a>
+        <a href="packet-journey.html">Packet journey</a>
         <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a>
         <a href="quiz.html">Practice quiz</a>
         <a href="glossary.html" aria-current="page">Glossary</a>
@@ -154,6 +241,49 @@
             <input type="search" id="glossaryFilter" placeholder="Filter by term or definition…" autocomplete="off">
         </div>
         <p class="filter-status" id="filterStatus" role="status" aria-live="polite"></p>
+
+        <p class="flash-launch" hidden><button type="button" class="btn" id="flashOpen" aria-expanded="false" aria-controls="flashcards"><span aria-hidden="true">📇</span> Study as flashcards</button></p>
+
+        <section class="flashcards" id="flashcards" aria-labelledby="flash-heading" hidden>
+            <div class="flash-top">
+                <h2 id="flash-heading"><span aria-hidden="true">📇</span> Flashcards</h2>
+                <button type="button" class="progress-reset" id="flashClose">Close</button>
+            </div>
+            <div class="flash-options">
+                <label>Deck
+                    <select id="flashLayer">
+                        <option value="all">All terms</option>
+                        <option value="1">Layer 1 · Physical</option>
+                        <option value="2">Layer 2 · Data Link</option>
+                        <option value="3">Layer 3 · Network</option>
+                        <option value="4">Layer 4 · Transport</option>
+                        <option value="5">Layer 5 · Session</option>
+                        <option value="6">Layer 6 · Presentation</option>
+                        <option value="7">Layer 7 · Application</option>
+                    </select>
+                </label>
+                <label><input type="checkbox" id="flashReverse"> Show the definition first</label>
+                <label><input type="checkbox" id="flashSkipKnown" checked> Skip terms I already know</label>
+            </div>
+
+            <div class="flash-card" id="flashCard">
+                <p class="flash-meta"><span id="flashFrontLabel">Term</span> <span class="flash-badge" id="flashBadge"></span></p>
+                <p class="flash-front" id="flashFront"></p>
+                <div class="flash-answer" id="flashAnswer" hidden>
+                    <p class="flash-meta" id="flashBackLabel">Definition</p>
+                    <p class="flash-back" id="flashBack"></p>
+                </div>
+            </div>
+
+            <div class="flash-actions">
+                <button type="button" class="btn" id="flashFlip">Show definition</button>
+                <button type="button" class="btn" id="flashAgain" hidden>↻ Still learning</button>
+                <button type="button" class="btn" id="flashKnow" hidden>✓ Got it</button>
+            </div>
+            <p class="flash-status" id="flashStatus" role="status" aria-live="polite"></p>
+            <p class="flash-keys">Keyboard: <kbd>F</kbd> flip · <kbd>1</kbd> still learning · <kbd>2</kbd> got it</p>
+            <p class="flash-reset-row"><button type="button" class="progress-reset" id="flashForget">Forget which terms I know</button></p>
+        </section>
 
         <nav class="alpha-jump" aria-label="Jump to letter">
             <a href="#A">A</a><a href="#B">B</a><a href="#C">C</a><a href="#D">D</a><a href="#E">E</a>
@@ -664,6 +794,198 @@
         }
         window.addEventListener('hashchange', highlightTarget);
         highlightTarget();
+    })();
+
+    // ---- Flashcards ------------------------------------------------------
+    // Built from the <dt>/<dd> pairs above, so new glossary terms join the deck
+    // automatically. "Got it" removes a card and remembers it in localStorage;
+    // "Still learning" puts it back a few cards later so it comes round again.
+    (function () {
+        var KNOWN_KEY = 'osi:flashcards-known';
+        var panel = document.getElementById('flashcards');
+        var openBtn = document.getElementById('flashOpen');
+        if (!panel || !openBtn) return;
+
+        var layerSelect = document.getElementById('flashLayer');
+        var reverseBox = document.getElementById('flashReverse');
+        var skipKnownBox = document.getElementById('flashSkipKnown');
+        var card = document.getElementById('flashCard');
+        var frontLabel = document.getElementById('flashFrontLabel');
+        var backLabel = document.getElementById('flashBackLabel');
+        var badgeEl = document.getElementById('flashBadge');
+        var frontEl = document.getElementById('flashFront');
+        var answerEl = document.getElementById('flashAnswer');
+        var backEl = document.getElementById('flashBack');
+        var flipBtn = document.getElementById('flashFlip');
+        var againBtn = document.getElementById('flashAgain');
+        var knowBtn = document.getElementById('flashKnow');
+        var statusEl = document.getElementById('flashStatus');
+
+        // "L2/L3" belongs to both decks; "L5+" means Layer 5 and above.
+        function layersOf(badge) {
+            var layers = [];
+            badge.split('/').forEach(function (part) {
+                var m = part.trim().match(/^L(\d)(\+?)$/);
+                if (!m) return;
+                var from = Number(m[1]);
+                var to = m[2] ? 7 : from;
+                for (var n = from; n <= to; n++) layers.push(String(n));
+            });
+            return layers;
+        }
+
+        var terms = Array.prototype.map.call(document.querySelectorAll('section.letter dt'), function (dt) {
+            var clone = dt.cloneNode(true);
+            var badge = clone.querySelector('.layer-badge');
+            var badgeText = badge ? badge.textContent.trim() : '';
+            if (badge) badge.remove();
+            var dd = dt.nextElementSibling;
+            return {
+                id: dt.id,
+                term: clone.textContent.trim(),
+                definition: dd ? dd.textContent.trim() : '',
+                badge: badgeText,
+                layers: layersOf(badgeText)
+            };
+        });
+
+        function readKnown() {
+            try { return JSON.parse(localStorage.getItem(KNOWN_KEY)) || []; } catch (e) { return []; }
+        }
+        var known = readKnown();
+        function saveKnown() {
+            try { localStorage.setItem(KNOWN_KEY, JSON.stringify(known)); } catch (e) { /* memory only */ }
+        }
+
+        var queue = [];
+        var deckSize = 0;
+        var flipped = false;
+
+        function shuffle(list) {
+            for (var i = list.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = list[i]; list[i] = list[j]; list[j] = tmp;
+            }
+            return list;
+        }
+
+        function buildDeck() {
+            var layer = layerSelect.value;
+            var inLayer = terms.filter(function (t) { return layer === 'all' || t.layers.indexOf(layer) !== -1; });
+            queue = shuffle(inLayer.filter(function (t) {
+                return !skipKnownBox.checked || known.indexOf(t.id) === -1;
+            }));
+            deckSize = queue.length;
+            showCard();
+            if (!queue.length && inLayer.length) {
+                statusEl.textContent = 'You know all ' + inLayer.length + ' terms in this deck. 🎉 Untick “skip terms I already know” to go through them again.';
+            }
+        }
+
+        function setButtons(state) {
+            flipBtn.hidden = state !== 'front';
+            againBtn.hidden = knowBtn.hidden = state !== 'back';
+        }
+
+        function showCard() {
+            flipped = false;
+            answerEl.hidden = true;
+            var reversed = reverseBox.checked;
+            card.classList.toggle('is-reversed', reversed);
+            frontLabel.textContent = reversed ? 'Definition' : 'Term';
+            backLabel.textContent = reversed ? 'Term' : 'Definition';
+            flipBtn.textContent = reversed ? 'Show term' : 'Show definition';
+
+            var current = queue[0];
+            if (!current) {
+                badgeEl.textContent = '';
+                frontEl.textContent = deckSize ? 'Deck complete 🎉' : 'Nothing left to study here';
+                setButtons('none');
+                statusEl.textContent = deckSize
+                    ? 'All ' + deckSize + ' cards done. Change the deck, or untick “skip terms I already know” to review everything.'
+                    : '';
+                return;
+            }
+            badgeEl.textContent = current.badge;
+            frontEl.textContent = reversed ? current.definition : current.term;
+            backEl.textContent = reversed ? current.term : current.definition;
+            setButtons('front');
+            statusEl.textContent = queue.length + ' of ' + deckSize + ' card' + (deckSize === 1 ? '' : 's') + ' left · ' +
+                known.length + ' term' + (known.length === 1 ? '' : 's') + ' known overall';
+        }
+
+        function flip() {
+            if (!queue.length || flipped) return;
+            flipped = true;
+            answerEl.hidden = false;
+            setButtons('back');
+            knowBtn.focus();
+        }
+
+        function gotIt() {
+            if (!flipped) return;
+            var current = queue.shift();
+            if (known.indexOf(current.id) === -1) {
+                known.push(current.id);
+                saveKnown();
+            }
+            showCard();
+            (queue.length ? flipBtn : layerSelect).focus();
+        }
+
+        function stillLearning() {
+            if (!flipped) return;
+            var current = queue.shift();
+            // Back in 3-6 cards' time, or at the end if the deck is short.
+            var at = Math.min(queue.length, 3 + Math.floor(Math.random() * 4));
+            queue.splice(at, 0, current);
+            var idx = known.indexOf(current.id);
+            if (idx !== -1) { known.splice(idx, 1); saveKnown(); }
+            showCard();
+            flipBtn.focus();
+        }
+
+        function open() {
+            panel.hidden = false;
+            openBtn.setAttribute('aria-expanded', 'true');
+            openBtn.parentNode.hidden = true;
+            buildDeck();
+            panel.scrollIntoView({ block: 'start' });
+            flipBtn.focus();
+        }
+
+        function close() {
+            panel.hidden = true;
+            openBtn.setAttribute('aria-expanded', 'false');
+            openBtn.parentNode.hidden = false;
+            openBtn.focus();
+        }
+
+        openBtn.addEventListener('click', open);
+        document.getElementById('flashClose').addEventListener('click', close);
+        document.getElementById('flashForget').addEventListener('click', function () {
+            known = [];
+            saveKnown();
+            buildDeck();
+        });
+        card.addEventListener('click', flip);
+        flipBtn.addEventListener('click', flip);
+        knowBtn.addEventListener('click', gotIt);
+        againBtn.addEventListener('click', stillLearning);
+        layerSelect.addEventListener('change', buildDeck);
+        skipKnownBox.addEventListener('change', buildDeck);
+        reverseBox.addEventListener('change', showCard);
+
+        panel.addEventListener('keydown', function (event) {
+            if (event.target.closest('select, input, textarea') || event.ctrlKey || event.metaKey || event.altKey) return;
+            var key = event.key.toLowerCase();
+            if (key === 'f') { event.preventDefault(); flip(); }
+            if (key === '1') { event.preventDefault(); stillLearning(); }
+            if (key === '2') { event.preventDefault(); gotIt(); }
+            if (key === 'escape') { event.preventDefault(); close(); }
+        });
+
+        openBtn.parentNode.hidden = false;
     })();
     </script>
 </body>

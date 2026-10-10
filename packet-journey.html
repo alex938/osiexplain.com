@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Packet's Journey Through the OSI Model – Encapsulation Step by Step | OSIExplain.com</title>
+    <meta name="description" content="Follow one HTTPS request down all 7 OSI layers, across the internet and back up the stack. See every header added and removed, and which fields routers change.">
+    <meta name="keywords" content="encapsulation, decapsulation, OSI model, packet journey, PDU, headers, how data travels, Ethernet frame, IP packet, TCP segment, CompTIA Network+, CCNA">
+    <meta name="author" content="Alex (osiexplain.com)">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta property="og:site_name" content="OSIExplain.com">
+    <meta property="og:title" content="A Packet's Journey Through the OSI Model">
+    <meta property="og:description" content="Follow one HTTPS request down all 7 layers, across the internet and back up again — every header added, changed and removed.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://osiexplain.com/packet-journey.html">
+    <meta property="og:image" content="https://osiexplain.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="OSIExplain.com — a packet's journey through the 7 OSI layers">
+    <meta property="og:locale" content="en_GB">
+    <meta property="article:published_time" content="2026-10-10">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="A Packet's Journey Through the OSI Model">
+    <meta name="twitter:description" content="Encapsulation step by step: one HTTPS request, all 7 layers, every header.">
+    <meta name="twitter:image" content="https://osiexplain.com/og-image.png">
+    <link rel="canonical" href="https://osiexplain.com/packet-journey.html">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="alternate icon" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="styles.css?v=20261010">
+    <script src="main.js?v=20261010" defer></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://osiexplain.com/" },
+            { "@type": "ListItem", "position": 2, "name": "A Packet's Journey", "item": "https://osiexplain.com/packet-journey.html" }
+          ]
+        },
+        {
+          "@type": "TechArticle",
+          "headline": "A Packet's Journey Through the OSI Model",
+          "description": "Follow one HTTPS request down all 7 OSI layers, across the internet and back up the stack, with every header added, changed and removed.",
+          "image": "https://osiexplain.com/og-image.png",
+          "mainEntityOfPage": "https://osiexplain.com/packet-journey.html",
+          "datePublished": "2026-10-10",
+          "dateModified": "2026-10-10",
+          "author": { "@type": "Person", "name": "Alex", "email": "alex@slash-root.com" },
+          "publisher": {
+            "@type": "Organization",
+            "name": "OSIExplain.com",
+            "url": "https://osiexplain.com/",
+            "logo": { "@type": "ImageObject", "url": "https://osiexplain.com/apple-touch-icon.png", "width": 180, "height": 180 }
+          },
+          "inLanguage": "en",
+          "about": "Encapsulation in the OSI model"
+        }
+      ]
+    }
+    </script>
+    <style>
+        body { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); }
+        .lead { text-align: center; max-width: 820px; margin: 0 auto 25px; opacity: 0.92; line-height: 1.6; }
+
+        /* ---- Devices: sender, routers, server ---------------------------- */
+        .journey { margin: 30px 0; scroll-margin-top: 60px; }
+        .journey-visual { display: none; }
+        .journey.is-enhanced .journey-visual { display: block; }
+
+        .devices {
+            display: grid;
+            grid-template-columns: 1fr 0.8fr 1fr;
+            gap: 14px;
+            align-items: end;
+        }
+        .device {
+            background: rgba(0, 0, 0, 0.28);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 10px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .device.is-active {
+            border-color: #f1c40f;
+            box-shadow: 0 0 0 3px rgba(241, 196, 15, 0.25);
+        }
+        .device h3 {
+            margin: 0 0 8px 0;
+            font-size: 1em;
+            text-align: center;
+        }
+        .device ol {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .device li {
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            background: rgba(255, 255, 255, 0.08);
+            border-left: 4px solid var(--c);
+            opacity: 0.55;
+            transition: opacity 0.3s ease, background 0.3s ease;
+        }
+        .device li.is-active {
+            opacity: 1;
+            background: var(--c);
+            font-weight: 700;
+        }
+        .device li.is-done { opacity: 0.85; }
+        .l7 { --c: #c0392b; } .l6 { --c: #a04000; } .l5 { --c: #9a7d0a; } .l4 { --c: #1e8449; }
+        .l3 { --c: #2471a3; } .l2 { --c: #7d3c98; } .l1 { --c: #4d5d6c; }
+        .device-note { font-size: 0.75em; opacity: 0.75; text-align: center; margin: 8px 0 0 0; }
+
+        .direction {
+            text-align: center;
+            margin: 18px 0 8px 0;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .direction span {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* ---- The PDU itself --------------------------------------------- */
+        .pdu-wrap {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 14px;
+        }
+        .pdu-caption {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 6px;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        .pdu-caption strong { color: #f1c40f; }
+        .pdu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+            min-height: 54px;
+        }
+        .seg {
+            flex: 1 1 70px;
+            min-width: 0;
+            padding: 8px 6px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.82em;
+            font-weight: 700;
+            line-height: 1.25;
+            background: var(--c);
+            border: 2px solid transparent;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .seg small { display: block; font-weight: 400; opacity: 0.85; font-size: 0.9em; }
+        .seg-data, .seg-enc { flex-grow: 3; }
+        .seg-enc {
+            background: repeating-linear-gradient(45deg, #c0392b 0 10px, #a93226 10px 20px);
+        }
+        .seg.is-new { border-color: #f1c40f; animation: seg-in 0.5s ease; }
+        .seg.is-changed { border-color: #f1c40f; border-style: dashed; }
+        .seg.is-removed { opacity: 0.35; border-color: rgba(255, 255, 255, 0.6); border-style: dashed; text-decoration: line-through; }
+        @keyframes seg-in { from { transform: translateY(-10px); opacity: 0; } to { transform: none; opacity: 1; } }
+        .seg-tag {
+            display: inline-block;
+            margin-top: 3px;
+            padding: 0 6px;
+            border-radius: 999px;
+            font-size: 0.78em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(0, 0, 0, 0.45);
+        }
+        .bit-stream {
+            font-family: 'Courier New', monospace;
+            color: #7ee2a8;
+            font-size: 0.85em;
+            margin: 10px 0 0 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .pdu-legend { font-size: 0.8em; opacity: 0.8; margin: 10px 0 0 0; }
+
+        /* ---- Controls ---------------------------------------------------- */
+        .journey-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 18px 0 6px 0;
+        }
+        .journey-controls .btn { margin: 0; }
+        .journey-counter { font-weight: 700; min-width: 110px; text-align: center; }
+        .journey-progress {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 999px;
+            overflow: hidden;
+            margin: 6px 0 0 0;
+        }
+        .journey-progress span {
+            display: block;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #f1c40f, #2ecc71);
+            transition: width 0.3s ease;
+        }
+        .journey-keys { text-align: center; font-size: 0.8em; opacity: 0.75; margin: 6px 0 0 0; }
+
+        /* ---- Step text (always in the HTML; one at a time once enhanced) -- */
+        .journey-steps { list-style: none; padding: 0; margin: 20px 0 0 0; counter-reset: step; }
+        .journey-step {
+            counter-increment: step;
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid #f1c40f;
+            border-radius: 12px;
+            padding: 20px 22px;
+            margin: 0 0 16px 0;
+            scroll-margin-top: 20px;
+        }
+        .journey.is-enhanced .journey-step:not(.is-current) { display: none; }
+        .journey-step h3 { margin: 0 0 6px 0; font-size: 1.3em; }
+        .journey-step h3::before {
+            content: 'Step ' counter(step) ' · ';
+            color: #f1c40f;
+        }
+        .step-where { margin: 0 0 12px 0; font-size: 0.9em; opacity: 0.8; }
+        .journey-step p { line-height: 1.6; }
+        .fields { width: 100%; margin: 12px 0; font-size: 0.92em; }
+        .fields th { width: 34%; background: rgba(52, 152, 219, 0.35); font-weight: 600; }
+        .fields td code, .journey-step code { font-family: 'Courier New', monospace; }
+        .key-point {
+            background: rgba(241, 196, 15, 0.18);
+            border-left: 4px solid #f1c40f;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin: 12px 0 0 0;
+        }
+
+        .changes-table td:first-child { font-weight: 600; }
+        .callout {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        @media (max-width: 768px) {
+            .devices { gap: 6px; }
+            .device { padding: 6px; }
+            .device h3 { font-size: 0.8em; }
+            .device li { font-size: 0.68em; padding: 4px 4px; border-left-width: 3px; }
+            .device-note { display: none; }
+            .seg { flex-basis: 56px; font-size: 0.72em; }
+            .seg small { display: none; }
+            .journey-step { padding: 16px; }
+            .journey-controls { gap: 8px; }
+            .journey-controls .btn { padding: 8px 14px; font-size: 15px; }
+            .journey-counter { min-width: 0; }
+            .fields th { width: auto; }
+        }
+        @media (max-width: 420px) {
+            /* Layer names would wrap to ragged columns; numbers alone are clearer. */
+            .device li .name { display: none; }
+        }
+        @media print {
+            .journey-visual { display: none !important; }
+            .journey.is-enhanced .journey-step { display: block !important; }
+        }
+    </style>
+</head>
+<body data-page-id="journey">
+    <script>/* Apply the saved theme before first paint so dark-mode users don't see a light flash; main.js takes over after. */(function(){var t;try{t=localStorage.getItem('theme');}catch(e){}var d=t==='dark'||(t!=='light'&&!!window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.body.classList.add('dark-mode');else if(t==='light')document.body.classList.add('light-mode');})();</script>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><span id="darkModeIcon" aria-hidden="true">🌙</span><span id="darkModeText">Theme</span></button>
+    <nav class="site-nav" aria-label="Primary">
+        <a class="brand" href="index.html"><span aria-hidden="true">🌐</span> OSI Explain</a>
+        <a href="packet-journey.html" aria-current="page">Packet journey</a>
+        <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a>
+        <a href="quiz.html">Practice quiz</a>
+        <a href="glossary.html">Glossary</a>
+    </nav>
+
+    <main id="main" class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="index.html">Home</a></li>
+                <li aria-current="page">A Packet's Journey</li>
+            </ol>
+        </nav>
+        <a href="index.html" class="back-button">← Back to OSI Overview</a>
+
+        <h1><span aria-hidden="true">📦</span> A Packet's Journey</h1>
+        <p class="lead">
+            Each layer page shows one layer on its own. This page follows a <strong>single HTTPS request</strong> from
+            your browser down all seven layers, across the internet, and back up the stack on a web server.
+            Watch each header get added on the way down, changed by routers in the middle, and removed on the way up.
+        </p>
+
+        <section class="callout" aria-labelledby="setup-heading">
+            <h2 id="setup-heading" style="margin-top:0">The setup</h2>
+            <p>You are on a desktop PC (<code>192.168.1.20</code>) plugged into your home router by an Ethernet cable. You click a link to <code>https://osiexplain.com/index.html</code>. The server lives at <code>203.0.113.10</code>.</p>
+            <p>A few things have already happened before our story starts. <a href="glossary.html#term-dns">DNS</a> turned the name into an IP address. TCP's <a href="layer4_transport.html">three-way handshake</a> opened a connection. The <a href="layer6_presentation.html">TLS handshake</a> agreed the encryption keys. We pick up the very next thing the browser sends: the request for the page.</p>
+        </section>
+
+        <div class="journey" id="journey">
+            <div class="journey-visual" aria-hidden="true">
+                <div class="devices">
+                    <div class="device" data-place="sender">
+                        <h3>💻 Your PC</h3>
+                        <ol>
+                            <li class="l7" data-layer="7">7 <span class="name">Application</span></li>
+                            <li class="l6" data-layer="6">6 <span class="name">Presentation</span></li>
+                            <li class="l5" data-layer="5">5 <span class="name">Session</span></li>
+                            <li class="l4" data-layer="4">4 <span class="name">Transport</span></li>
+                            <li class="l3" data-layer="3">3 <span class="name">Network</span></li>
+                            <li class="l2" data-layer="2">2 <span class="name">Data Link</span></li>
+                            <li class="l1" data-layer="1">1 <span class="name">Physical</span></li>
+                        </ol>
+                    </div>
+                    <div class="device" data-place="router">
+                        <h3>📡 Routers</h3>
+                        <ol>
+                            <li class="l3" data-layer="3">3 <span class="name">Network</span></li>
+                            <li class="l2" data-layer="2">2 <span class="name">Data Link</span></li>
+                            <li class="l1" data-layer="1">1 <span class="name">Physical</span></li>
+                        </ol>
+                        <p class="device-note">Routers only go up to Layer 3</p>
+                    </div>
+                    <div class="device" data-place="server">
+                        <h3>🖥️ Web server</h3>
+                        <ol>
+                            <li class="l7" data-layer="7">7 <span class="name">Application</span></li>
+                            <li class="l6" data-layer="6">6 <span class="name">Presentation</span></li>
+                            <li class="l5" data-layer="5">5 <span class="name">Session</span></li>
+                            <li class="l4" data-layer="4">4 <span class="name">Transport</span></li>
+                            <li class="l3" data-layer="3">3 <span class="name">Network</span></li>
+                            <li class="l2" data-layer="2">2 <span class="name">Data Link</span></li>
+                            <li class="l1" data-layer="1">1 <span class="name">Physical</span></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <p class="direction"><span id="journeyDirection"></span></p>
+
+                <div class="pdu-wrap">
+                    <div class="pdu-caption">
+                        <span>What is on the wire right now: <strong id="journeyPduName"></strong></span>
+                        <span id="journeyPduBytes"></span>
+                    </div>
+                    <div class="pdu" id="journeyPdu"></div>
+                    <p class="bit-stream" id="journeyBits" hidden></p>
+                    <p class="pdu-legend">Solid yellow outline = just added · dashed yellow = changed · faded = being removed</p>
+                </div>
+            </div>
+
+            <div class="journey-controls" hidden>
+                <button type="button" class="btn" id="journeyPrev">← Back</button>
+                <span class="journey-counter" id="journeyCounter" aria-live="polite"></span>
+                <button type="button" class="btn" id="journeyNext">Next →</button>
+                <button type="button" class="btn btn-quiet" id="journeyPlay" aria-pressed="false">▶ Play</button>
+                <button type="button" class="btn btn-quiet" id="journeyRestart">↺ Restart</button>
+            </div>
+            <div class="journey-progress" hidden><span id="journeyProgress"></span></div>
+            <p class="journey-keys" hidden>Tip: use the ← and → arrow keys to step through.</p>
+
+            <ol class="journey-steps">
+                <li class="journey-step" id="step-1" data-place="sender" data-layer="7" data-dir="down"
+                    data-pdu="data" data-new="data" data-pdu-name="Data" data-bytes="≈ 380 bytes">
+                    <h3>The browser writes an HTTP request</h3>
+                    <p class="step-where">Your PC · Layer 7, <a href="layer7_application.html">Application</a></p>
+                    <p>Everything starts as plain text. The browser builds an HTTP request asking the server for one file. The <code>Host</code> header matters because one server often hosts many websites, and this is how it knows which one you want.</p>
+                    <div class="wireshark-example" data-copy>GET /index.html HTTP/1.1
+Host: osiexplain.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) …
+Accept: text/html
+Accept-Encoding: gzip, br
+Connection: keep-alive</div>
+                    <p>At this point there are no addresses or port numbers of any kind. The application layer just hands a block of data down and trusts the layers below to deliver it.</p>
+                </li>
+
+                <li class="journey-step" id="step-2" data-place="sender" data-layer="6" data-dir="down"
+                    data-pdu="tls enc" data-new="tls enc" data-pdu-name="Data (TLS record)" data-bytes="≈ 400 bytes">
+                    <h3>TLS encrypts the request</h3>
+                    <p class="step-where">Your PC · Layer 6, <a href="layer6_presentation.html">Presentation</a></p>
+                    <p>Because the link was <code>https://</code>, the request is handed to TLS. Using the keys agreed during the handshake, TLS encrypts the request with AES-GCM and adds an authentication tag, so any tampering on the way will be detected. The result is wrapped in a small <strong>TLS record header</strong>.</p>
+                    <table class="fields">
+                        <tr><th scope="row">Content type</th><td><code>23</code> (application data)</td></tr>
+                        <tr><th scope="row">Version</th><td><code>0x0303</code>. TLS 1.3 still writes the TLS 1.2 number here so that old middleboxes keep working.</td></tr>
+                        <tr><th scope="row">Length</th><td>Size of the encrypted payload, including the tag</td></tr>
+                    </table>
+                    <p class="key-point">From here on, nothing between you and the server can read the HTTP request. Your ISP and every router on the path see only encrypted bytes.</p>
+                </li>
+
+                <li class="journey-step" id="step-3" data-place="sender" data-layer="5" data-dir="down"
+                    data-pdu="tls enc" data-pdu-name="Data (TLS record)" data-bytes="≈ 400 bytes">
+                    <h3>The session layer adds… nothing</h3>
+                    <p class="step-where">Your PC · Layer 5, <a href="layer5_session_demo.html">Session</a></p>
+                    <p>This is the honest answer that textbooks often skip. The internet runs on TCP/IP, and <strong>TCP/IP has no separate session header</strong>. The OSI model's Layer 5 jobs are still being done, but by other parts of the stack:</p>
+                    <ul>
+                        <li>The <strong>TLS session</strong> ties this request to the keys from the earlier handshake, and can be resumed later without a full new handshake.</li>
+                        <li><strong>HTTP keep-alive</strong> reuses the same TCP connection for the page's images and scripts.</li>
+                    </ul>
+                    <p>So the data passes straight through. See <a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a> for why layers 5–7 collapse into one in practice.</p>
+                </li>
+
+                <li class="journey-step" id="step-4" data-place="sender" data-layer="4" data-dir="down"
+                    data-pdu="tcp tls enc" data-new="tcp" data-pdu-name="Segment" data-bytes="≈ 432 bytes">
+                    <h3>TCP turns it into a segment</h3>
+                    <p class="step-where">Your PC · Layer 4, <a href="layer4_transport.html">Transport</a></p>
+                    <p>TCP adds its header, and the unit of data is now called a <strong>segment</strong>. Ports identify which program on each machine the data belongs to. Sequence numbers let the server put bytes back in order and spot anything missing.</p>
+                    <table class="fields">
+                        <tr><th scope="row">Source port</th><td><code>51514</code>, a random <a href="glossary.html#term-ephemeralport">ephemeral port</a> picked by your PC</td></tr>
+                        <tr><th scope="row">Destination port</th><td><code>443</code>, HTTPS</td></tr>
+                        <tr><th scope="row">Sequence number</th><td>Position of the first byte of this segment in the stream</td></tr>
+                        <tr><th scope="row">Acknowledgement</th><td>Next byte your PC expects from the server</td></tr>
+                        <tr><th scope="row">Flags</th><td><code>PSH, ACK</code></td></tr>
+                        <tr><th scope="row">Window</th><td>How much more data your PC can buffer (flow control)</td></tr>
+                    </table>
+                </li>
+
+                <li class="journey-step" id="step-5" data-place="sender" data-layer="3" data-dir="down"
+                    data-pdu="ip tcp tls enc" data-new="ip" data-pdu-name="Packet" data-bytes="≈ 452 bytes">
+                    <h3>IP turns it into a packet</h3>
+                    <p class="step-where">Your PC · Layer 3, <a href="layer3_network.html">Network</a></p>
+                    <p>The IP header carries the two addresses that stay the same for the whole trip, end to end (NAT is the exception, as step 8 shows). The unit is now a <strong>packet</strong>.</p>
+                    <table class="fields">
+                        <tr><th scope="row">Source IP</th><td><code>192.168.1.20</code> (your PC)</td></tr>
+                        <tr><th scope="row">Destination IP</th><td><code>203.0.113.10</code> (the web server)</td></tr>
+                        <tr><th scope="row">TTL</th><td><code>64</code>. Every router subtracts one, so a looping packet eventually dies.</td></tr>
+                        <tr><th scope="row">Protocol</th><td><code>6</code>, meaning "the payload is TCP"</td></tr>
+                        <tr><th scope="row">Flags</th><td>Don't Fragment set. Path MTU discovery handles packet size instead.</td></tr>
+                    </table>
+                    <p class="key-point">Your PC now makes the key routing decision. Is <code>203.0.113.10</code> on my own subnet (<code>192.168.1.0/24</code>)? No. So the packet must go to the <strong>default gateway</strong>, the home router at <code>192.168.1.1</code>.</p>
+                </li>
+
+                <li class="journey-step" id="step-6" data-place="sender" data-layer="2" data-dir="down"
+                    data-pdu="eth ip tcp tls enc fcs" data-new="eth fcs" data-pdu-name="Frame" data-bytes="≈ 470 bytes">
+                    <h3>Ethernet turns it into a frame</h3>
+                    <p class="step-where">Your PC · Layer 2, <a href="layer2_datalink.html">Data Link</a></p>
+                    <p>A frame only travels across <em>one</em> link. So the destination MAC is <strong>not</strong> the web server's. It is the router's, the next hop. Your PC looked that MAC up with <a href="glossary.html#term-arp">ARP</a>, or found it already in its ARP cache.</p>
+                    <table class="fields">
+                        <tr><th scope="row">Destination MAC</th><td><code>00:1a:2b:3c:4d:5e</code> (home router's LAN port)</td></tr>
+                        <tr><th scope="row">Source MAC</th><td><code>a4:5e:60:12:34:56</code> (your PC's network card)</td></tr>
+                        <tr><th scope="row">EtherType</th><td><code>0x0800</code>, meaning "the payload is IPv4"</td></tr>
+                        <tr><th scope="row">FCS (trailer)</th><td>A 4-byte CRC-32 checksum over the whole frame, added at the <em>end</em></td></tr>
+                    </table>
+                    <p class="key-point">This is the only layer that adds a <strong>trailer</strong> as well as a header. The packet is now sandwiched between them.</p>
+                </li>
+
+                <li class="journey-step" id="step-7" data-place="sender" data-layer="1" data-dir="down"
+                    data-pdu="pre eth ip tcp tls enc fcs" data-new="pre" data-bits="true" data-pdu-name="Bits" data-bytes="≈ 478 bytes on the wire">
+                    <h3>The network card sends bits</h3>
+                    <p class="step-where">Your PC · Layer 1, <a href="layer1_physical.html">Physical</a></p>
+                    <p>The network card puts a <strong>preamble</strong> in front of the frame: 7 bytes of <code>10101010</code>, then a start frame delimiter, <code>10101011</code>. The alternating pattern lets the receiver lock on to the clock. Then every bit of the frame goes out as electrical signals. On gigabit Ethernet (1000BASE-T) that means PAM-5 voltage levels across all four twisted pairs at once.</p>
+                    <p>Layer 1 has no idea what any of these bits mean. It just moves them.</p>
+                    <p class="key-point">Encapsulation is complete: <strong>Data → Segment → Packet → Frame → Bits</strong>. On Wi-Fi the steps are the same, but Layer 2 uses an 802.11 frame and Layer 1 is radio.</p>
+                </li>
+
+                <li class="journey-step" id="step-8" data-place="router" data-layer="1 2 3" data-dir="across"
+                    data-pdu="eth ip tcp tls enc fcs" data-changed="eth ip tcp fcs" data-pdu-name="Frame (rebuilt)" data-bytes="≈ 470 bytes">
+                    <h3>Your home router: unwrap, decide, rewrap</h3>
+                    <p class="step-where">Home router · Layers 1–3</p>
+                    <p>The router receives the bits (L1). It checks the FCS and sees the frame is addressed to its own MAC (L2), then <strong>throws the frame away</strong> to get at the packet. At Layer 3 it:</p>
+                    <ol>
+                        <li>Looks up <code>203.0.113.10</code> in its routing table. The only match is the default route, out of the WAN port towards your ISP.</li>
+                        <li>Decrements the <strong>TTL</strong> from 64 to <strong>63</strong>, then recalculates the IP header checksum.</li>
+                        <li>Applies <a href="glossary.html#term-nat">NAT</a>. The private source <code>192.168.1.20:51514</code> becomes the router's public address, for example <code>198.51.100.7:40112</code>. The router remembers this mapping so the reply can find its way back, and fixes up the TCP checksum, which also covers the IP addresses.</li>
+                    </ol>
+                    <p>Then it builds a <strong>brand-new frame</strong> for the next link. The source MAC is now the router's WAN port, the destination MAC is the ISP's router, and the FCS is new.</p>
+                    <p class="key-point">A router never looks above Layer 3. It cannot see the TLS record or the HTTP request, and does not need to.</p>
+                </li>
+
+                <li class="journey-step" id="step-9" data-place="router" data-layer="1 2 3" data-dir="across"
+                    data-pdu="eth ip tcp tls enc fcs" data-changed="eth ip fcs" data-pdu-name="Frame (rebuilt at every hop)" data-bytes="≈ 470 bytes">
+                    <h3>Across the internet, hop by hop</h3>
+                    <p class="step-where">ISP and backbone routers · Layers 1–3</p>
+                    <p>The same thing repeats at every router on the path, typically 10–20 of them. Each one strips the incoming frame, decrements the TTL, looks up the destination IP, and wraps the packet in a new frame for the next link. Some of those links are not Ethernet at all. A long-haul fibre run may use a different Layer 2 and Layer 1 entirely, and the packet does not care.</p>
+                    <div class="table-scroll"><table class="changes-table">
+                        <thead><tr><th>Field</th><th>Changes at every hop?</th></tr></thead>
+                        <tbody>
+                            <tr><td>Source / destination MAC</td><td>Yes. A new frame is built for every link.</td></tr>
+                            <tr><td>TTL</td><td>Yes. Down by one each time; after 12 routers it reaches the server at 52.</td></tr>
+                            <tr><td>Source / destination IP</td><td>No. Only NAT, at the edge, changed them.</td></tr>
+                            <tr><td>TCP ports and everything inside</td><td>No.</td></tr>
+                        </tbody>
+                    </table></div>
+                    <p>This is exactly what <a href="layer3_network.html">traceroute</a> exploits. It sends packets with TTL 1, 2, 3… and records which router sends back the "time exceeded" error each time.</p>
+                </li>
+
+                <li class="journey-step" id="step-10" data-place="server" data-layer="1 2" data-dir="up"
+                    data-pdu="eth ip tcp tls enc fcs" data-removed="eth fcs" data-pdu-name="Frame → Packet" data-bytes="≈ 470 bytes">
+                    <h3>The server's network card accepts the frame</h3>
+                    <p class="step-where">Web server · Layers 1–2</p>
+                    <p>Now everything runs in reverse. This is <strong>de-encapsulation</strong>. The server's network card turns the signal back into bits (L1). Then at L2 it:</p>
+                    <ul>
+                        <li>Recalculates the CRC-32 and compares it with the <strong>FCS</strong>. If they differ, the frame was damaged on the last link and is silently dropped. TCP will notice the gap and resend.</li>
+                        <li>Checks that the destination MAC is its own. It is, because the last router addressed the frame to it.</li>
+                        <li>Reads the EtherType <code>0x0800</code>, strips the header and trailer, and hands the packet to IPv4.</li>
+                    </ul>
+                </li>
+
+                <li class="journey-step" id="step-11" data-place="server" data-layer="3" data-dir="up"
+                    data-pdu="ip tcp tls enc" data-removed="ip" data-pdu-name="Packet → Segment" data-bytes="≈ 452 bytes">
+                    <h3>IP confirms the packet is for this server</h3>
+                    <p class="step-where">Web server · Layer 3, <a href="layer3_network.html">Network</a></p>
+                    <p>The destination IP <code>203.0.113.10</code> matches one of the server's own addresses, and the header checksum is valid. The packet arrives with TTL 52. The <strong>Protocol</strong> field says <code>6</code>, so the IP header comes off and the segment goes to TCP.</p>
+                    <p>Notice the source IP the server sees: <code>198.51.100.7</code>, your router's public address, not your PC's private one. That is NAT at work. The server replies to that address.</p>
+                </li>
+
+                <li class="journey-step" id="step-12" data-place="server" data-layer="4" data-dir="up"
+                    data-pdu="tcp tls enc" data-removed="tcp" data-pdu-name="Segment → Data" data-bytes="≈ 432 bytes">
+                    <h3>TCP delivers the bytes to the right program</h3>
+                    <p class="step-where">Web server · Layer 4, <a href="layer4_transport.html">Transport</a></p>
+                    <p>Destination port <code>443</code> belongs to the web server process (nginx, say). TCP finds the existing connection from the source IP and port, checks that the sequence number is the next one it expected, and places the bytes in the receive buffer in order.</p>
+                    <p>TCP then sends an <strong>ACK</strong> back, so your PC knows it does not need to resend. That ACK is a whole tiny packet that makes the journey in the opposite direction.</p>
+                </li>
+
+                <li class="journey-step" id="step-13" data-place="server" data-layer="5 6" data-dir="up"
+                    data-pdu="tls enc" data-removed="tls enc" data-pdu-name="TLS record → plaintext" data-bytes="≈ 400 bytes">
+                    <h3>TLS decrypts and verifies</h3>
+                    <p class="step-where">Web server · Layers 5–6, <a href="layer5_session_demo.html">Session</a> and <a href="layer6_presentation.html">Presentation</a></p>
+                    <p>The connection belongs to an established TLS session, so the server already holds the matching keys. It decrypts the record and checks the authentication tag. If even one bit had been altered anywhere on the path, the check would fail and the connection would be torn down rather than trusted.</p>
+                    <p>What comes out is the exact HTTP text your browser wrote in step 1.</p>
+                </li>
+
+                <li class="journey-step" id="step-14" data-place="server" data-layer="7" data-dir="up"
+                    data-pdu="data" data-pdu-name="Data" data-bytes="≈ 380 bytes">
+                    <h3>The web server reads the request and replies</h3>
+                    <p class="step-where">Web server · Layer 7, <a href="layer7_application.html">Application</a></p>
+                    <p>The web server parses <code>GET /index.html</code>, uses the <code>Host</code> header to pick the right site, and builds a response:</p>
+                    <div class="wireshark-example" data-copy>HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Encoding: br
+Content-Length: 6120
+
+&lt;!DOCTYPE html&gt; …</div>
+                    <p>That response now makes <strong>the same journey in reverse</strong>. It is encrypted, segmented, packeted and framed on the server, rebuilt hop by hop across the internet, un-NATed by your home router back to <code>192.168.1.20:51514</code>, and unwrapped layer by layer on your PC. All of that usually takes tens of milliseconds.</p>
+                </li>
+            </ol>
+        </div>
+
+        <section class="callout" aria-labelledby="summary-heading">
+            <h2 id="summary-heading" style="margin-top:0">The whole journey in one table</h2>
+            <div class="table-scroll"><table>
+                <thead><tr><th>Layer</th><th>Adds on the way down</th><th>PDU name</th><th>Who reads it</th></tr></thead>
+                <tbody>
+                    <tr><td>7 Application</td><td>The HTTP request itself</td><td>Data</td><td>Browser and web server only</td></tr>
+                    <tr><td>6 Presentation</td><td>Encryption + TLS record header</td><td>Data</td><td>Browser and web server only</td></tr>
+                    <tr><td>5 Session</td><td>Nothing separate in TCP/IP</td><td>Data</td><td>—</td></tr>
+                    <tr><td>4 Transport</td><td>TCP header: ports, sequence, ACK</td><td>Segment</td><td>The two end hosts (and firewalls)</td></tr>
+                    <tr><td>3 Network</td><td>IP header: IP addresses, TTL</td><td>Packet</td><td>Every router on the path</td></tr>
+                    <tr><td>2 Data Link</td><td>Ethernet header + FCS trailer</td><td>Frame</td><td>Only the two ends of each link</td></tr>
+                    <tr><td>1 Physical</td><td>Preamble, then signals</td><td>Bits</td><td>Network cards, cables, switches' ports</td></tr>
+                </tbody>
+            </table></div>
+            <p><strong>To remember:</strong> MAC addresses describe the <em>next hop</em> and change at every router. IP addresses describe the <em>whole journey</em> and stay the same, except where NAT rewrites them at the edge.</p>
+        </section>
+
+        <section class="quiz" id="quiz" data-quiz-id="journey" aria-labelledby="quiz-heading">
+            <h2 id="quiz-heading"><span aria-hidden="true">🎯</span> Check your understanding &mdash; encapsulation</h2>
+            <p class="quiz-intro">Five questions on how data moves through the whole stack.</p>
+            <ol class="quiz-list">
+                <li class="quiz-question" data-answer="1">
+                    <p class="quiz-prompt">Your PC sends a packet to a web server on the internet. What destination MAC address goes in the Ethernet frame it sends?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">The web server's MAC address</button></li>
+                        <li><button type="button" data-option="1">The default gateway's (router's) MAC address</button></li>
+                        <li><button type="button" data-option="2">The broadcast address FF:FF:FF:FF:FF:FF</button></li>
+                        <li><button type="button" data-option="3">The DNS server's MAC address</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>A frame only crosses one link. The server is on a different network, so your PC addresses the frame to the next hop, its default gateway, and the router builds a new frame for the next link.</p>
+                </li>
+                <li class="quiz-question" data-answer="2">
+                    <p class="quiz-prompt">Which header is completely replaced at every router hop?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">The TCP header</button></li>
+                        <li><button type="button" data-option="1">The IP header</button></li>
+                        <li><button type="button" data-option="2">The Ethernet header and FCS trailer</button></li>
+                        <li><button type="button" data-option="3">The TLS record header</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>Routers strip the incoming frame and build a new one for the outgoing link. They edit the IP header (TTL and checksum) but keep it. They do not touch anything above Layer 3, except when doing NAT.</p>
+                </li>
+                <li class="quiz-question" data-answer="0">
+                    <p class="quiz-prompt">What is the correct order of PDUs on the sending side, from the application down?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Data → Segment → Packet → Frame → Bits</button></li>
+                        <li><button type="button" data-option="1">Data → Packet → Segment → Frame → Bits</button></li>
+                        <li><button type="button" data-option="2">Bits → Frame → Packet → Segment → Data</button></li>
+                        <li><button type="button" data-option="3">Data → Frame → Packet → Segment → Bits</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>Layer 4 makes segments, Layer 3 packets, Layer 2 frames and Layer 1 bits. Option C is the receiving side, de-encapsulation, which runs in the opposite direction.</p>
+                </li>
+                <li class="quiz-question" data-answer="1">
+                    <p class="quiz-prompt">Which IP header field does every router decrement before forwarding?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">Protocol</button></li>
+                        <li><button type="button" data-option="1">TTL (Time To Live)</button></li>
+                        <li><button type="button" data-option="2">Destination address</button></li>
+                        <li><button type="button" data-option="3">Total length</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>TTL goes down by one per hop. At zero the packet is discarded and an ICMP "time exceeded" message goes back to the sender, which is how traceroute maps the path.</p>
+                </li>
+                <li class="quiz-question" data-answer="3">
+                    <p class="quiz-prompt">The routers along the path forward your HTTPS request but cannot read it. Why?</p>
+                    <ul class="quiz-options">
+                        <li><button type="button" data-option="0">TCP compresses the payload</button></li>
+                        <li><button type="button" data-option="1">The IP header hides the payload from routers</button></li>
+                        <li><button type="button" data-option="2">Ethernet scrambles the bits on the wire</button></li>
+                        <li><button type="button" data-option="3">TLS encrypted it before it reached Layer 4, and only the two endpoints hold the keys</button></li>
+                    </ul>
+                    <p class="quiz-feedback" role="status" aria-live="polite"></p>
+                    <p class="quiz-explain" hidden>Encryption happened high in the stack on your PC. Everything below, and every device in the middle, only ever handles ciphertext. The routers also have no reason to look: they forward on the IP header alone.</p>
+                </li>
+            </ol>
+            <p class="quiz-score" role="status" aria-live="polite"></p>
+            <button type="button" class="btn quiz-reset" hidden>Try these again</button>
+        </section>
+
+        <section class="related-terms" aria-labelledby="terms-heading">
+            <h2 id="terms-heading"><span aria-hidden="true">📖</span> Go deeper on each layer</h2>
+            <ul>
+                <li><a href="layer7_application.html">Layer 7: Application</a></li>
+                <li><a href="layer6_presentation.html">Layer 6: Presentation</a></li>
+                <li><a href="layer5_session_demo.html">Layer 5: Session</a></li>
+                <li><a href="layer4_transport.html">Layer 4: Transport</a></li>
+                <li><a href="layer3_network.html">Layer 3: Network</a></li>
+                <li><a href="layer2_datalink.html">Layer 2: Data Link</a></li>
+                <li><a href="layer1_physical.html">Layer 1: Physical</a></li>
+                <li><a href="tcp-ip-vs-osi.html">OSI vs TCP/IP</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>Created by Alex for educational purposes ONLY. Please contact me at <a href="mailto:alex@slash-root.com">alex@slash-root.com</a> should you spot any errors or wish to query anything.</p>
+        <p class="support-text">If you find this resource helpful, please consider <a href="https://buy.stripe.com/fZueVd5wY4ET99m2C6cZa02" target="_blank" rel="noopener noreferrer">supporting the project</a>.</p>
+    </footer>
+
+    <script>
+    (function () {
+        'use strict';
+
+        var journey = document.getElementById('journey');
+        var steps = Array.prototype.slice.call(journey.querySelectorAll('.journey-step'));
+        if (!steps.length) return;
+
+        var SEGMENTS = {
+            pre:  { label: 'Preamble', sub: 'L1 · 8 B', layer: 'l1' },
+            eth:  { label: 'Ethernet', sub: 'L2 header · 14 B', layer: 'l2' },
+            ip:   { label: 'IP', sub: 'L3 header · 20 B', layer: 'l3' },
+            tcp:  { label: 'TCP', sub: 'L4 header · 32 B', layer: 'l4' },
+            tls:  { label: 'TLS', sub: 'L6 header · 5 B', layer: 'l6' },
+            data: { label: 'HTTP GET', sub: 'L7 data', layer: 'l7' },
+            enc:  { label: '🔒 Encrypted HTTP', sub: 'L6/L7 payload', layer: 'l7' },
+            fcs:  { label: 'FCS', sub: 'L2 trailer · 4 B', layer: 'l2' }
+        };
+        var DIRECTIONS = {
+            down: '↓ Encapsulating: each layer adds its header',
+            across: '→ In transit: routers unwrap to Layer 3 and rewrap',
+            up: '↑ De-encapsulating: each layer removes its header'
+        };
+        var BITS = '10101010 10101010 10101010 10101010 10101010 10101010 10101010 10101011 ' +
+                   '00000000 00011010 00101011 00111100 01001101 01011110 10100100 01011110 …';
+
+        var pduEl = document.getElementById('journeyPdu');
+        var bitsEl = document.getElementById('journeyBits');
+        var nameEl = document.getElementById('journeyPduName');
+        var bytesEl = document.getElementById('journeyPduBytes');
+        var dirEl = document.getElementById('journeyDirection');
+        var counterEl = document.getElementById('journeyCounter');
+        var progressEl = document.getElementById('journeyProgress');
+        var prevBtn = document.getElementById('journeyPrev');
+        var nextBtn = document.getElementById('journeyNext');
+        var playBtn = document.getElementById('journeyPlay');
+        var restartBtn = document.getElementById('journeyRestart');
+        var devices = Array.prototype.slice.call(journey.querySelectorAll('.device'));
+
+        var index = 0;
+        var timer = null;
+        var PLACE_ORDER = { sender: 0, router: 1, server: 2 };
+
+        function list(step, name) {
+            var value = step.getAttribute('data-' + name);
+            return value ? value.split(/\s+/) : [];
+        }
+
+        function render() {
+            var step = steps[index];
+            var place = step.getAttribute('data-place');
+            var layers = list(step, 'layer');
+            var isNew = list(step, 'new');
+            var changed = list(step, 'changed');
+            var removed = list(step, 'removed');
+
+            steps.forEach(function (s, i) { s.classList.toggle('is-current', i === index); });
+            // Hidden steps don't advance the CSS counter, so start it where the current step needs it.
+            step.parentNode.style.counterReset = 'step ' + index;
+
+            // Highlight the active layers; layers this PDU has already passed through are "done".
+            devices.forEach(function (device) {
+                var devicePlace = device.getAttribute('data-place');
+                device.classList.toggle('is-active', devicePlace === place);
+                Array.prototype.forEach.call(device.querySelectorAll('li'), function (li) {
+                    var layer = li.getAttribute('data-layer');
+                    var active = devicePlace === place && layers.indexOf(layer) !== -1;
+                    var done = PLACE_ORDER[devicePlace] < PLACE_ORDER[place] ||
+                        (devicePlace === place && place === 'sender' && Number(layer) > Number(layers[0])) ||
+                        (devicePlace === place && place === 'server' && Number(layer) < Number(layers[0]));
+                    li.classList.toggle('is-active', active);
+                    li.classList.toggle('is-done', !active && done);
+                });
+            });
+
+            pduEl.innerHTML = '';
+            list(step, 'pdu').forEach(function (key) {
+                var seg = SEGMENTS[key];
+                var el = document.createElement('div');
+                el.className = 'seg seg-' + key + ' ' + seg.layer;
+                var tag = isNew.indexOf(key) !== -1 ? 'added'
+                        : changed.indexOf(key) !== -1 ? 'changed'
+                        : removed.indexOf(key) !== -1 ? 'removed' : '';
+                if (tag === 'added') el.classList.add('is-new');
+                if (tag === 'changed') el.classList.add('is-changed');
+                if (tag === 'removed') el.classList.add('is-removed');
+                el.innerHTML = seg.label + '<small>' + seg.sub + '</small>' +
+                    (tag ? '<span class="seg-tag">' + tag + '</span>' : '');
+                pduEl.appendChild(el);
+            });
+
+            bitsEl.hidden = step.getAttribute('data-bits') !== 'true';
+            bitsEl.textContent = BITS;
+            nameEl.textContent = step.getAttribute('data-pdu-name');
+            bytesEl.textContent = step.getAttribute('data-bytes');
+            dirEl.textContent = DIRECTIONS[step.getAttribute('data-dir')];
+            counterEl.textContent = 'Step ' + (index + 1) + ' of ' + steps.length;
+            progressEl.style.width = ((index + 1) / steps.length * 100) + '%';
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === steps.length - 1;
+
+            try { history.replaceState(null, '', '#' + step.getAttribute('data-step-id')); } catch (e) { /* file:// etc. */ }
+        }
+
+        function go(to) {
+            index = Math.max(0, Math.min(steps.length - 1, to));
+            render();
+        }
+
+        function stop() {
+            clearInterval(timer);
+            timer = null;
+            playBtn.textContent = '▶ Play';
+            playBtn.setAttribute('aria-pressed', 'false');
+        }
+
+        function play() {
+            if (index === steps.length - 1) go(0);
+            playBtn.textContent = '⏸ Pause';
+            playBtn.setAttribute('aria-pressed', 'true');
+            timer = setInterval(function () {
+                if (index >= steps.length - 1) { stop(); return; }
+                go(index + 1);
+            }, 7000);
+        }
+
+        prevBtn.addEventListener('click', function () { stop(); go(index - 1); });
+        nextBtn.addEventListener('click', function () { stop(); go(index + 1); });
+        restartBtn.addEventListener('click', function () { stop(); go(0); });
+        playBtn.addEventListener('click', function () { if (timer) stop(); else play(); });
+
+        journey.addEventListener('keydown', function (event) {
+            if (event.target.closest('input, textarea, select')) return;
+            if (event.key === 'ArrowRight') { event.preventDefault(); stop(); go(index + 1); }
+            if (event.key === 'ArrowLeft') { event.preventDefault(); stop(); go(index - 1); }
+        });
+
+        // Deep links (#step-8) open on that step. Once enhanced, the ids move to
+        // data attributes so the browser stops jumping to the (now one-at-a-time)
+        // step text and we can show the diagram above it instead.
+        steps.forEach(function (s) {
+            s.setAttribute('data-step-id', s.id);
+            s.removeAttribute('id');
+        });
+        function stepFromHash() {
+            return steps.findIndex(function (s) { return '#' + s.getAttribute('data-step-id') === window.location.hash; });
+        }
+        window.addEventListener('hashchange', function () {
+            var to = stepFromHash();
+            if (to !== -1 && to !== index) { stop(); go(to); }
+        });
+        var deepLinked = stepFromHash() > 0;
+        if (deepLinked) index = stepFromHash();
+
+        journey.classList.add('is-enhanced');
+        Array.prototype.forEach.call(journey.querySelectorAll('.journey-controls, .journey-progress, .journey-keys'), function (el) {
+            el.hidden = false;
+        });
+        render();
+        if (deepLinked) journey.scrollIntoView();
+    })();
+    </script>
+</body>
+</html>

@@ -27,8 +27,8 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=20260828">
-    <script src="main.js?v=20260828" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261010">
+    <script src="main.js?v=20261010" defer></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -113,10 +113,12 @@
     </style>
 </head>
 <body>
+    <script>/* Apply the saved theme before first paint so dark-mode users don't see a light flash; main.js takes over after. */(function(){var t;try{t=localStorage.getItem('theme');}catch(e){}var d=t==='dark'||(t!=='light'&&!!window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.body.classList.add('dark-mode');else if(t==='light')document.body.classList.add('light-mode');})();</script>
     <a class="skip-link" href="#main">Skip to content</a>
     <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false"><span id="darkModeIcon" aria-hidden="true">🌙</span><span id="darkModeText">Theme</span></button>
     <nav class="site-nav" aria-label="Primary">
         <a class="brand" href="index.html"><span aria-hidden="true">🌐</span> OSI Explain</a>
+        <a href="packet-journey.html">Packet journey</a>
         <a href="tcp-ip-vs-osi.html" aria-current="page">OSI vs TCP/IP</a>
         <a href="quiz.html">Practice quiz</a>
         <a href="glossary.html">Glossary</a>
@@ -206,7 +208,7 @@
         </section>
 
         <h2>Want to go deeper?</h2>
-        <p>Each OSI layer has its own page with interactive demos and Wireshark captures:</p>
+        <p>To see the layers working together, follow <a href="packet-journey.html">a packet's journey</a> from browser to server. Each OSI layer also has its own page with interactive demos and Wireshark captures:</p>
         <ul>
             <li><a href="layer7_application.html">Layer 7: Application</a></li>
             <li><a href="layer6_presentation.html">Layer 6: Presentation</a></li>
