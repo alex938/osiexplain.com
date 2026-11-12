@@ -271,6 +271,52 @@ select option {
     overflow-x: auto; /* long capture lines scroll inside the box, not the page */
 }
 
+/* Field-per-line captures (rendered by renderCapture in main.js) */
+.wireshark-packet.capture-fields {
+    text-align: left;
+    font-size: 0.95em;
+    white-space: normal;
+    padding: 14px 18px;
+    min-height: 100px;
+}
+
+.capture-fields .cap-title {
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.capture-fields .cap-title:only-child {
+    border-bottom: 0;
+}
+
+/* Hanging indent: if a long field does wrap on a narrow screen, the
+   continuation is indented so it still reads as part of that field. */
+.capture-fields .cap-line {
+    padding-left: 2ch;
+    text-indent: -2ch;
+    overflow-wrap: anywhere;
+}
+
+.capture-fields .cap-label {
+    color: #b8f5b8;
+}
+
+.capture-fields .cap-note {
+    color: #d9ffd9;
+}
+
+.step-hint {
+    flex-basis: 100%;
+    width: 100%;
+    margin: 10px 0 0;
+    text-align: center;
+    font-size: 0.85em;
+    opacity: 0.8;
+}
+
 .packet-explanation {
     background: rgba(41, 128, 185, 0.3);
     padding: 10px;
@@ -1189,11 +1235,14 @@ details[open] > summary {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-    body {
-        padding: 10px;
+    /* html/body prefixes: these must outrank the pages' inline critical CSS,
+       which is declared later in the document. The extra top padding leaves
+       room for the theme toggle above the nav. */
+    html body {
+        padding: 52px 10px 10px;
     }
 
-    .container {
+    body .container {
         padding: 15px;
     }
 
@@ -1205,6 +1254,7 @@ details[open] > summary {
 
     .demo-area > div {
         width: 100% !important;
+        box-sizing: border-box;
         height: auto !important;
         min-height: 150px;
     }
@@ -1219,9 +1269,11 @@ details[open] > summary {
     .signal-info,
     .link-info,
     .routing-info,
+    .transport-info,
     .session-info {
         width: 100% !important;
         box-sizing: border-box;
+        padding: 10px;
     }
 
     h1 {
@@ -1263,10 +1315,18 @@ details[open] > summary {
         margin: 5px;
     }
 
-    .dark-mode-toggle {
+    .wireshark-packet.capture-fields {
+        font-size: 0.85em;
+        padding: 10px 12px;
+    }
+
+    /* On phones the toggle scrolls away with the page instead of floating
+       over the text. (body prefix: must outrank the pages' inline critical CSS.) */
+    body .dark-mode-toggle {
+        position: absolute;
         top: 10px;
         right: 10px;
-        padding: 8px 12px;
+        padding: 6px 12px;
         font-size: 14px;
     }
 }

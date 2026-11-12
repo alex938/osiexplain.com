@@ -27,8 +27,8 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=20261010">
-    <script src="main.js?v=20261010" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261112">
+    <script src="main.js?v=20261112" defer></script>
     <script type="application/ld+json">
     {
   "@context": "https://schema.org",
@@ -305,7 +305,7 @@
             border-radius: 10px;
             margin: 10px 0;
             min-height: 140px;
-            width: 300px;
+            width: min(100%, 420px); box-sizing: border-box;
             text-align: center;
         }
 
@@ -848,22 +848,22 @@ Client 192.168.1.100:54321 → Server 192.168.1.50:80
                 phases: [
                     {
                         text: "Client application creates TCP connection to server port 80",
-                        wireshark: "TCP: Src Port: 12345 Dst Port: 80 [SYN] Seq=0 Len=0",
+                        wireshark: "TCP [SYN]\nSrc Port: 12345\nDst Port: 80\nSeq: 0\nLen: 0",
                         explanation: "Application requests connection using SYN flag (like knocking on server's door)"
                     },
                     {
                         text: "Server acknowledges and sends its own SYN",
-                        wireshark: "TCP: Src Port: 80 Dst Port: 12345 [SYN,ACK] Seq=0 Ack=1 Len=0",
+                        wireshark: "TCP [SYN,ACK]\nSrc Port: 80\nDst Port: 12345\nSeq: 0\nAck: 1\nLen: 0",
                         explanation: "Server responds 'I heard you, and I want to talk too' (SYN+ACK)"
                     },
                     {
                         text: "Client sends ACK to complete 3-way handshake",
-                        wireshark: "TCP: Src Port: 12345 Dst Port: 80 [ACK] Seq=1 Ack=1 Len=0",
+                        wireshark: "TCP [ACK]\nSrc Port: 12345\nDst Port: 80\nSeq: 1\nAck: 1\nLen: 0",
                         explanation: "Client confirms 'Connection established!' - now data can flow"
                     },
                     {
                         text: "Application data transmitted with sequence numbers",
-                        wireshark: "TCP: Src Port: 12345 Dst Port: 80 [PSH,ACK] Seq=1 Ack=1 Len=1460",
+                        wireshark: "TCP [PSH,ACK]\nSrc Port: 12345\nDst Port: 80\nSeq: 1\nAck: 1\nLen: 1460",
                         explanation: "Data sent with sequence numbers for ordering and acknowledgement"
                     }
                 ],
@@ -881,22 +881,22 @@ Client 192.168.1.100:54321 → Server 192.168.1.50:80
                 phases: [
                     {
                         text: "Application creates UDP datagram with destination port",
-                        wireshark: "UDP: Src Port: 12345 Dst Port: 53 Length: 32",
+                        wireshark: "UDP\nSrc Port: 12345\nDst Port: 53\nLength: 32",
                         explanation: "Application creates simple datagram - no connection setup needed"
                     },
                     {
                         text: "UDP header added with port numbers and checksum",
-                        wireshark: "UDP Header: [Src Port: 12345] [Dst Port: 53] [Length: 32] [Checksum: 0x1234]",
+                        wireshark: "UDP Header\nSrc Port: 12345\nDst Port: 53\nLength: 32\nChecksum: 0x1234",
                         explanation: "Minimal 8-byte header with just ports, length, and optional checksum"
                     },
                     {
                         text: "Datagram sent immediately without connection state",
-                        wireshark: "IP: 192.168.1.100 → 8.8.8.8 UDP Length=32",
+                        wireshark: "IP\nSrc: 192.168.1.100\nDst: 8.8.8.8\nProtocol: UDP\nLength: 32",
                         explanation: "Fire and forget - datagram sent with no acknowledgement expected"
                     },
                     {
                         text: "Application may or may not receive response",
-                        wireshark: "UDP: Src Port: 53 Dst Port: 12345 Length: 48 (DNS Response)",
+                        wireshark: "UDP (DNS Response)\nSrc Port: 53\nDst Port: 12345\nLength: 48",
                         explanation: "If server responds, client gets data, but UDP doesn't guarantee it"
                     }
                 ],
@@ -914,22 +914,22 @@ Client 192.168.1.100:54321 → Server 192.168.1.50:80
                 phases: [
                     {
                         text: "Client sends SYN with initial sequence number",
-                        wireshark: "TCP: [SYN] Seq=1000 Win=64240 MSS=1460",
+                        wireshark: "TCP [SYN]\nSeq: 1000\nWin: 64240\nMSS: 1460",
                         explanation: "Client: 'I want to connect. My starting sequence number is 1000.'"
                     },
                     {
                         text: "Server responds with SYN-ACK",
-                        wireshark: "TCP: [SYN,ACK] Seq=2000 Ack=1001 Win=65535 MSS=1460",
+                        wireshark: "TCP [SYN,ACK]\nSeq: 2000\nAck: 1001\nWin: 65535\nMSS: 1460",
                         explanation: "Server: 'I accept! My sequence is 2000, I got your 1000, expecting 1001 next.'"
                     },
                     {
                         text: "Client sends final ACK to complete handshake",
-                        wireshark: "TCP: [ACK] Seq=1001 Ack=2001 Win=64240",
+                        wireshark: "TCP [ACK]\nSeq: 1001\nAck: 2001\nWin: 64240",
                         explanation: "Client: 'Confirmed! I got your 2000, expecting 2001 next. Connection ready!'"
                     },
                     {
                         text: "Connection established - applications can exchange data",
-                        wireshark: "TCP Connection State: ESTABLISHED (Both directions)",
+                        wireshark: "TCP Connection State\nState: ESTABLISHED\n(both directions)",
                         explanation: "Both client and server now have synchronised sequence numbers and can send data"
                     }
                 ],
@@ -947,22 +947,22 @@ Client 192.168.1.100:54321 → Server 192.168.1.50:80
                 phases: [
                     {
                         text: "Client sends FIN to close its side of connection",
-                        wireshark: "TCP: [FIN,ACK] Seq=1500 Ack=2500",
+                        wireshark: "TCP [FIN,ACK]\nSeq: 1500\nAck: 2500",
                         explanation: "Client: 'I'm done sending data' (half-close)"
                     },
                     {
                         text: "Server acknowledges the FIN",
-                        wireshark: "TCP: [ACK] Seq=2500 Ack=1501",
+                        wireshark: "TCP [ACK]\nSeq: 2500\nAck: 1501",
                         explanation: "Server: 'I got your close request' (can still send data to client)"
                     },
                     {
                         text: "Server sends its own FIN when ready to close",
-                        wireshark: "TCP: [FIN,ACK] Seq=2500 Ack=1501",
+                        wireshark: "TCP [FIN,ACK]\nSeq: 2500\nAck: 1501",
                         explanation: "Server: 'I'm also done sending data' (full close initiated)"
                     },
                     {
                         text: "Client sends final ACK to complete termination",
-                        wireshark: "TCP: [ACK] Seq=1501 Ack=2501 (Connection closed)",
+                        wireshark: "TCP [ACK]\nSeq: 1501\nAck: 2501\n(connection closed)",
                         explanation: "Client: 'Confirmed closure' - connection fully terminated"
                     }
                 ],
@@ -980,22 +980,22 @@ Client 192.168.1.100:54321 → Server 192.168.1.50:80
                 phases: [
                     {
                         text: "Receiver advertises available buffer space (window size)",
-                        wireshark: "TCP: [ACK] Seq=2000 Ack=1000 Win=32768",
+                        wireshark: "TCP [ACK]\nSeq: 2000\nAck: 1000\nWin: 32768",
                         explanation: "Receiver: 'I can accept 32KB more data' (window advertisement)"
                     },
                     {
                         text: "Sender transmits data within the advertised window",
-                        wireshark: "TCP: [PSH,ACK] Seq=1000 Ack=2000 Len=1460 Win=64240",
+                        wireshark: "TCP [PSH,ACK]\nSeq: 1000\nAck: 2000\nLen: 1460\nWin: 64240",
                         explanation: "Sender sends 1460 bytes, staying within the 32KB window limit"
                     },
                     {
                         text: "Receiver processes data and updates window size",
-                        wireshark: "TCP: [ACK] Seq=2000 Ack=2460 Win=31308",
+                        wireshark: "TCP [ACK]\nSeq: 2000\nAck: 2460\nWin: 31308",
                         explanation: "Receiver: 'Got 1460 bytes, now I can accept 31KB more' (window slides)"
                     },
                     {
                         text: "Window shrinks to zero when receiver buffer is full",
-                        wireshark: "TCP: [ACK] Seq=2000 Ack=5000 Win=0",
+                        wireshark: "TCP [ACK]\nSeq: 2000\nAck: 5000\nWin: 0",
                         explanation: "Receiver: 'Buffer full! Stop sending until I process more data' (flow control)"
                     }
                 ],
@@ -1081,6 +1081,7 @@ Client 192.168.1.100:54321 → Server 192.168.1.50:80
             currentStepIndex--;
             currentPhase = (currentPhase - 1 + 3) % 3;
             updateDisplay();
+            animateSegment();
             
             document.getElementById('nextStepBtn').disabled = false;
             if (currentStepIndex <= 0) {
@@ -1109,7 +1110,7 @@ Client 192.168.1.100:54321 → Server 192.168.1.50:80
             const wiresharkDiv = document.getElementById('wiresharkExample');
             const explanationDiv = document.getElementById('packetExplanation');
             
-            wiresharkDiv.textContent = currentStep.wireshark;
+            renderCapture(wiresharkDiv, currentStep.wireshark);
             wiresharkDiv.style.display = 'block';
             
             explanationDiv.textContent = currentStep.explanation;

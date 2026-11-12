@@ -27,8 +27,8 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=20261010">
-    <script src="main.js?v=20261010" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261112">
+    <script src="main.js?v=20261112" defer></script>
     <script type="application/ld+json">
     {
   "@context": "https://schema.org",
@@ -128,7 +128,7 @@
         .signal-line { width: 300px; height: 4px; background: #ecf0f1; border-radius: 2px; position: relative; margin: 20px 0; overflow: hidden; }
         .signal-pulse { width: 30px; height: 20px; background: #e74c3c; border-radius: 3px; position: absolute; top: -8px; left: -30px; transition: all 2s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .signal-pulse.moving { left: 300px; }
-        .signal-info { background: rgba(255, 255, 255, 0.2); padding: 15px; border-radius: 10px; margin: 10px 0; min-height: 140px; width: 300px; text-align: center; }
+        .signal-info { background: rgba(255, 255, 255, 0.2); padding: 15px; border-radius: 10px; margin: 10px 0; min-height: 140px; width: min(100%, 420px); box-sizing: border-box; text-align: center; }
         .physical-characteristics { display: flex; flex-wrap: wrap; justify-content: space-around; margin: 20px 0; }
         select option { background: #2c3e50; color: white; }
         body.dark-mode .layer1-explanation { background: rgba(0, 0, 0, 0.5); }
@@ -730,17 +730,17 @@
                 phases: [
                     {
                         text: "Digital bits (1010) converted to electrical voltage levels",
-                        wireshark: "Ethernet II Frame: 1000 01011010 10101100 (electrical signals)",
+                        wireshark: "Ethernet II Frame\nBits: 1000 01011010 10101100\n(electrical signals)",
                         explanation: "Computer converts data to +2.5V/-2.5V electrical signals on copper wires"
                     },
                     {
                         text: "Electrical signals transmitted over copper twisted pairs",
-                        wireshark: "Physical: 1000BASE-T 4-pair transmission at 125MHz",
+                        wireshark: "Physical\nStandard: 1000BASE-T\nPairs: 4\nSignal rate: 125MHz",
                         explanation: "Signal travels through 4 pairs of copper wires at the speed of electricity (~200,000 km/s)"
                     },
                     {
                         text: "Receiver detects voltage changes and converts to digital bits",
-                        wireshark: "RX: Voltage threshold detection +1.2V=1, -1.2V=0",
+                        wireshark: "RX\nVoltage threshold detection\n+1.2V: 1\n-1.2V: 0",
                         explanation: "Receiving network card measures voltage levels and reconstructs the original data bits"
                     }
                 ],
@@ -758,17 +758,17 @@
                 phases: [
                     {
                         text: "Digital bits converted to light pulses by laser/LED",
-                        wireshark: "Optical: 1310nm laser modulation ON/OFF encoding",
+                        wireshark: "Optical\nLaser: 1310nm\nEncoding: ON/OFF modulation",
                         explanation: "Transmitter creates light pulses: ON=1, OFF=0 using infrared laser light"
                     },
                     {
                         text: "Light pulses travel through fibre optic core",
-                        wireshark: "Physical: Single-mode fibre 9/125μm at 1310nm wavelength",
+                        wireshark: "Physical\nFibre: Single-mode 9/125μm\nWavelength: 1310nm",
                         explanation: "Light bounces inside ultra-pure glass core at ~200,000 km/s (2/3 speed of light)"
                     },
                     {
                         text: "Photodetector converts light back to electrical signals",
-                        wireshark: "RX: Photodiode current detection 0.1mA=1, 0mA=0",
+                        wireshark: "RX\nPhotodiode current detection\n0.1mA: 1\n0mA: 0",
                         explanation: "Receiver uses photodiode to detect light and convert back to electrical voltage"
                     }
                 ],
@@ -786,17 +786,17 @@
                 phases: [
                     {
                         text: "Digital bits modulated onto radio frequency carrier wave",
-                        wireshark: "RF: 2.4GHz OFDM modulation with QAM-64 encoding",
+                        wireshark: "RF\nBand: 2.4GHz\nModulation: OFDM\nEncoding: QAM-64",
                         explanation: "Data bits change the amplitude/phase of 2.4GHz radio waves (like AM/FM radio)"
                     },
                     {
                         text: "Radio waves transmitted through antenna into air",
-                        wireshark: "Physical: 20dBm transmission power, MIMO 2x2 antenna",
+                        wireshark: "Physical\nTX power: 20dBm\nAntenna: MIMO 2x2",
                         explanation: "Electromagnetic waves radiate from antenna at speed of light (300,000 km/s)"
                     },
                     {
                         text: "Receiving antenna captures radio waves and demodulates data",
-                        wireshark: "RX: Signal strength -45dBm, SNR 35dB, demodulation success",
+                        wireshark: "RX\nSignal strength: -45dBm\nSNR: 35dB\nDemodulation: success",
                         explanation: "Receiver antenna converts radio waves back to electrical signals and extracts data bits"
                     }
                 ],
@@ -814,17 +814,17 @@
                 phases: [
                     {
                         text: "Data bits converted to RS-232 voltage levels",
-                        wireshark: "Serial: Start bit -12V, Data bits +12V/-12V, Stop bit +12V",
+                        wireshark: "Serial\nStart bit: -12V\nData bits: +12V/-12V\nStop bit: +12V",
                         explanation: "Each bit sent as +12V (0) or -12V (1) voltage levels on single wire"
                     },
                     {
                         text: "Serial bits transmitted one after another",
-                        wireshark: "Physical: 9600 baud rate, 8N1 format transmission",
+                        wireshark: "Physical\nBaud rate: 9600\nFormat: 8N1",
                         explanation: "Bits sent sequentially: start bit, 8 data bits, no parity, 1 stop bit"
                     },
                     {
                         text: "Receiver samples voltage at precise timing intervals",
-                        wireshark: "RX: Bit sampling at 9600Hz clock, voltage threshold ±3V",
+                        wireshark: "RX\nBit sampling: 9600Hz clock\nThreshold: ±3V",
                         explanation: "Receiver checks voltage 9600 times per second to read each bit"
                     }
                 ],
@@ -842,17 +842,17 @@
                 phases: [
                     {
                         text: "Digital data encoded using differential signalling",
-                        wireshark: "USB: D+ and D- differential pair, NRZI encoding",
+                        wireshark: "USB\nSignal: D+ / D- differential\nEncoding: NRZI",
                         explanation: "Data bits represented by voltage difference between D+ and D- wires (+400mV/-400mV)"
                     },
                     {
                         text: "Signals transmitted over shielded twisted pair",
-                        wireshark: "Physical: USB 3.0 SuperSpeed 5Gbps differential transmission",
+                        wireshark: "Physical\nStandard: USB 3.0 SuperSpeed\nSpeed: 5Gbps\nSignalling: differential",
                         explanation: "High-speed electrical signals travel through precisely controlled twisted pair cables"
                     },
                     {
                         text: "Receiver decodes differential signals back to data",
-                        wireshark: "RX: Differential receiver threshold ±200mV, clock recovery",
+                        wireshark: "RX\nDifferential receiver\nThreshold: ±200mV\nClock: recovered",
                         explanation: "Receiving device measures voltage difference and reconstructs original data stream"
                     }
                 ],
@@ -938,6 +938,7 @@
             currentStepIndex--;
             currentPhase = (currentPhase - 1 + 3) % 3;
             updateDisplay();
+            animateSignal();
             
             document.getElementById('nextStepBtn').disabled = false;
             if (currentStepIndex <= 0) {
@@ -967,7 +968,7 @@
             const wiresharkDiv = document.getElementById('wiresharkExample');
             const explanationDiv = document.getElementById('packetExplanation');
             
-            wiresharkDiv.textContent = currentStep.wireshark;
+            renderCapture(wiresharkDiv, currentStep.wireshark);
             wiresharkDiv.style.display = 'block';
             
             explanationDiv.textContent = currentStep.explanation;

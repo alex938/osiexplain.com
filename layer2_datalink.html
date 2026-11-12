@@ -27,8 +27,8 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=20261010">
-    <script src="main.js?v=20261010" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261112">
+    <script src="main.js?v=20261112" defer></script>
     <script type="application/ld+json">
     {
   "@context": "https://schema.org",
@@ -225,7 +225,7 @@
             border-radius: 10px;
             margin: 10px 0;
             min-height: 140px;
-            width: 300px;
+            width: min(100%, 420px); box-sizing: border-box;
             text-align: center;
         }
 
@@ -764,22 +764,22 @@
                 phases: [
                     {
                         text: "Network packet encapsulated in Ethernet frame with MAC addresses",
-                        wireshark: "Ethernet II: Dst: ff:ee:dd:cc:bb:02 Src: aa:bb:cc:dd:ee:01 Type: IPv4",
+                        wireshark: "Ethernet II\nDst: ff:ee:dd:cc:bb:02\nSrc: aa:bb:cc:dd:ee:01\nType: IPv4",
                         explanation: "Data gets destination MAC, source MAC, and frame type (like putting letter in addressed envelope)"
                     },
                     {
                         text: "Frame transmitted over physical medium with preamble",
-                        wireshark: "Frame: [Preamble] [SFD] [Dest MAC] [Src MAC] [Type] [Data] [FCS]",
+                        wireshark: "Frame layout\n[Preamble] [SFD]\n[Dest MAC] [Src MAC]\n[Type] [Data] [FCS]",
                         explanation: "Complete frame sent with synchronisation pattern and error detection code"
                     },
                     {
                         text: "Receiving node checks destination MAC and Frame Check Sequence",
-                        wireshark: "Frame Check Sequence: 0x12345678 [correct]",
+                        wireshark: "Frame Check Sequence\nFCS: 0x12345678 [correct]",
                         explanation: "Receiver verifies it's the intended recipient and frame isn't corrupted"
                     },
                     {
                         text: "Valid frame accepted, FCS verified, payload passed to Layer 3",
-                        wireshark: "Ethernet II → IPv4 packet extraction successful",
+                        wireshark: "Ethernet II → IPv4\nPacket extraction successful",
                         explanation: "Frame stripped away, original IP packet delivered to network layer"
                     }
                 ],
@@ -797,22 +797,22 @@
                 phases: [
                     {
                         text: "Client associates with Access Point using MAC addresses",
-                        wireshark: "802.11 Association Request: STA aa:bb:cc:dd:ee:01 → AP ff:ee:dd:cc:bb:02",
+                        wireshark: "802.11 Association Request\nSTA: aa:bb:cc:dd:ee:01\nAP: ff:ee:dd:cc:bb:02",
                         explanation: "Device requests to join wireless network by exchanging MAC addresses"
                     },
                     {
                         text: "Data frame created with 802.11 wireless header structure",
-                        wireshark: "802.11 Data: To DS=1 From DS=0 Addr1=AP Addr2=STA Addr3=Router",
+                        wireshark: "802.11 Data\nTo DS: 1\nFrom DS: 0\nAddr1: AP\nAddr2: STA\nAddr3: Router",
                         explanation: "Wireless frames have up to 4 MAC addresses for complex routing scenarios"
                     },
                     {
                         text: "CSMA/CA checks medium before transmission to avoid collisions",
-                        wireshark: "802.11 RTS/CTS: Request to Send → Clear to Send handshake",
+                        wireshark: "802.11 RTS/CTS\nRequest to Send →\nClear to Send handshake",
                         explanation: "Wireless devices listen before talking and use handshakes to prevent interference"
                     },
                     {
                         text: "Frame acknowledged by receiver to confirm successful delivery",
-                        wireshark: "802.11 ACK: Acknowledgement frame for sequence number 1234",
+                        wireshark: "802.11 ACK\nAcknowledgement frame\nSequence number: 1234",
                         explanation: "Receiver sends ACK frame back to confirm frame was received correctly"
                     }
                 ],
@@ -830,22 +830,22 @@
                 phases: [
                     {
                         text: "Host needs MAC address for IP address 192.168.1.1",
-                        wireshark: "ARP Request: Who has 192.168.1.1? Tell 192.168.1.100",
+                        wireshark: "ARP Request\nWho has 192.168.1.1?\nTell 192.168.1.100",
                         explanation: "Computer asks 'What MAC address goes with IP 192.168.1.1?'"
                     },
                     {
                         text: "ARP request broadcast to all nodes on local network segment",
-                        wireshark: "Ethernet: Dst: ff:ff:ff:ff:ff:ff (broadcast) Src: aa:bb:cc:dd:ee:01",
+                        wireshark: "Ethernet (broadcast)\nDst: ff:ff:ff:ff:ff:ff\nSrc: aa:bb:cc:dd:ee:01",
                         explanation: "Request sent to broadcast MAC address so all devices on network see it"
                     },
                     {
                         text: "Target host responds with its MAC address",
-                        wireshark: "ARP Reply: 192.168.1.1 is at ff:ee:dd:cc:bb:02",
+                        wireshark: "ARP Reply\n192.168.1.1 is at\nff:ee:dd:cc:bb:02",
                         explanation: "Device with that IP address responds 'That's me, my MAC is ff:ee:dd:cc:bb:02'"
                     },
                     {
                         text: "Sender caches MAC address mapping for future use",
-                        wireshark: "ARP Table: 192.168.1.1 → ff:ee:dd:cc:bb:02 [dynamic]",
+                        wireshark: "ARP Table\nIP: 192.168.1.1\nMAC: ff:ee:dd:cc:bb:02\nType: dynamic",
                         explanation: "Computer remembers the IP-to-MAC mapping to avoid asking again soon"
                     }
                 ],
@@ -863,22 +863,22 @@
                 phases: [
                     {
                         text: "PPP link establishment and parameter negotiation",
-                        wireshark: "PPP LCP: Configure-Request [MRU=1500] [Auth-Protocol=PAP]",
+                        wireshark: "PPP LCP Configure-Request\nMRU: 1500\nAuth-Protocol: PAP",
                         explanation: "Both ends negotiate link parameters like maximum frame size and authentication"
                     },
                     {
                         text: "Authentication phase (if required) using PAP/CHAP",
-                        wireshark: "PPP PAP: Authenticate-Request User='john' Password='****'",
+                        wireshark: "PPP PAP Authenticate-Request\nUser: 'john'\nPassword: '****'",
                         explanation: "User credentials verified before allowing data transmission"
                     },
                     {
                         text: "Network Control Protocol negotiates IP parameters",
-                        wireshark: "PPP IPCP: Configure-Request [IP=0.0.0.0] [DNS=8.8.8.8]",
+                        wireshark: "PPP IPCP Configure-Request\nIP: 0.0.0.0\nDNS: 8.8.8.8",
                         explanation: "Negotiate IP address, DNS servers, and other network settings"
                     },
                     {
                         text: "Data frames transmitted with PPP encapsulation",
-                        wireshark: "PPP: Protocol=IP [Flag=0x7E] [Address=0xFF] [Control=0x03]",
+                        wireshark: "PPP Frame\nFlag: 0x7E\nAddress: 0xFF\nControl: 0x03\nProtocol: IP",
                         explanation: "IP packets wrapped in PPP frames with proper flags and addressing"
                     }
                 ],
@@ -896,22 +896,22 @@
                 phases: [
                     {
                         text: "Frame arrives on switch port, source MAC learned",
-                        wireshark: "Ethernet: Port 1 Src: aa:bb:cc:dd:ee:01 → MAC table updated",
+                        wireshark: "Ethernet (Port 1)\nSrc: aa:bb:cc:dd:ee:01\n→ MAC table updated",
                         explanation: "Switch records 'MAC aa:bb:cc:dd:ee:01 is connected to port 1'"
                     },
                     {
                         text: "Switch checks MAC table for destination address",
-                        wireshark: "MAC Table lookup: ff:ee:dd:cc:bb:02 → Port 3",
+                        wireshark: "MAC Table lookup\nMAC: ff:ee:dd:cc:bb:02\nPort: 3",
                         explanation: "Switch looks up where destination MAC address is connected"
                     },
                     {
                         text: "Frame forwarded only to destination port (unicast)",
-                        wireshark: "Frame forwarded: Port 1 → Port 3 (unicast)",
+                        wireshark: "Frame forwarded (unicast)\nIn: Port 1\nOut: Port 3",
                         explanation: "Frame sent only to port where destination is connected, not all ports"
                     },
                     {
                         text: "Unknown destinations flooded to all ports except source",
-                        wireshark: "Frame flooded: Port 1 → Ports 2,3,4 (unknown unicast)",
+                        wireshark: "Frame flooded\nIn: Port 1\nOut: Ports 2,3,4\n(unknown unicast)",
                         explanation: "If destination MAC unknown, send to all ports to find the device"
                     }
                 ],
@@ -997,6 +997,7 @@
             currentStepIndex--;
             currentPhase = (currentPhase - 1 + 3) % 3;
             updateDisplay();
+            animateFrame();
             
             document.getElementById('nextStepBtn').disabled = false;
             if (currentStepIndex <= 0) {
@@ -1025,7 +1026,7 @@
             const wiresharkDiv = document.getElementById('wiresharkExample');
             const explanationDiv = document.getElementById('packetExplanation');
             
-            wiresharkDiv.textContent = currentStep.wireshark;
+            renderCapture(wiresharkDiv, currentStep.wireshark);
             wiresharkDiv.style.display = 'block';
             
             explanationDiv.textContent = currentStep.explanation;

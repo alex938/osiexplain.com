@@ -27,8 +27,8 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=20261010">
-    <script src="main.js?v=20261010" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261112">
+    <script src="main.js?v=20261112" defer></script>
     <script type="application/ld+json">
     {
   "@context": "https://schema.org",
@@ -217,7 +217,7 @@
             border-radius: 10px;
             margin: 10px 0;
             min-height: 140px;
-            width: 300px;
+            width: min(100%, 420px); box-sizing: border-box;
             text-align: center;
         }
 
@@ -689,22 +689,22 @@
                     },
                     {
                         text: "Client authenticates and sets up session",
-                        wireshark: "SMB2 Session Setup Request (NTLMSSP)",
+                        wireshark: "SMB2 Session Setup Request\nAuth: NTLMSSP",
                         explanation: "Client proves who they are using username/password (like showing ID at hotel)"
                     },
                     {
                         text: "Session established - file operations can begin",
-                        wireshark: "SMB2 Session Setup Response [STATUS_SUCCESS]",
+                        wireshark: "SMB2 Session Setup Response\nStatus: STATUS_SUCCESS",
                         explanation: "Server says 'Welcome! You're logged in as John_Smith, here's your session ID'"
                     },
                     {
                         text: "Client connects to a shared folder (Tree Connect)",
-                        wireshark: "SMB2 Tree Connect Request (\\\\server\\share)",
+                        wireshark: "SMB2 Tree Connect Request\nPath: \\\\server\\share",
                         explanation: "Client asks: 'Can I access the Documents folder?' (like asking for room key)"
                     },
                     {
                         text: "Client performs file operations (open/read/write)",
-                        wireshark: "SMB2 Create Request / SMB2 Read Request",
+                        wireshark: "SMB2 Create Request\nSMB2 Read Request",
                         explanation: "Client says: 'Open report.docx and let me read it' (using the established session)"
                     },
                     {
@@ -748,12 +748,12 @@
                     },
                     {
                         text: "Database session established with transaction context",
-                        wireshark: "MySQL/TDS Login Response [Success]",
+                        wireshark: "MySQL/TDS Login Response\nStatus: Success",
                         explanation: "Server: 'Welcome! Session ID 12345, transaction autocommit=ON'"
                     },
                     {
                         text: "Client executes SQL queries within session context",
-                        wireshark: "MySQL Query Request: SELECT * FROM customers",
+                        wireshark: "MySQL Query Request\nSELECT * FROM customers",
                         explanation: "Client runs queries knowing the database context and user permissions"
                     },
                     {
@@ -763,12 +763,12 @@
                     },
                     {
                         text: "Client commits/rolls back transactions",
-                        wireshark: "MySQL Query: COMMIT / ROLLBACK",
+                        wireshark: "MySQL Query\nCOMMIT / ROLLBACK",
                         explanation: "Client: 'Save all my changes' or 'Undo everything I just did'"
                     },
                     {
                         text: "Session closed and resources cleaned up",
-                        wireshark: "MySQL/TDS Logout / Connection Close",
+                        wireshark: "MySQL/TDS Logout\nConnection Close",
                         explanation: "Server frees memory, releases locks, closes temporary tables"
                     }
                 ],
@@ -792,32 +792,32 @@
                     },
                     {
                         text: "Client establishes RPC session with server",
-                        wireshark: "RPC Call XID:12345 (first call)",
+                        wireshark: "RPC Call (first call)\nXID: 12345",
                         explanation: "Client creates a conversation thread with unique ID (XID)"
                     },
                     {
                         text: "Authentication and authorisation performed",
-                        wireshark: "RPC Auth: AUTH_UNIX credentials",
+                        wireshark: "RPC Auth\nFlavour: AUTH_UNIX",
                         explanation: "Client proves identity: 'I'm user 1000 from machine workstation1'"
                     },
                     {
                         text: "RPC session context created with unique identifier",
-                        wireshark: "RPC Reply XID:12345 [Success]",
+                        wireshark: "RPC Reply\nXID: 12345\nStatus: Success",
                         explanation: "Server: 'OK, you're authenticated, your conversation ID is 12345'"
                     },
                     {
                         text: "Client makes remote procedure calls",
-                        wireshark: "NFS V3 LOOKUP Call XID:12346",
+                        wireshark: "NFS V3 LOOKUP Call\nXID: 12346",
                         explanation: "Client: 'Execute lookup_file('report.txt')' - like calling a function remotely"
                     },
                     {
                         text: "Server maintains session state between calls",
-                        wireshark: "NFS V3 LOOKUP Reply XID:12346",
+                        wireshark: "NFS V3 LOOKUP Reply\nXID: 12346",
                         explanation: "Server remembers client context and returns results in the session"
                     },
                     {
                         text: "Session handles error recovery and timeouts",
-                        wireshark: "RPC Retransmission / Duplicate Request",
+                        wireshark: "RPC Retransmission\nDuplicate Request",
                         explanation: "If network fails, session can detect and retry lost procedure calls"
                     },
                     {
@@ -841,7 +841,7 @@
                 phases: [
                     {
                         text: "Client resolves NetBIOS name to network address",
-                        wireshark: "NBNS Name Query NB WORKSTATION<00>",
+                        wireshark: "NBNS Name Query NB\nName: WORKSTATION<00>",
                         explanation: "Client: 'What's the IP address of computer named WORKSTATION?' (like looking up phone number)"
                     },
                     {
@@ -856,7 +856,7 @@
                     },
                     {
                         text: "NetBIOS session established with session number",
-                        wireshark: "NBSS Session Message (established)",
+                        wireshark: "NBSS Session Message\n(established)",
                         explanation: "Both sides now have a named session for applications to use"
                     },
                     {
@@ -876,7 +876,7 @@
                     },
                     {
                         text: "Session terminated and resources released",
-                        wireshark: "TCP FIN/RST (underlying connection closes)",
+                        wireshark: "TCP FIN/RST\n(underlying connection closes)",
                         explanation: "Session is cleanly closed, names are unregistered, memory freed"
                     }
                 ],
@@ -987,7 +987,7 @@
             
             // Show Wireshark packet and explanation
             document.getElementById('wiresharkExample').style.display = 'block';
-            document.getElementById('wiresharkExample').textContent = step.wireshark;
+            renderCapture(document.getElementById('wiresharkExample'), step.wireshark);
             document.getElementById('packetExplanation').style.display = 'block';
             document.getElementById('packetExplanation').textContent = step.explanation;
             
@@ -1106,7 +1106,7 @@
                 
                 // Show Wireshark packet
                 document.getElementById('wiresharkExample').style.display = 'block';
-                document.getElementById('wiresharkExample').textContent = steps[i].wireshark;
+                renderCapture(document.getElementById('wiresharkExample'), steps[i].wireshark);
                 document.getElementById('packetExplanation').style.display = 'block';
                 document.getElementById('packetExplanation').textContent = steps[i].explanation;
                 

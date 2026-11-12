@@ -352,3 +352,68 @@
         start();
     }
 })();
+
+// Demo helpers shared by the layer pages.
+(function () {
+    'use strict';
+
+    // Render a capture as a title line plus one "label: value" field per line,
+    // so a label is never separated from its value by automatic wrapping.
+    window.renderCapture = function (el, text) {
+        if (!el) return;
+        el.textContent = '';
+        el.classList.add('capture-fields');
+        String(text == null ? '' : text).split('\n').forEach(function (line, i) {
+            var row = document.createElement('div');
+            var field = /^([^:]{1,24}): (.+)$/.exec(line);
+            if (i === 0) {
+                row.className = 'cap-title';
+                row.textContent = line;
+            } else if (field) {
+                row.className = 'cap-line';
+                var label = document.createElement('span');
+                label.className = 'cap-label';
+                label.textContent = field[1] + ': ';
+                var value = document.createElement('span');
+                value.className = 'cap-value';
+                value.textContent = field[2];
+                row.appendChild(label);
+                row.appendChild(value);
+            } else {
+                row.className = 'cap-line cap-note';
+                row.textContent = line;
+            }
+            el.appendChild(row);
+        });
+    };
+
+    // Left/Right arrow keys drive Previous/Next Step while a manual demo is running.
+    function setupStepKeys() {
+        var prev = document.getElementById('prevStepBtn');
+        var next = document.getElementById('nextStepBtn');
+        if (!prev || !next) return;
+
+        var hint = document.createElement('p');
+        hint.className = 'step-hint';
+        hint.textContent = 'Tip: in Manual Demo you can also step with the ← and → arrow keys.';
+        var controls = next.closest('.controls') || next.parentNode;
+        controls.appendChild(hint);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+            if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+            var t = e.target;
+            if (t && (t.isContentEditable || /^(INPUT|SELECT|TEXTAREA)$/.test(t.tagName))) return;
+            var btn = e.key === 'ArrowRight' ? next : prev;
+            if (btn.disabled) return;
+            e.preventDefault();
+            btn.click();
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupStepKeys);
+    } else {
+        setupStepKeys();
+    }
+})();

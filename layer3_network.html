@@ -27,9 +27,9 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=20261010">
-    <script src="main.js?v=20261010" defer></script>
-    <script src="subnet-tool.js?v=20261010" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261112">
+    <script src="main.js?v=20261112" defer></script>
+    <script src="subnet-tool.js?v=20261112" defer></script>
     <script type="application/ld+json">
     {
   "@context": "https://schema.org",
@@ -278,7 +278,7 @@
             border-radius: 10px;
             margin: 10px 0;
             min-height: 140px;
-            width: 300px;
+            width: min(100%, 420px); box-sizing: border-box;
             text-align: center;
         }
 
@@ -1552,22 +1552,22 @@ Each hop shows a router making a forwarding decision!
                 phases: [
                     {
                         text: "Host creates IPv4 packet with source and destination IP addresses",
-                        wireshark: "IPv4: Src: 192.168.1.100 Dst: 8.8.8.8 TTL: 64 Protocol: TCP",
+                        wireshark: "IPv4\nSrc: 192.168.1.100\nDst: 8.8.8.8\nTTL: 64\nProtocol: TCP",
                         explanation: "Computer creates packet with its IP and Google's IP address (like addressing an envelope)"
                     },
                     {
                         text: "Router checks routing table for best path to destination network",
-                        wireshark: "Routing Table: 8.8.8.0/24 via 203.0.113.1 metric 10",
+                        wireshark: "Routing Table\nNetwork: 8.8.8.0/24\nVia: 203.0.113.1\nMetric: 10",
                         explanation: "Router looks up 'How do I reach 8.8.8.8?' and finds the next hop router"
                     },
                     {
                         text: "Router decrements TTL and forwards packet to next hop",
-                        wireshark: "IPv4: TTL: 64 → 63, forwarded via interface eth0",
+                        wireshark: "IPv4\nTTL: 64 → 63\nForwarded via: eth0",
                         explanation: "Packet gets one step closer to death (TTL--) and moves to next router"
                     },
                     {
                         text: "Process repeats until packet reaches destination network",
-                        wireshark: "IPv4: Arrived at 8.8.8.8, TTL: 60, delivered to host",
+                        wireshark: "IPv4\nArrived at: 8.8.8.8\nTTL: 60\nDelivered to host",
                         explanation: "After several hops through routers, packet finally reaches Google's server"
                     }
                 ],
@@ -1585,22 +1585,22 @@ Each hop shows a router making a forwarding decision!
                 phases: [
                     {
                         text: "Host sends ICMP Echo Request to test connectivity",
-                        wireshark: "ICMP Echo Request: Type=8 Code=0 ID=0x1234 Seq=1",
+                        wireshark: "ICMP Echo Request\nType: 8\nCode: 0\nID: 0x1234\nSeq: 1",
                         explanation: "Computer sends 'ping' message asking 'Are you there?' to destination"
                     },
                     {
                         text: "Packet travels through routers using normal IP routing",
-                        wireshark: "IPv4: Src=192.168.1.100 Dst=8.8.8.8 Protocol=ICMP TTL=64",
+                        wireshark: "IPv4\nSrc: 192.168.1.100\nDst: 8.8.8.8\nProtocol: ICMP\nTTL: 64",
                         explanation: "ICMP message travels inside IP packet just like any other data"
                     },
                     {
                         text: "Destination host processes ICMP request",
-                        wireshark: "ICMP processing: Echo Request received, generating response",
+                        wireshark: "ICMP processing\nEcho Request received\nGenerating response",
                         explanation: "Destination says 'Yes, I'm here!' and prepares to send reply"
                     },
                     {
                         text: "ICMP Echo Reply sent back to source host",
-                        wireshark: "ICMP Echo Reply: Type=0 Code=0 ID=0x1234 Seq=1 Time=25ms",
+                        wireshark: "ICMP Echo Reply\nType: 0\nCode: 0\nID: 0x1234\nSeq: 1\nTime: 25ms",
                         explanation: "Reply travels back showing the destination is reachable and response time"
                     }
                 ],
@@ -1618,22 +1618,22 @@ Each hop shows a router making a forwarding decision!
                 phases: [
                     {
                         text: "OSPF routers exchange Hello packets to discover neighbours",
-                        wireshark: "OSPF Hello: Router ID=1.1.1.1 Area=0.0.0.0 Neighbours: 2.2.2.2",
+                        wireshark: "OSPF Hello\nRouter ID: 1.1.1.1\nArea: 0.0.0.0\nNeighbours: 2.2.2.2",
                         explanation: "Routers introduce themselves: 'Hi, I'm Router 1.1.1.1, who are my neighbours?'"
                     },
                     {
                         text: "Routers exchange Link State Advertisements (LSAs)",
-                        wireshark: "OSPF LSA: Router 1.1.1.1 connected to 192.168.1.0/24 cost=10",
+                        wireshark: "OSPF LSA\nRouter: 1.1.1.1\nNetwork: 192.168.1.0/24\nCost: 10",
                         explanation: "Each router shares what networks it knows: 'I can reach 192.168.1.0/24'"
                     },
                     {
                         text: "Each router builds complete network topology database",
-                        wireshark: "OSPF Database: 5 routers, 8 networks, SPF calculation triggered",
+                        wireshark: "OSPF Database\nRouters: 5\nNetworks: 8\nSPF calculation triggered",
                         explanation: "Every router learns the complete network map and calculates best paths"
                     },
                     {
                         text: "Shortest Path First algorithm creates routing table",
-                        wireshark: "Routing Table: 8.8.8.0/24 via 203.0.113.1 cost=50 (OSPF)",
+                        wireshark: "Routing Table (OSPF)\nNetwork: 8.8.8.0/24\nVia: 203.0.113.1\nCost: 50",
                         explanation: "Router installs best routes: 'To reach 8.8.8.0/24, send via 203.0.113.1'"
                     }
                 ],
@@ -1651,22 +1651,22 @@ Each hop shows a router making a forwarding decision!
                 phases: [
                     {
                         text: "BGP peers establish TCP connection for routing exchange",
-                        wireshark: "BGP Open: AS 65001 Router ID 203.0.113.1 Hold Time 180",
+                        wireshark: "BGP Open\nAS: 65001\nRouter ID: 203.0.113.1\nHold Time: 180",
                         explanation: "ISPs establish secure connections to exchange routing information"
                     },
                     {
                         text: "Autonomous Systems advertise their network prefixes",
-                        wireshark: "BGP Update: NLRI 8.8.8.0/24 AS_Path: 65001 65002 15169",
+                        wireshark: "BGP Update\nNLRI: 8.8.8.0/24\nAS_Path: 65001 65002 15169",
                         explanation: "Google (AS 15169) advertises: 'I own 8.8.8.0/24, path is through AS 65002, 65001'"
                     },
                     {
                         text: "BGP selects best paths using policy and path attributes",
-                        wireshark: "BGP Decision: 8.8.8.0/24 best path via 203.0.113.1 (shortest AS path)",
+                        wireshark: "BGP Decision\nPrefix: 8.8.8.0/24\nBest path: via 203.0.113.1\n(shortest AS path)",
                         explanation: "Routers choose best internet routes based on business relationships and path length"
                     },
                     {
                         text: "Global routing tables updated with internet-wide reachability",
-                        wireshark: "BGP Table: 800,000+ routes, 8.8.8.0/24 via AS 65001",
+                        wireshark: "BGP Table\nRoutes: 800,000+\n8.8.8.0/24: via AS 65001",
                         explanation: "Your packets now know how to reach Google anywhere on the internet"
                     }
                 ],
@@ -1752,6 +1752,7 @@ Each hop shows a router making a forwarding decision!
             currentStepIndex--;
             currentPhase = (currentPhase - 1 + 3) % 3;
             updateDisplay();
+            animatePacket();
             
             document.getElementById('nextStepBtn').disabled = false;
             if (currentStepIndex <= 0) {
@@ -1780,7 +1781,7 @@ Each hop shows a router making a forwarding decision!
             const wiresharkDiv = document.getElementById('wiresharkExample');
             const explanationDiv = document.getElementById('packetExplanation');
             
-            wiresharkDiv.textContent = currentStep.wireshark;
+            renderCapture(wiresharkDiv, currentStep.wireshark);
             wiresharkDiv.style.display = 'block';
             
             explanationDiv.textContent = currentStep.explanation;
